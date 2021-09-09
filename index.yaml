@@ -1,0 +1,64 @@
+apiVersion: v1
+entries:
+  orb:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2021-09-09T10:00:57.107789-04:00"
+    dependencies:
+    - name: jaeger-operator
+      repository: '@jaegertracing'
+      version: 2.23.0
+    - name: nats
+      repository: '@bitnami'
+      version: 6.4.2
+    - alias: postgresql-fleet
+      name: postgresql
+      repository: '@bitnami'
+      version: 10.9.1
+    - alias: postgresql-policies
+      name: postgresql
+      repository: '@bitnami'
+      version: 10.9.1
+    - alias: postgresql-sinks
+      name: postgresql
+      repository: '@bitnami'
+      version: 10.9.1
+    - alias: postgresql-things
+      name: postgresql
+      repository: '@bitnami'
+      version: 10.9.1
+    - alias: postgresql-users
+      name: postgresql
+      repository: '@bitnami'
+      version: 10.9.1
+    - alias: postgresql-auth
+      name: postgresql
+      repository: '@bitnami'
+      version: 10.9.1
+    - alias: redis-streams
+      name: redis
+      repository: '@bitnami'
+      version: 14.8.8
+    - alias: redis-auth
+      name: redis
+      repository: '@bitnami'
+      version: 14.8.8
+    - alias: redis-mqtt
+      name: redis
+      repository: '@bitnami'
+      version: 14.8.8
+    description: Orb Observability Platform
+    digest: d076f7560dd323f071fb621e3db5fe7e9edd70d67b5ac2a44e44026a38479030
+    home: https://getorb.io
+    icon: https://avatars1.githubusercontent.com/u/13207490
+    maintainers:
+    - email: sweyrick@ns1.com
+      name: sweyrick
+    name: orb
+    sources:
+    - https://hub.docker.com/u/ns1labs/
+    type: application
+    urls:
+    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.0/orb-1.0.0.tgz
+    version: 1.0.0
+generated: "2021-09-09T10:00:57.107813-04:00"

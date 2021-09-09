@@ -14,4 +14,5 @@ upload:
 
 index:
 	git checkout gh-pages
-	cr index -i ./index.yaml --config cr-config.yaml
+	cr index -i ./index.yaml --config cr-config.yaml -c https://ns1labs.github.io/orb-helm/
+
