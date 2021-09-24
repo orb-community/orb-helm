@@ -66,7 +66,7 @@ spec:
                 name: {{ .Release.Name }}-users
                 port:
                   number: {{ .Values.users.httpPort }}
-          - path: /(agents|agent_groups/?.*)
+          - path: /(agents|agent_groups)/?.*
             pathType: Prefix
             backend:
               service:
@@ -122,7 +122,7 @@ spec:
                 name: {{ .Release.Name }}-auth
                 port:
                   number: {{ default .Values.auth.httpPort }}
-          - path: /api/v1/(agents|agent_groups/?.*)
+          - path: /api/v1/(agents|agent_groups)/?.*
             pathType: Prefix
             backend:
               service:
