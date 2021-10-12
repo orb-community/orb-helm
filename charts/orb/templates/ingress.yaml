@@ -45,70 +45,14 @@ spec:
     - host: "{{ .Values.ingress.hostname }}"
       http:
         paths:
-          - path: /(users?.*)
+          - path: /api/v1/(users)
             pathType: Prefix
             backend:
               service:
                 name: {{ .Release.Name }}-users
                 port:
                   number: {{ .Values.users.httpPort }}
-          - path: /(password?.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: {{ .Release.Name }}-users
-                port:
-                  number: {{ .Values.users.httpPort }}
-          - path: /(tokens)
-            pathType: Prefix
-            backend:
-              service:
-                name: {{ .Release.Name }}-users
-                port:
-                  number: {{ .Values.users.httpPort }}
-          - path: /(agents/?.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: {{ .Release.Name}}-fleet
-                port:
-                  number: {{ default .Values.fleet.httpPort }}
-          - path: /(agent_groups/?.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: {{ .Release.Name}}-fleet
-                port:
-                  number: {{ default .Values.fleet.httpPort }}
-          - path: /(sinks/?.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: {{ .Release.Name}}-sinks
-                port:
-                  number: {{ default .Values.sinks.httpPort }}
-          - path: /(features/sinks/?.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: {{ .Release.Name}}-sinks
-                port:
-                  number: {{ default .Values.sinks.httpPort }}
-          - path: /(policies/?.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: {{ .Release.Name}}-policies
-                port:
-                  number: {{ default .Values.policies.httpPort }}
-          - path: /api/v1/(users?.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: {{ .Release.Name }}-users
-                port:
-                  number: {{ .Values.users.httpPort }}
-          - path: /api/v1/(password?.*)
+          - path: /api/v1/(password)
             pathType: Prefix
             backend:
               service:
@@ -122,28 +66,28 @@ spec:
                 name: {{ .Release.Name }}-users
                 port:
                   number: {{ .Values.users.httpPort }}
-          - path: /api/v1/(keys/?.*)
+          - path: /api/v1/(keys)
             pathType: Prefix
             backend:
               service:
                 name: {{ .Release.Name }}-auth
                 port:
                   number: {{ default .Values.auth.httpPort }}
-          - path: /api/v1/(agents/?.*)
+          - path: /api/v1/(agents.*)
             pathType: Prefix
             backend:
               service:
                 name: {{ .Release.Name}}-fleet
                 port:
                   number: {{ default .Values.fleet.httpPort }}
-          - path: /api/v1/(agent_groups/?.*)
+          - path: /api/v1/(agent_groups.*)
             pathType: Prefix
             backend:
               service:
                 name: {{ .Release.Name}}-fleet
                 port:
                   number: {{ default .Values.fleet.httpPort }}
-          - path: /api/v1/(sinks/?.*)
+          - path: /api/v1/(sinks.*)
             pathType: Prefix
             backend:
               service:
@@ -157,7 +101,7 @@ spec:
                 name: {{ .Release.Name}}-sinks
                 port:
                   number: {{ default .Values.sinks.httpPort }}
-          - path: /api/v1/(policies/?.*)
+          - path: /api/v1/(policies.*)
             pathType: Prefix
             backend:
               service:
