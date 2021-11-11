@@ -36,6 +36,8 @@ spec:
               value: "{{ .Values.sinks.dbSSL }}"
             - name: ORB_SINKS_DB_USER
               value: {{ index .Values "postgresql-sinks" "postgresqlUsername" }}
+            - name: ORB_SINKS_GRPC_PORT
+              value: "{{ .Values.sinks.grpcPort }}"
             - name: ORB_SINKS_ES_URL
               value:
                 {{ .Release.Name }}-redis-streams-master:{{ .Values.sinks.redisESPort }}

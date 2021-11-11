@@ -39,6 +39,8 @@ spec:
             - name: ORB_FLEET_ES_URL
               value:
                 {{ .Release.Name }}-redis-streams-master:{{ .Values.fleet.redisESPort }}
+            - name: ORB_FLEET_GRPC_PORT
+              value: "{{ .Values.fleet.grpcPort }}"
             - name: ORB_FLEET_HTTP_PORT
               value: "{{ .Values.fleet.httpPort }}"
             - name: ORB_FLEET_LOG_LEVEL

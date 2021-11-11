@@ -1,0 +1,56 @@
+# Copyright (c) Mainflux
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-sinker
+spec:
+  replicas: {{ .Values.defaults.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+      component: sinker
+  template:
+    metadata:
+      annotations:
+        commit_sha: {{ .Values.defaults.image.commitHash }}
+      labels:
+        app: {{ .Release.Name }}
+        component: sinker
+    spec:
+      containers:
+        - env:
+            - name: MF_JAEGER_URL
+              value:
+                {{ .Release.Name }}-jaeger-operator-jaeger-agent:{{ .Values.defaults.jaegerPort }}
+            - name: ORB_SINKER_ES_URL
+              value:
+                {{ .Release.Name }}-redis-streams-master:{{ .Values.sinker.redisESPort }}
+            - name: ORB_FLEET_GRPC_URL
+              value:
+                {{ .Release.Name }}-envoy:{{ .Values.fleet.grpcPort }}
+            - name: ORB_SINKS_GRPC_URL
+              value:
+                {{ .Release.Name }}-envoy:{{ .Values.sinks.grpcPort }}
+            - name: ORB_POLICIES_GRPC_URL
+              value:
+                {{ .Release.Name }}-envoy:{{ .Values.policies.grpcPort }}
+            - name: ORB_SINKER_HTTP_PORT
+              value: "{{ .Values.sinker.httpPort }}"
+            - name: ORB_SINKER_LOG_LEVEL
+              value: {{ default .Values.defaults.logLevel .Values.sinker.logLevel }}
+            - name: ORB_SINKER_NATS_URL
+              value:
+                nats://{{ .Release.Name }}-nats-client:{{ .Values.defaults.natsPort }}
+            - name: MF_AUTH_GRPC_URL
+              value:
+                {{ .Release.Name }}-envoy:{{ .Values.auth.grpcPort }}
+          image: "{{ default .Values.defaults.image.repository }}/orb-sinker:{{ default .Values.defaults.image.tag }}"
+          imagePullPolicy: {{ default .Values.defaults.image.pullPolicy .Values.sinker.image.pullPolicy }}
+          name: {{ .Release.Name }}-sinker
+          ports:
+            - containerPort: {{ .Values.sinker.httpPort }}
+              protocol: TCP
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
