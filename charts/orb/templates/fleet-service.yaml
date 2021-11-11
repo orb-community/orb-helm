@@ -13,3 +13,20 @@ spec:
     - protocol: TCP
       port: {{ .Values.fleet.httpPort }}
       name: {{ .Release.Name }}-fleet-http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-fleet-headless
+spec:
+  selector:
+    app: {{ .Release.Name }}
+    component: fleet
+  ports:
+    - port: {{ .Values.fleet.httpPort }}
+      protocol: TCP
+      name: {{ .Release.Name }}-fleet-{{ .Values.fleet.httpPort }}
+    - port: {{ .Values.fleet.grpcPort }}
+      protocol: TCP
+      name: {{ .Release.Name }}-fleet-{{ .Values.fleet.grpcPort }}
+  clusterIP: None
