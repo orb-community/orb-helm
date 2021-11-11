@@ -39,6 +39,12 @@ spec:
             - name: ORB_POLICIES_ES_URL
               value:
                 {{ .Release.Name }}-redis-streams-master:{{ .Values.policies.redisESPort }}
+            - name: ORB_FLEET_GRPC_URL
+              value:
+                {{ .Release.Name }}-envoy:{{ .Values.fleet.grpcPort }}
+            - name: ORB_SINKS_GRPC_URL
+              value:
+                {{ .Release.Name }}-envoy:{{ .Values.sinks.grpcPort }}
             - name: ORB_POLICIES_HTTP_PORT
               value: "{{ .Values.policies.httpPort }}"
             - name: ORB_POLICIES_GRPC_PORT

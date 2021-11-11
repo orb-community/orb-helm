@@ -58,6 +58,7 @@ fleet:
   image: { }
   dbPort: 5432
   dbSSL: "disable"
+  grpcPort: 8283
   httpPort: 8203
   redisESPort: 6379
 
@@ -73,7 +74,13 @@ sinks:
   image: { }
   dbPort: 5432
   dbSSL: "disable"
+  grpcPort: 8280
   httpPort: 8200
+  redisESPort: 6379
+
+sinker:
+  image: { }
+  httpPort: 8201
   redisESPort: 6379
 
 things:
