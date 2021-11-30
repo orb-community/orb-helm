@@ -65,6 +65,23 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.users.admin.secretName }}
                   key: {{ .Values.users.admin.passwordSecretKey }}
+
+            {{- if .Values.orb.smtp.host }}
+            - name: MF_EMAIL_HOST
+              value: {{ .Values.orb.smtp.host | quote }}
+            - name: MF_EMAIL_PORT
+              value: {{ .Values.orb.smtp.port | quote }}
+            - name: MF_EMAIL_USERNAME
+              value: {{ required "A valid .Values.orb.smtp.username is required!" .Values.orb.smtp.username | quote }}
+            - name: MF_EMAIL_PASSWORD
+              value: {{ required "A valid .Values.orb.smtp.password is required!" .Values.orb.smtp.password | quote }}
+            - name: MF_EMAIL_FROM_ADDRESS
+              value: {{ required "A valid .Values.orb.smtp.fromAddress is required!" .Values.orb.smtp.fromAddress | quote }}
+            - name: MF_EMAIL_FROM_NAME
+              value: {{ .Values.orb.smtp.fromName | quote }}
+            - name: MF_EMAIL_TEMPLATE
+              value: {{ .Values.orb.smtp.emailTemplatePath | quote }}
+            {{- end }}
           image: "{{ default .Values.defaults.image.mfRepository .Values.users.image.repository }}/users:{{ default .Values.defaults.image.mfTag .Values.users.image.tag }}"
           imagePullPolicy: {{ default .Values.defaults.image.pullPolicy .Values.users.image.pullPolicy }}
           name: {{ .Release.Name }}-users

@@ -71,8 +71,19 @@ helm install cert-manager jetstack/cert-manager --namespace cert-manager --creat
   * `kubectl create -f issuers/production-issuer.yaml -n orb`
 
 * Install orb. Replace `my-orb` with your helm release name.
+Check the [optional variables](#optional-variables-to-set) for more options. 
 
 ```
 helm install --set ingress.hostname=HOSTNAME -n orb my-orb .
 ```
 
+### Optional variables to set
+- **SMTP**
+
+   Set the following variables to enable SMTP support for password recovery:
+  - `smtp.host`: SMTP server hostname to send e-mails to.
+  - `smtp.port`: SMTP server port, defaults to `25`.
+  - `smtp.fromName`: E-mail sender display name. Defaults to `Orb`.
+  - `smtp.fromAddress`: E-mail address of the sender.
+  - `smtp.usernmame`: username used when authenticating to the SMTP server used for sending e-emails. 
+  - `smtp.password`: password used when authenticating to the SMTP server used for sending e-emails.
