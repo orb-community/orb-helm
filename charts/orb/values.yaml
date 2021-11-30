@@ -23,7 +23,6 @@ orb:
   smtp:
     port: 25
     fromName: Orb
-    emailTemplatePath: /email.tmpl
 
 ingress:
   issuer: "letsencrypt-prod"

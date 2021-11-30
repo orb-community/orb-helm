@@ -80,7 +80,7 @@ spec:
             - name: MF_EMAIL_FROM_NAME
               value: {{ .Values.orb.smtp.fromName | quote }}
             - name: MF_EMAIL_TEMPLATE
-              value: {{ .Values.orb.smtp.emailTemplatePath | quote }}
+              value: "/email.tmpl"
             {{- end }}
           image: "{{ default .Values.defaults.image.mfRepository .Values.users.image.repository }}/users:{{ default .Values.defaults.image.mfTag .Values.users.image.tag }}"
           imagePullPolicy: {{ default .Values.defaults.image.pullPolicy .Values.users.image.pullPolicy }}
