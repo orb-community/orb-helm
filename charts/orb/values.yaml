@@ -19,6 +19,11 @@ defaults:
   natsPort: 4222
   jaegerPort: 6831
 
+orb:
+  smtp:
+    port: 25
+    fromName: Orb
+
 ingress:
   issuer: "letsencrypt-prod"
   hostname: ""
