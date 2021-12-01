@@ -66,19 +66,19 @@ spec:
                   name: {{ .Values.users.admin.secretName }}
                   key: {{ .Values.users.admin.passwordSecretKey }}
 
-            {{- if .Values.orb.smtp.host }}
+            {{- if .Values.smtp.host }}
             - name: MF_EMAIL_HOST
-              value: {{ .Values.orb.smtp.host | quote }}
+              value: {{ .Values.smtp.host | quote }}
             - name: MF_EMAIL_PORT
-              value: {{ .Values.orb.smtp.port | quote }}
+              value: {{ .Values.smtp.port | quote }}
             - name: MF_EMAIL_USERNAME
-              value: {{ required "A valid .Values.orb.smtp.username is required!" .Values.orb.smtp.username | quote }}
+              value: {{ required "A valid .Values.smtp.username is required!" .Values.smtp.username | quote }}
             - name: MF_EMAIL_PASSWORD
-              value: {{ required "A valid .Values.orb.smtp.password is required!" .Values.orb.smtp.password | quote }}
+              value: {{ required "A valid .Values.smtp.password is required!" .Values.smtp.password | quote }}
             - name: MF_EMAIL_FROM_ADDRESS
-              value: {{ required "A valid .Values.orb.smtp.fromAddress is required!" .Values.orb.smtp.fromAddress | quote }}
+              value: {{ required "A valid .Values.smtp.fromAddress is required!" .Values.smtp.fromAddress | quote }}
             - name: MF_EMAIL_FROM_NAME
-              value: {{ .Values.orb.smtp.fromName | quote }}
+              value: {{ .Values.smtp.fromName | quote }}
             - name: MF_EMAIL_TEMPLATE
               value: "/email.tmpl"
             {{- end }}
