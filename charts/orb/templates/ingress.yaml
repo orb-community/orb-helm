@@ -45,14 +45,14 @@ spec:
     - host: "{{ .Values.ingress.hostname }}"
       http:
         paths:
-          - path: /api/v1/(users)
+          - path: /api/v1/(users/?.*)
             pathType: Prefix
             backend:
               service:
                 name: {{ .Release.Name }}-users
                 port:
                   number: {{ .Values.users.httpPort }}
-          - path: /api/v1/(password)
+          - path: /api/v1/(password/?.*)
             pathType: Prefix
             backend:
               service:
