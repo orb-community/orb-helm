@@ -78,7 +78,7 @@ spec:
             - name: MF_EMAIL_FROM_ADDRESS
               value: {{ required "A valid .Values.smtp.fromAddress is required!" .Values.smtp.fromAddress | quote }}
             - name: MF_EMAIL_FROM_NAME
-              value: {{ .Values.smtp.fromName | quote }}
+              value:                 {{ required "A valid .Values.smtp.fromAddress is required!" .Values.smtp.fromAddress | quote }}
             - name: MF_EMAIL_TEMPLATE
               value: "/email.tmpl"
             {{- end }}
