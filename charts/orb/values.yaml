@@ -50,7 +50,9 @@ mqtt:
   redisCachePort: 6379
 
 users:
-  image: { }
+  image:
+    repository: ns1labs
+    tag: latest
   dbPort: 5432
   httpPort: 8180
   admin:
