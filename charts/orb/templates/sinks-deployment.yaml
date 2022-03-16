@@ -15,6 +15,9 @@ spec:
     metadata:
       annotations:
         commit_sha: {{ .Values.defaults.image.commitHash }}
+      {{- with .Values.sinks.metadata.annotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
         app: {{ .Release.Name }}
         component: sinks

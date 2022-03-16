@@ -13,6 +13,10 @@ spec:
       component: things
   template:
     metadata:
+      {{- with .Values.things.metadata.annotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
         app: {{ .Release.Name }}
         component: things
