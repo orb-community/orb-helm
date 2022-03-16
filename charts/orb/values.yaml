@@ -57,6 +57,8 @@ users:
     secretName: orb-user-service
     emailSecretKey: adminEmail
     passwordSecretKey: adminPassword
+  metadata:
+    annotations: { }
 
 fleet:
   image: { }
@@ -65,6 +67,8 @@ fleet:
   grpcPort: 8283
   httpPort: 8203
   redisESPort: 6379
+  metadata:
+    annotations: { }
 
 policies:
   image: { }
@@ -73,6 +77,8 @@ policies:
   grpcPort: 8282
   httpPort: 8202
   redisESPort: 6379
+  metadata:
+    annotations: { }
 
 sinks:
   image: { }
@@ -81,11 +87,15 @@ sinks:
   grpcPort: 8280
   httpPort: 8200
   redisESPort: 6379
+  metadata:
+    annotations: { }
 
 sinker:
   image: { }
   httpPort: 8201
   redisESPort: 6379
+  metadata:
+    annotations: { }
 
 things:
   image: { }
@@ -95,6 +105,8 @@ things:
   authHttpPort: 8989
   redisESPort: 6379
   redisCachePort: 6379
+  metadata:
+    annotations: { }
 
 auth:
   image: { }
@@ -104,11 +116,15 @@ auth:
   jwt:
     secretName: orb-auth-service
     secretKey: jwtSecret
+  metadata:
+    annotations: { }
 
 ui:
   image:
     name: orb-ui
   port: 3000
+  metadata:
+    annotations: { }
 
 nats:
   auth:

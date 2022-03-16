@@ -19,6 +19,10 @@ spec:
       component: users
   template:
     metadata:
+      {{- with .Values.users.metadata.annotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
         app: {{ .Release.Name }}
         component: users
