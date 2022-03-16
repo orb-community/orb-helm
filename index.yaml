@@ -3,6 +3,66 @@ entries:
   orb:
   - apiVersion: v2
     appVersion: 0.9.0
+    created: "2022-03-16T16:16:49.08596761-03:00"
+    dependencies:
+    - name: jaeger-operator
+      repository: '@jaegertracing'
+      version: 2.23.0
+    - name: nats
+      repository: '@bitnami'
+      version: 6.4.2
+    - alias: postgresql-fleet
+      name: postgresql
+      repository: '@bitnami'
+      version: 10.9.1
+    - alias: postgresql-policies
+      name: postgresql
+      repository: '@bitnami'
+      version: 10.9.1
+    - alias: postgresql-sinks
+      name: postgresql
+      repository: '@bitnami'
+      version: 10.9.1
+    - alias: postgresql-things
+      name: postgresql
+      repository: '@bitnami'
+      version: 10.9.1
+    - alias: postgresql-users
+      name: postgresql
+      repository: '@bitnami'
+      version: 10.9.1
+    - alias: postgresql-auth
+      name: postgresql
+      repository: '@bitnami'
+      version: 10.9.1
+    - alias: redis-streams
+      name: redis
+      repository: '@bitnami'
+      version: 14.8.8
+    - alias: redis-auth
+      name: redis
+      repository: '@bitnami'
+      version: 14.8.8
+    - alias: redis-mqtt
+      name: redis
+      repository: '@bitnami'
+      version: 14.8.8
+    description: Orb Observability Platform
+    digest: 6e1523a81c759f6c69a5d47efc21b9752acfc66207034ea54fa8a52c78985198
+    home: https://getorb.io
+    icon: https://avatars1.githubusercontent.com/u/13207490
+    maintainers:
+    - email: labs@ns1.com
+      name: ns1labs
+    name: orb
+    sources:
+    - https://hub.docker.com/u/ns1labs/
+    type: application
+    urls:
+    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.11/orb-1.0.11.tgz
+    version: 1.0.11
+  - apiVersion: v2
+    appVersion: 0.9.0
     created: "2021-12-08T12:59:38.652578179-03:00"
     dependencies:
     - name: jaeger-operator
@@ -661,4 +721,4 @@ entries:
     urls:
     - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.0/orb-1.0.0.tgz
     version: 1.0.0
-generated: "2021-12-08T12:59:38.652684966-03:00"
+generated: "2022-03-16T16:16:49.086056013-03:00"
