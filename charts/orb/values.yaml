@@ -18,6 +18,7 @@ defaults:
   replicaCount: 3
   natsPort: 4222
   jaegerPort: 6831
+  jaegerHost: ""
 
 smtp:
   port: 25

@@ -30,8 +30,11 @@ spec:
       containers:
         - env:
             - name: MF_JAEGER_URL
-              value:
-                {{ .Release.Name }}-jaeger-operator-jaeger-agent:{{ .Values.defaults.jaegerPort }}
+            {{ if not .Values.defaults.jaegerHost }}
+              value: {{ .Release.Name }}-jaeger-operator-jaeger-agent:{{ .Values.defaults.jaegerPort }}
+            {{ else }}
+              value: {{ .Values.defaults.jaegerHost }}:{{ .Values.defaults.jaegerPort }}
+            {{ end }}
             - name: MF_USERS_DB
               value: {{ index .Values "postgresql-users"  "postgresqlDatabase" }}
             - name: MF_USERS_DB_HOST
