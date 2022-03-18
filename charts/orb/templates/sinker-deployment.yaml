@@ -25,8 +25,11 @@ spec:
       containers:
         - env:
             - name: MF_JAEGER_URL
-              value:
-                {{ .Release.Name }}-jaeger-operator-jaeger-agent:{{ .Values.defaults.jaegerPort }}
+            {{ if not .Values.defaults.jaegerHost }}
+              value: {{ .Release.Name }}-jaeger-operator-jaeger-agent:{{ .Values.defaults.jaegerPort }}
+            {{ else }}
+              value: {{ .Values.defaults.jaegerHost }}:{{ .Values.defaults.jaegerPort }}
+            {{ end }}
             - name: ORB_SINKER_ES_URL
               value:
                 {{ .Release.Name }}-redis-streams-master:{{ .Values.sinker.redisESPort }}
