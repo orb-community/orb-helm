@@ -136,6 +136,7 @@ nats:
   replicaCount: 3
 
 postgresql-users:
+  enabled: true
   name: postgresql-users
   postgresqlUsername: postgres
   postgresqlPassword: mainflux
@@ -147,6 +148,7 @@ postgresql-users:
     size: 1Gi
 
 postgresql-fleet:
+  enabled: true
   name: postgresql-fleet
   image:
     tag: 13
@@ -160,6 +162,7 @@ postgresql-fleet:
     size: 1Gi
 
 postgresql-policies:
+  enabled: true
   name: postgresql-policies
   image:
     tag: 13
@@ -173,6 +176,7 @@ postgresql-policies:
     size: 1Gi
 
 postgresql-sinks:
+  enabled: true
   name: postgresql-sinks
   image:
     tag: 13
@@ -186,6 +190,7 @@ postgresql-sinks:
     size: 1Gi
 
 postgresql-things:
+  enabled: true
   name: postgresql-things
   postgresqlUsername: postgres
   postgresqlPassword: mainflux
@@ -197,6 +202,7 @@ postgresql-things:
     size: 1Gi
 
 postgresql-auth:
+  enabled: true
   name: postgresql-auth
   postgresqlUsername: postgres
   postgresqlPassword: mainflux
@@ -208,6 +214,7 @@ postgresql-auth:
     size: 1Gi
 
 redis-streams:
+  enabled: true
   volumePermissions:
     enabled: true
   cluster:
@@ -216,6 +223,7 @@ redis-streams:
     enabled: false
 
 redis-mqtt:
+  enabled: true
   volumePermissions:
     enabled: true
   cluster:
@@ -224,6 +232,7 @@ redis-mqtt:
     enabled: false
 
 redis-auth:
+  enabled: true
   cluster:
     enabled: false
   auth:
@@ -233,6 +242,7 @@ redis-auth:
       enabled: false
 
 jaeger-operator:
+  enabled: false
   jaeger:
     create: true
   rbac:

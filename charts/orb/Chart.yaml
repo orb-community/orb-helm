@@ -23,6 +23,7 @@ dependencies:
   - name: jaeger-operator
     version: "2.23.0"
     repository: "@jaegertracing"
+    condition: jaeger-operator.enabled
   - name: nats
     version: "6.4.2"
     repository: "@bitnami"
@@ -30,36 +31,45 @@ dependencies:
     version: "10.9.1"
     repository: "@bitnami"
     alias: postgresql-fleet
+    condition: postgresql-fleet.enabled
   - name: postgresql
     version: "10.9.1"
     repository: "@bitnami"
     alias: postgresql-policies
+    condition: postgresql-policies.enabled
   - name: postgresql
     version: "10.9.1"
     repository: "@bitnami"
     alias: postgresql-sinks
+    condition: postgresql-sinks.enabled
   - name: postgresql
     version: "10.9.1"
     repository: "@bitnami"
     alias: postgresql-things
+    condition: postgresql-things.enabled
   - name: postgresql
     version: "10.9.1"
     repository: "@bitnami"
     alias: postgresql-users
+    condition: postgresql-users.enabled
   - name: postgresql
     version: "10.9.1"
     repository: "@bitnami"
     alias: postgresql-auth
+    condition: postgresql-auth.enabled
   - name: redis
     version: "14.8.8"
     repository: "@bitnami"
     alias: redis-streams
+    condition: redis-streams.enabled
   - name: redis
     version: "14.8.8"
     repository: "@bitnami"
     alias: redis-auth
+    condition: redis-auth.enabled
   - name: redis
     version: "14.8.8"
     repository: "@bitnami"
     alias: redis-mqtt
+    condition: redis-mqtt.enabled
 
