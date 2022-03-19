@@ -242,7 +242,7 @@ redis-auth:
       enabled: false
 
 jaeger-operator:
-  enabled: false
+  enabled: true
   jaeger:
     create: true
   rbac:
