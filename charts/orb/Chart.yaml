@@ -70,6 +70,6 @@ dependencies:
   - name: redis
     version: "14.8.8"
     repository: "@bitnami"
-    alias: redis-mqtt
+    alias:
     condition: redis-mqtt.enabled
 

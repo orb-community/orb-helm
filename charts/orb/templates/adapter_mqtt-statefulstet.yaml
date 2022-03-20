@@ -174,8 +174,11 @@ spec:
             - name: MF_MQTT_ADAPTER_WS_PORT
               value: "{{ .Values.mqtt.adapter.wsPort }}"
             - name: MF_MQTT_ADAPTER_ES_URL
-              value:
-                {{ .Release.Name }}-redis-streams-master:{{ .Values.mqtt.redisESPort }}
+            {{ if not .Values.mqtt.redisESHost }}
+              value: {{ .Release.Name }}-redis-streams-master:{{ .Values.mqtt.redisESPort }}
+            {{ else }}
+              value: {{ .Values.mqtt.redisESHost }}:{{ .Values.mqtt.redisESPort }}
+            {{ end }}
             - name: MF_NATS_URL
               value:
                 nats://{{ .Release.Name }}-nats-client:{{ .Values.defaults.natsPort }}
@@ -199,8 +202,11 @@ spec:
             - name: MF_MQTT_ADAPTER_THINGS_TIMEOUT
               value: "15"
             - name: MF_AUTH_CACHE_URL
-              value:
-                {{ .Release.Name }}-redis-auth-master:{{ .Values.mqtt.redisCachePort }}
+            {{ if not .Values.mqtt.redisCacheHost }}
+              value: {{ .Release.Name }}-redis-auth-master:{{ .Values.mqtt.redisCachePort }}
+            {{ else }}
+              value: {{ .Values.mqtt.redisCacheHost }}:{{ .Values.mqtt.redisCachePort }}
+            {{ end }}
             - name: MF_MQTT_ADAPTER_MQTT_TARGET_HEALTH_CHECK
               value: http://localhost:8888/health
           livenessProbe:
