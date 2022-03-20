@@ -32,7 +32,11 @@ spec:
             - name: MF_AUTH_DB
               value: {{ index .Values "postgresql-auth" "postgresqlDatabase" }}
             - name: MF_AUTH_DB_HOST
+            {{ if not .Values.auth.dbHost }}
               value: {{ .Release.Name }}-postgresql-auth
+            {{ else }}
+              value: {{ .Values.auth.dbHost }}
+            {{ end }}
             - name: MF_AUTH_DB_PASS
               value: {{ index .Values "postgresql-auth" "postgresqlPassword" }}
             - name: MF_AUTH_DB_PORT

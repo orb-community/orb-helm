@@ -48,11 +48,14 @@ mqtt:
     persistentVolume:
       size: 5Gi
   redisESPort: 6379
+  redisESHost: "" # disable "dependency install" and set field with host this if you want to point to external database such as Elasticache
   redisCachePort: 6379
+  redisCacheHost: "" # disable "dependency install" and set field with host this if you want to point to external database such as Elasticache
 
 users:
   image: { }
   dbPort: 5432
+  dbHost: "" # disable "dependency install" and set field with host this if you want to point to external database such as RDS
   httpPort: 8180
   admin:
     secretName: orb-user-service
@@ -64,9 +67,11 @@ users:
 fleet:
   image: { }
   dbPort: 5432
+  dbHost: "" # disable "dependency install" and set field with host this if you want to point to external database such as RDS
   dbSSL: "disable"
   grpcPort: 8283
   httpPort: 8203
+  redisESHost: "" # disable "dependency install" and set field with host this if you want to point to external database such as Elasticache
   redisESPort: 6379
   metadata:
     annotations: { }
@@ -74,20 +79,24 @@ fleet:
 policies:
   image: { }
   dbPort: 5432
+  dbHost: "" # disable "dependency install" and set field with host this if you want to point to external database such as RDS
   dbSSL: "disable"
   grpcPort: 8282
   httpPort: 8202
   redisESPort: 6379
+  redisESHost: "" # disable "dependency install" and set field with host this if you want to point to external database such as Elasticache
   metadata:
     annotations: { }
 
 sinks:
   image: { }
   dbPort: 5432
+  dbHost: "" # disable "dependency install" and set field with host this if you want to point to external database such as RDS
   dbSSL: "disable"
   grpcPort: 8280
   httpPort: 8200
   redisESPort: 6379
+  redisESHost: "" # disable "dependency install" and set field with host this if you want to point to external database such as Elasticache
   metadata:
     annotations: { }
 
@@ -95,23 +104,28 @@ sinker:
   image: { }
   httpPort: 8201
   redisESPort: 6379
+  redisESHost: "" # disable "dependency install" and set field with host this if you want to point to external database such as Elasticache
   metadata:
     annotations: { }
 
 things:
   image: { }
   dbPort: 5432
+  dbHost: "" # disable "dependency install" and set field with host this if you want to point to external database such as RDS
   httpPort: 8182
   authGrpcPort: 8183
   authHttpPort: 8989
   redisESPort: 6379
+  redisESHost: "" # disable "dependency install" and set field with host this if you want to point to external database such as Elasticache
   redisCachePort: 6379
+  redisCacheHost: "" # disable "dependency install" and set field with host this if you want to point to external database such as Elasticache
   metadata:
     annotations: { }
 
 auth:
   image: { }
   dbPort: 5432
+  dbHost: "" # disable "dependency install" and set field with host this if you want to point to external database such as RDS
   grpcPort: 8181
   httpPort: 8189
   jwt:
@@ -136,7 +150,7 @@ nats:
   replicaCount: 3
 
 postgresql-users:
-  enabled: true
+  enabled: true # dependency install, disable if you want to use external services
   name: postgresql-users
   postgresqlUsername: postgres
   postgresqlPassword: mainflux
@@ -148,7 +162,7 @@ postgresql-users:
     size: 1Gi
 
 postgresql-fleet:
-  enabled: true
+  enabled: true # dependency install, disable if you want to use external services
   name: postgresql-fleet
   image:
     tag: 13
@@ -162,7 +176,7 @@ postgresql-fleet:
     size: 1Gi
 
 postgresql-policies:
-  enabled: true
+  enabled: true # dependency install, disable if you want to use external services
   name: postgresql-policies
   image:
     tag: 13
@@ -176,7 +190,7 @@ postgresql-policies:
     size: 1Gi
 
 postgresql-sinks:
-  enabled: true
+  enabled: true # dependency install, disable if you want to use external services
   name: postgresql-sinks
   image:
     tag: 13
@@ -190,7 +204,7 @@ postgresql-sinks:
     size: 1Gi
 
 postgresql-things:
-  enabled: true
+  enabled: true # dependency install, disable if you want to use external services
   name: postgresql-things
   postgresqlUsername: postgres
   postgresqlPassword: mainflux
@@ -202,7 +216,7 @@ postgresql-things:
     size: 1Gi
 
 postgresql-auth:
-  enabled: true
+  enabled: true # dependency install, disable if you want to use external services
   name: postgresql-auth
   postgresqlUsername: postgres
   postgresqlPassword: mainflux
@@ -214,7 +228,7 @@ postgresql-auth:
     size: 1Gi
 
 redis-streams:
-  enabled: true
+  enabled: true # dependency install, disable if you want to use external services
   volumePermissions:
     enabled: true
   cluster:
@@ -223,7 +237,7 @@ redis-streams:
     enabled: false
 
 redis-mqtt:
-  enabled: true
+  enabled: true # dependency install, disable if you want to use external services
   volumePermissions:
     enabled: true
   cluster:
@@ -232,7 +246,7 @@ redis-mqtt:
     enabled: false
 
 redis-auth:
-  enabled: true
+  enabled: true # dependency install, disable if you want to use external services
   cluster:
     enabled: false
   auth:
@@ -242,7 +256,7 @@ redis-auth:
       enabled: false
 
 jaeger-operator:
-  enabled: true
+  enabled: true # dependency install, disable if you want to use external services
   jaeger:
     create: true
   rbac:
