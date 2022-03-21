@@ -33,7 +33,11 @@ spec:
             - name: ORB_FLEET_DB
               value: {{ index .Values "postgresql-fleet" "postgresqlDatabase" }}
             - name: ORB_FLEET_DB_HOST
+            {{ if not .Values.fleet.dbHost }}
               value: {{ .Release.Name }}-postgresql-fleet
+            {{ else }}
+              value: {{ .Values.fleet.dbHost }}
+            {{ end }}
             - name: ORB_FLEET_DB_PASS
               value: {{ index .Values "postgresql-fleet" "postgresqlPassword" }}
             - name: ORB_FLEET_DB_PORT
@@ -43,8 +47,11 @@ spec:
             - name: ORB_FLEET_DB_USER
               value: {{ index .Values "postgresql-fleet" "postgresqlUsername" }}
             - name: ORB_FLEET_ES_URL
-              value:
-                {{ .Release.Name }}-redis-streams-master:{{ .Values.fleet.redisESPort }}
+            {{ if not .Values.fleet.redisESHost }}
+              value: {{ .Release.Name }}-redis-streams-master:{{ .Values.fleet.redisESPort }}
+            {{ else }}
+              value: {{ .Values.fleet.redisESHost }}:{{ .Values.fleet.redisESPort }}
+            {{ end }}
             - name: ORB_FLEET_GRPC_PORT
               value: "{{ .Values.fleet.grpcPort }}"
             - name: ORB_FLEET_HTTP_PORT

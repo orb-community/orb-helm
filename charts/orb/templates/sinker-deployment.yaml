@@ -31,8 +31,11 @@ spec:
               value: {{ .Values.defaults.jaegerHost }}:{{ .Values.defaults.jaegerPort }}
             {{ end }}
             - name: ORB_SINKER_ES_URL
-              value:
-                {{ .Release.Name }}-redis-streams-master:{{ .Values.sinker.redisESPort }}
+            {{ if not .Values.sinker.redisESHost }}
+              value: {{ .Release.Name }}-redis-streams-master:{{ .Values.sinker.redisESPort }}
+            {{ else }}
+              value: {{ .Values.sinker.redisESHost }}:{{ .Values.sinker.redisESPort }}
+            {{ end }}
             - name: ORB_FLEET_GRPC_URL
               value:
                 {{ .Release.Name }}-envoy:{{ .Values.fleet.grpcPort }}

@@ -33,7 +33,11 @@ spec:
             - name: ORB_SINKS_DB
               value: {{ index .Values "postgresql-sinks" "postgresqlDatabase" }}
             - name: ORB_SINKS_DB_HOST
+            {{ if not .Values.sinks.dbHost }}
               value: {{ .Release.Name }}-postgresql-sinks
+            {{ else }}
+              value: {{ .Values.sinks.dbHost }}
+            {{ end }}
             - name: ORB_SINKS_DB_PASS
               value: {{ index .Values "postgresql-sinks" "postgresqlPassword" }}
             - name: ORB_SINKS_DB_PORT
@@ -45,8 +49,11 @@ spec:
             - name: ORB_SINKS_GRPC_PORT
               value: "{{ .Values.sinks.grpcPort }}"
             - name: ORB_SINKS_ES_URL
-              value:
-                {{ .Release.Name }}-redis-streams-master:{{ .Values.sinks.redisESPort }}
+            {{ if not .Values.sinks.redisESHost }}
+              value: {{ .Release.Name }}-redis-streams-master:{{ .Values.sinks.redisESPort }}
+            {{ else }}
+              value: {{ .Values.sinks.redisESHost }}:{{ .Values.sinks.redisESPort }}
+            {{ end }}
             - name: ORB_SINKS_HTTP_PORT
               value: "{{ .Values.sinks.httpPort }}"
             - name: ORB_SINKS_LOG_LEVEL

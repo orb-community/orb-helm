@@ -38,7 +38,11 @@ spec:
             - name: MF_USERS_DB
               value: {{ index .Values "postgresql-users"  "postgresqlDatabase" }}
             - name: MF_USERS_DB_HOST
+            {{ if not .Values.users.dbHost }}
               value: {{ .Release.Name }}-postgresql-users
+            {{ else }}
+              value: {{ .Values.users.dbHost }}
+            {{ end }}
             - name: MF_USERS_DB_PASS
               value: {{ index .Values "postgresql-users" "postgresqlPassword" }}
             - name: MF_USERS_DB_PORT
