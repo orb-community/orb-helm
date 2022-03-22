@@ -32,9 +32,9 @@ spec:
             {{ end }}
             - name: ORB_SINKER_ES_URL
             {{ if not .Values.sinker.redisESHost }}
-            value: {{ .Release.Name }}-redis-streams-master:{{ .Values.sinker.redisESPort }}
+              value: {{ .Release.Name }}-redis-streams-master:{{ .Values.sinker.redisESPort }}
             {{ else }}
-            value: {{ .Values.sinker.redisESHost }}:{{ .Values.sinker.redisESPort }}
+              value: {{ .Values.sinker.redisESHost }}:{{ .Values.sinker.redisESPort }}
             {{ end }}
             - name: ORB_SINKER_CACHE_URL
             {{ if not .Values.sinker.redisCacheHost }}
