@@ -71,7 +71,7 @@ spec:
               value:
                 http://{{ .Release.Name }}-things:{{ .Values.things.httpPort }}
 
-          image: "{{ default .Values.defaults.image.repository }}/orb-fleet:{{ default .Values.defaults.image.tag }}"
+          image: "{{ default .Values.defaults.image.repository .Values.fleet.image.repository }}/{{ default .Values.fleet.image.name }}:{{ default .Values.defaults.image.tag .Values.fleet.image.tag }}"
           imagePullPolicy: {{ default .Values.defaults.image.pullPolicy .Values.fleet.image.pullPolicy }}
           name: {{ .Release.Name }}-fleet
           ports:
