@@ -54,7 +54,7 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.auth.jwt.secretName }}
                   key: {{ .Values.auth.jwt.secretKey }}
-          image: "{{ default .Values.defaults.image.repository .Values.auth.image.repository }}/{{ default .Values.auth.image.name }}:{{ default .Values.defaults.image.tag .Values.auth.image.tag }}"
+          image: "{{ default .Values.defaults.image.mfRepository .Values.auth.image.repository }}/{{ default .Values.auth.image.name }}:{{ default .Values.defaults.image.mfTag .Values.auth.image.tag }}"
           imagePullPolicy: {{ default .Values.defaults.image.pullPolicy .Values.users.image.pullPolicy }}
           name: {{ .Release.Name }}-auth
           ports:
