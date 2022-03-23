@@ -67,7 +67,7 @@ spec:
             - name: MF_AUTH_GRPC_URL
               value:
                 {{ .Release.Name }}-envoy:{{ .Values.auth.grpcPort }}
-          image: "{{ default .Values.defaults.image.repository }}/orb-policies:{{ default .Values.defaults.image.tag }}"
+          image: "{{ default .Values.defaults.image.repository .Values.policies.image.repository }}/{{ default .Values.policies.image.name }}:{{ default .Values.defaults.image.tag .Values.policies.image.tag }}"
           imagePullPolicy: {{ default .Values.defaults.image.pullPolicy .Values.policies.image.pullPolicy }}
           name: {{ .Release.Name }}-policies
           ports:

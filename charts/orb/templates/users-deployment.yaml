@@ -85,7 +85,7 @@ spec:
             - name: MF_EMAIL_TEMPLATE
               value: "/email.tmpl"
             {{- end }}
-          image: "{{ default .Values.defaults.image.mfRepository .Values.users.image.repository }}/users:{{ default .Values.defaults.image.mfTag .Values.users.image.tag }}"
+          image: "{{ default .Values.defaults.image.mfRepository .Values.users.image.repository }}/{{ default .Values.users.image.name }}:{{ default .Values.defaults.image.mfTag .Values.users.image.tag }}"
           imagePullPolicy: {{ default .Values.defaults.image.pullPolicy .Values.users.image.pullPolicy }}
           name: {{ .Release.Name }}-users
           ports:

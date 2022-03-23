@@ -61,7 +61,7 @@ spec:
             - name: MF_AUTH_GRPC_URL
               value:
                 {{ .Release.Name }}-envoy:{{ .Values.auth.grpcPort }}
-          image: "{{ default .Values.defaults.image.repository }}/orb-sinks:{{ default .Values.defaults.image.tag }}"
+          image: "{{ default .Values.defaults.image.repository .Values.sinks.image.repository }}/{{ default .Values.sinks.image.name }}:{{ default .Values.defaults.image.tag .Values.sinks.image.tag }}"
           imagePullPolicy: {{ default .Values.defaults.image.pullPolicy .Values.sinks.image.pullPolicy }}
           name: {{ .Release.Name }}-sinks
           ports:
