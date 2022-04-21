@@ -25,7 +25,10 @@ smtp:
   fromName: Orb
 
 ingress:
-  issuer: "letsencrypt-prod"
+  ingressClassName: "nginx"
+  annotations:
+    cert-manager.io/issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
   hostname: ""
   secret: "orb-tls"
 
