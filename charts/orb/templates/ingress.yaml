@@ -4,9 +4,9 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-{{- if .Values.ingress.annotations-nginx }}
+{{- if .Values.ingress.annotationsNginx }}
   annotations:
-{{ toYaml .Values.ingress.annotations-nginx | indent 4 }}
+{{ toYaml .Values.ingress.annotationsNginx | indent 4 }}
 {{- end }}
   name: {{ .Release.Name }}-nginx-ingress
 spec:
@@ -37,9 +37,9 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-{{- if .Values.ingress.annotations-nginx-rewrite }}
+{{- if .Values.ingress.annotationsNginxRewrite }}
   annotations:
-{{ toYaml .Values.ingress.annotations-nginx-rewrite | indent 4 }}
+{{ toYaml .Values.ingress.annotationsNginxRewrite | indent 4 }}
 {{- end }}
   name: {{ .Release.Name }}-nginx-rewrite-ingress
 spec:
