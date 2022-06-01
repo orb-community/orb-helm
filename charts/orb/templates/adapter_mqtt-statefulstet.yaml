@@ -47,6 +47,10 @@ spec:
       component: mqtt
   template:
     metadata:
+      annotations:
+      {{- with .Values.mqtt.metadata.annotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
         app: {{ .Release.Name}}
         component: mqtt
