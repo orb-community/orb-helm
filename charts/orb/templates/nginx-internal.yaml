@@ -20,7 +20,7 @@ data:
     include /etc/nginx/modules-enabled/*.conf;
 
     events {
-      worker_connections 768;
+      worker_connections 2000;
     }
 
     # MQTT
