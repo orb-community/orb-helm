@@ -4,33 +4,33 @@ dependencies:
   version: 2.23.0
 - name: nats
   repository: https://charts.bitnami.com/bitnami
-  version: 7.3.2
+  version: 7.0.4
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
-  version: 11.5.2
+  version: 10.14.3
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
-  version: 11.5.2
+  version: 10.14.3
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
-  version: 11.5.2
+  version: 10.14.3
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
-  version: 11.5.2
+  version: 10.14.3
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
-  version: 11.5.2
+  version: 10.14.3
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
-  version: 11.5.2
+  version: 10.14.3
 - name: redis
   repository: https://charts.bitnami.com/bitnami
-  version: 16.10.1
+  version: 15.7.0
 - name: redis
   repository: https://charts.bitnami.com/bitnami
-  version: 16.10.1
+  version: 15.7.0
 - name: redis
   repository: https://charts.bitnami.com/bitnami
-  version: 16.10.1
-digest: sha256:7293dd5edd71f523ff68d6290f094f6b858996e0e6332485dbea1e19d48339ee
-generated: "2022-06-02T09:36:08.534827376-03:00"
+  version: 15.7.0
+digest: sha256:9f7b5f145f5c41c2337544780fcc259ddd37ded4dfe0a25c3bbd3c03530787c2
+generated: "2022-06-02T12:29:37.056359104-03:00"
