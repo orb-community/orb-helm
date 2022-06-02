@@ -25,8 +25,8 @@ dependencies:
     repository: "@jaegertracing"
     condition: jaeger-operator.enabled
   - name: nats
-    version: "7.0.4"
-    repository: "@bitnami"
+    version: "0.8.8"
+    repository: "@nats"
   - name: postgresql
     version: "10.14.3"
     repository: "@bitnami"
