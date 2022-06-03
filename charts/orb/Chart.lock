@@ -1,0 +1,36 @@
+dependencies:
+- name: jaeger-operator
+  repository: https://jaegertracing.github.io/helm-charts
+  version: 2.23.0
+- name: nats
+  repository: ""
+  version: 6.4.2
+- name: postgresql
+  repository: ""
+  version: 10.9.1
+- name: postgresql
+  repository: ""
+  version: 10.9.1
+- name: postgresql
+  repository: ""
+  version: 10.9.1
+- name: postgresql
+  repository: ""
+  version: 10.9.1
+- name: postgresql
+  repository: ""
+  version: 10.9.1
+- name: postgresql
+  repository: ""
+  version: 10.9.1
+- name: redis
+  repository: ""
+  version: 14.8.8
+- name: redis
+  repository: ""
+  version: 14.8.8
+- name: redis
+  repository: ""
+  version: 14.8.8
+digest: sha256:63fe927ac31e9d2d1bd2e416cca0a183bd1c5ccaf824689cdccec615a79c017f
+generated: "2022-06-02T22:41:49.911919063-03:00"
