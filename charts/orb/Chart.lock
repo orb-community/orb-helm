@@ -3,34 +3,34 @@ dependencies:
   repository: https://jaegertracing.github.io/helm-charts
   version: 2.23.0
 - name: nats
-  repository: https://charts.bitnami.com/bitnami
+  repository: ""
   version: 6.4.2
 - name: postgresql
-  repository: https://charts.bitnami.com/bitnami
+  repository: ""
   version: 10.9.1
 - name: postgresql
-  repository: https://charts.bitnami.com/bitnami
+  repository: ""
   version: 10.9.1
 - name: postgresql
-  repository: https://charts.bitnami.com/bitnami
+  repository: ""
   version: 10.9.1
 - name: postgresql
-  repository: https://charts.bitnami.com/bitnami
+  repository: ""
   version: 10.9.1
 - name: postgresql
-  repository: https://charts.bitnami.com/bitnami
+  repository: ""
   version: 10.9.1
 - name: postgresql
-  repository: https://charts.bitnami.com/bitnami
+  repository: ""
   version: 10.9.1
 - name: redis
-  repository: https://charts.bitnami.com/bitnami
+  repository: ""
   version: 14.8.8
 - name: redis
-  repository: https://charts.bitnami.com/bitnami
+  repository: ""
   version: 14.8.8
 - name: redis
-  repository: https://charts.bitnami.com/bitnami
+  repository: ""
   version: 14.8.8
-digest: sha256:9d6fcb8b8f17f13f57514dce9015ae329aa56a5585de58a4e1df3f2aa7ec832b
-generated: "2022-03-23T11:28:05.314991924-03:00"
+digest: sha256:63fe927ac31e9d2d1bd2e416cca0a183bd1c5ccaf824689cdccec615a79c017f
+generated: "2022-06-02T22:41:49.911919063-03:00"

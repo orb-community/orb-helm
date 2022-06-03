@@ -20,14 +20,24 @@ data:
     include /etc/nginx/modules-enabled/*.conf;
 
     events {
-      worker_connections 768;
+      worker_connections 10240; #safe for production
     }
-
+    
+    # metrics
+    http {
+      include         /etc/nginx/mime.types;        
+      server {
+            listen 8080;          
+            location /stub_status {
+              stub_status on;
+            }
+      }
+    }
     # MQTT
     stream {
       #js_include authorization.js;
       # MQTT
-      server {
+      server {  
           listen 8883 ssl;
           listen [::]:8883 ssl;
 
@@ -48,7 +58,7 @@ data:
           ssl_ecdh_curve secp384r1;
           ssl_session_tickets off;
           resolver 8.8.8.8 8.8.4.4 valid=300s;
-              resolver_timeout 5s;
+          resolver_timeout 5s;
           js_preread authenticate;
 
           proxy_pass {{ .Release.Name }}-envoy:1883;
@@ -280,6 +290,8 @@ spec:
           ports:
             - containerPort: 8883
               protocol: TCP
+            - containerPort: 8080
+              protocol: TCP
           volumeMounts:
             - mountPath: /etc/ssl/certs/dhparam.pem
               name: dhparam
@@ -332,3 +344,6 @@ spec:
     - port: 8883
       protocol: TCP
       name: mqtt
+    - port: 8080
+      protocol: TCP
+      name: metrics
