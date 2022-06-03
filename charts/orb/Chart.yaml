@@ -26,49 +26,50 @@ dependencies:
     condition: jaeger-operator.enabled
   - name: nats
     version: "6.4.2"
+    repository: ""
   - name: postgresql
-    version: "10.14.3"
-    repository: "@bitnami"
+    version: "10.9.1"
+    repository: ""
     alias: postgresql-fleet
     condition: postgresql-fleet.enabled
   - name: postgresql
-    version: "10.14.3"
-    repository: "@bitnami"
+    version: "10.9.1"
+    repository: ""
     alias: postgresql-policies
     condition: postgresql-policies.enabled
   - name: postgresql
-    version: "10.14.3"
-    repository: "@bitnami"
+    version: "10.9.1"
+    repository: ""
     alias: postgresql-sinks
     condition: postgresql-sinks.enabled
   - name: postgresql
-    version: "10.14.3"
-    repository: "@bitnami"
+    version: "10.9.1"
+    repository: ""
     alias: postgresql-things
     condition: postgresql-things.enabled
   - name: postgresql
-    version: "10.14.3"
-    repository: "@bitnami"
+    version: "10.9.1"
+    repository: ""
     alias: postgresql-users
     condition: postgresql-users.enabled
   - name: postgresql
-    version: "10.14.3"
-    repository: "@bitnami"
+    version: "10.9.1"
+    repository: ""
     alias: postgresql-auth
     condition: postgresql-auth.enabled
   - name: redis
-    version: "15.7.0"
-    repository: "@bitnami"
+    version: "14.8.8"
+    repository: ""
     alias: redis-streams
     condition: redis-streams.enabled
   - name: redis
-    version: "15.7.0"
-    repository: "@bitnami"
+    version: "14.8.8"
+    repository: ""
     alias: redis-auth
     condition: redis-auth.enabled
   - name: redis
-    version: "15.7.0"
-    repository: "@bitnami"
+    version: "14.8.8"
+    repository: ""
     alias: redis-sinker
     condition: redis-sinker.enabled
 
