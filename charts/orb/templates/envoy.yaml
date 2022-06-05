@@ -263,7 +263,7 @@ spec:
     metadata:
       annotations:
       {{- with .Values.envoy.metadata.annotations }}
-      {{- toYaml . | nindent 8 }}
+        {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
         app: {{ .Release.Name }}
