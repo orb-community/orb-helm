@@ -289,6 +289,8 @@ envoy:
     pullPolicy: "IfNotPresent"
     repository: "envoyproxy/envoy"
     tag: "v1.19.1"
+  metadata:
+    annotations: { }
 
 nginx_internal:
   image:
