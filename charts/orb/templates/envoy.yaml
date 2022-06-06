@@ -284,6 +284,8 @@ spec:
               protocol: TCP
             - containerPort: 8001
               protocol: TCP
+            - containerPort: 9901
+              protocol: TCP
           volumeMounts:
             - mountPath: /etc/envoy
               name: envoy-config
@@ -325,3 +327,6 @@ spec:
     - port: 8001
       protocol: TCP
       name: admin
+    - port: 9901
+      protocol: TCP
+      name: metrics
