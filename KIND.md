@@ -38,7 +38,7 @@ Use the following command to create the cluster and deploy **Orb**
 make kind-create-all
 ```
 
-Access the **Orb UI** by accessing: https://kubernetes.docker.internal/
+Access the **Orb UI** by accessing: https://kubernetes.docker.internal/. The admin user is created with the following credentials: `admin@kind.com / pass123456`
 
 If you want to delete the cluster run:
 
