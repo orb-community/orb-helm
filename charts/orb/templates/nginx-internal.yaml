@@ -379,7 +379,7 @@ spec:
             - mountPath: /etc/ssl/certs/orb/tls.crt
               name: tls-crt
               subPath: tls.crt
-            {{- else}}
+            {{- else }}
             - mountPath: /etc/ssl/certs/orb
               name: orb-tls
             {{- end }}
