@@ -3,76 +3,6 @@ entries:
   orb:
   - apiVersion: v2
     appVersion: 0.16.0
-    created: "2022-06-07T14:49:44.4090369-03:00"
-    dependencies:
-    - condition: jaeger-operator.enabled
-      name: jaeger-operator
-      repository: '@jaegertracing'
-      version: 2.23.0
-    - name: nats
-      repository: ""
-      version: 6.4.2
-    - alias: postgresql-fleet
-      condition: postgresql-fleet.enabled
-      name: postgresql
-      repository: ""
-      version: 10.9.1
-    - alias: postgresql-policies
-      condition: postgresql-policies.enabled
-      name: postgresql
-      repository: ""
-      version: 10.9.1
-    - alias: postgresql-sinks
-      condition: postgresql-sinks.enabled
-      name: postgresql
-      repository: ""
-      version: 10.9.1
-    - alias: postgresql-things
-      condition: postgresql-things.enabled
-      name: postgresql
-      repository: ""
-      version: 10.9.1
-    - alias: postgresql-users
-      condition: postgresql-users.enabled
-      name: postgresql
-      repository: ""
-      version: 10.9.1
-    - alias: postgresql-auth
-      condition: postgresql-auth.enabled
-      name: postgresql
-      repository: ""
-      version: 10.9.1
-    - alias: redis-streams
-      condition: redis-streams.enabled
-      name: redis
-      repository: ""
-      version: 14.8.8
-    - alias: redis-auth
-      condition: redis-auth.enabled
-      name: redis
-      repository: ""
-      version: 14.8.8
-    - alias: redis-sinker
-      condition: redis-sinker.enabled
-      name: redis
-      repository: ""
-      version: 14.8.8
-    description: Orb Observability Platform
-    digest: 72a693187a51a7c06766bf50c47096b8b4a9b64857dedd369a47cf405c9d267f
-    home: https://getorb.io
-    icon: https://avatars1.githubusercontent.com/u/13207490
-    maintainers:
-    - email: labs@ns1.com
-      name: ns1labs
-    name: orb
-    sources:
-    - https://hub.docker.com/u/ns1labs/
-    type: application
-    urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.20/orb-1.0.20.tgz
-    version: 1.0.20
-  - apiVersion: v2
-    appVersion: 0.16.0
     created: "2022-06-07T12:08:39.073265744-03:00"
     dependencies:
     - condition: jaeger-operator.enabled
@@ -1341,4 +1271,4 @@ entries:
     urls:
     - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.0/orb-1.0.0.tgz
     version: 1.0.0
-generated: "2022-06-07T14:49:44.4092204-03:00"
+generated: "2022-06-07T12:08:39.073349601-03:00"
