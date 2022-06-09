@@ -1,0 +1,30 @@
+{{- $autoscaling := ternary .Values.deployment.autoscaling .Values.autoscaling (not (empty .Values.deployment.autoscaling )) -}}
+
+{{- if $autoscaling.enabled }}
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "keto.fullname" . }}
+  labels:
+    {{- include "keto.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "keto.fullname" . }}
+  minReplicas: {{ $autoscaling.minReplicas }}
+  maxReplicas: {{ $autoscaling.maxReplicas }}
+  metrics:
+  {{- if $autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ $autoscaling.targetCPUUtilizationPercentage }}
+  {{- end }}
+  {{- if $autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ $autoscaling.targetMemoryUtilizationPercentage }}
+  {{- end }}
+{{- end }}
