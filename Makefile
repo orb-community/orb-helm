@@ -22,6 +22,8 @@ index:
 
 kind-create-all: kind-create-cluster kind-load-images kind-install-orb
 
+kind-upgrade-all: kind-load-images kind-upgrade-orb
+
 kind-create-cluster:
 	kind create cluster --image kindest/node:v1.23.0 --config=./kind/config.yaml
 
@@ -33,6 +35,7 @@ kind-load-images:
 	kind load docker-image ns1labs/orb-policies:develop
 	kind load docker-image ns1labs/orb-sinks:develop
 	kind load docker-image ns1labs/orb-sinker:develop
+	kind load docker-image ns1labs/orb-migrate:develop
 	kind load docker-image ns1labs/orb-ui:develop
 
 kind-install-orb:
@@ -53,6 +56,21 @@ kind-install-orb:
 		-n orb \
 		kind-orb ./charts/orb
 	kubectl apply -f ./kind/nginx.yaml
+
+kind-upgrade-orb:
+	helm upgrade \
+		--set fleet.image.pullPolicy=Never \
+		--set policies.image.pullPolicy=Never \
+		--set sinks.image.pullPolicy=Never \
+		--set sinker.image.pullPolicy=Never \
+		--set ui.image.pullPolicy=Never \
+		--set defaults.replicaCount=1 \
+		--set nginx_internal.kindDeploy=true \
+		--set keto.keto.config.dsn=postgres://postgres:orb@kind-orb-postgresql-keto:5432/keto \
+		--set keto.keto.autoMigrate=true \
+		--set ingress.hostname=kubernetes.docker.internal \
+		-n orb \
+		kind-orb ./charts/orb
 
 kind-delete-orb:
 	kubectl delete -f ./kind/nginx.yaml

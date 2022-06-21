@@ -341,3 +341,29 @@ keto:
     pullPolicy: "IfNotPresent"
     repository: "oryd/keto"
     tag: "v0.8.0-alpha.2"
+
+migrate:
+  image:
+    name: "orb-migrate"
+  autoMigrate: true
+  logLevel: "debug"
+  backoffLimit: 10
+  dbs:
+    keto:
+      user: postgres
+      pass: orb
+      db: keto
+      port: 5432
+      sslMode: "disable"
+    things:
+      user: postgres
+      pass: mainflux
+      db: things
+      port: 5432
+      sslMode: "disable"
+    users:
+      user: postgres
+      pass: mainflux
+      db: users
+      port: 5432
+      sslMode: "disable"
