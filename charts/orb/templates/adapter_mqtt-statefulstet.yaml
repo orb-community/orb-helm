@@ -92,7 +92,7 @@ spec:
             - name: DOCKER_VERNEMQ_MAX_ONLINE_MESSAGES
               value: "-1"
             - name: DOCKER_VERNEMQ_MAX_MESSAGE_RATE
-              value: "5"
+              value: "10"
             - name: DOCKER_VERNEMQ_MAX_INFLIGHT_MESSAGES
               value: "0"
             - name: DOCKER_VERNEMQ_PLUGINS__VMQ_PASSWD
