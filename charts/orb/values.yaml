@@ -337,6 +337,12 @@ keto:
       namespaces:
         - id: 0
           name: members
+      # Sets the data source name. This configures the backend where ORY Keto persists data. If dsn is "memory", data will be written to memory and is lost when you restart this instance.
+      # Examples:
+      # - postgres://user:password@host:123/database
+      # - mysql://user:password@tcp(host:123)/database
+      # - memory
+      dsn: "" # Set this field with host if you want to point to external database such as RDS
   image:
     pullPolicy: "IfNotPresent"
     repository: "oryd/keto"
@@ -350,18 +356,21 @@ migrate:
   backoffLimit: 10
   dbs:
     keto:
+      host: "" # Set this field with host if you want to point to external database such as RDS
       user: postgres
       pass: orb
       db: keto
       port: 5432
       sslMode: "disable"
     things:
+      host: "" # Set this field with host if you want to point to external database such as RDS
       user: postgres
       pass: mainflux
       db: things
       port: 5432
       sslMode: "disable"
     users:
+      host: "" # Set this field with host if you want to point to external database such as RDS
       user: postgres
       pass: mainflux
       db: users
