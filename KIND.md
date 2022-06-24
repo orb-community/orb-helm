@@ -34,6 +34,11 @@ brew install kind
 
 Follow the steps to install helm in this https://helm.sh/docs/intro/install/
 
+> **Install remaining repos**
+> ```shell
+> make prepare-helm
+> ```
+
 ## 🚀  Deploy Orb on Kind
 
 > 🚨 **First time users**:
