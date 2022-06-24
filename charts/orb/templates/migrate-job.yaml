@@ -8,6 +8,10 @@ metadata:
 spec:
   template:
     spec:
+      {{- if .Values.defaults.image.imagePullSecrets }}
+      imagePullSecrets:
+      {{ toYaml .Values.defaults.image.imagePullSecrets | indent 8 }}
+      {{- end }}
       containers:
       - name: {{ .Release.Name }}-migrate
         image: "{{ default .Values.defaults.image.repository .Values.migrate.image.repository }}/{{ default .Values.migrate.image.name }}:{{ default .Values.defaults.image.tag .Values.migrate.image.tag }}"
