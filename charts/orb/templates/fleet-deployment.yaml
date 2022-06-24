@@ -67,7 +67,7 @@ spec:
             - name: ORB_FLEET_NATS_URL
               value:
                 nats://{{ .Release.Name }}-nats-client:{{ .Values.defaults.natsPort }}
-            - name: MF_SDK_BASE_URL
+            - name: MF_SDK_THINGS_URL
               value:
                 http://{{ .Release.Name }}-things:{{ .Values.things.httpPort }}
 

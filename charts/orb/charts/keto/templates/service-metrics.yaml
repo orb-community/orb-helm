@@ -1,0 +1,22 @@
+{{- if .Values.service.metrics.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "keto.fullname" . }}-metrics
+  {{- if .Release.Namespace }}
+  namespace: {{ .Release.Namespace }}
+  {{- end }}
+  labels:
+    app.kubernetes.io/component: metrics
+{{ include "keto.labels" . | indent 4 }}
+spec:
+  type: {{ .Values.service.metrics.type }}
+  ports:
+    - port: {{ .Values.service.metrics.port }}
+      targetPort: http-metrics
+      protocol: TCP
+      name: {{ .Values.service.metrics.name }}
+  selector:
+    app.kubernetes.io/name: {{ include "keto.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+{{ end }}

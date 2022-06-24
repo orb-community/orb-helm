@@ -1,0 +1,68 @@
+{{- if .Values.migrate.autoMigrate }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-migrate
+  {{- end }}
+spec:
+  template:
+    spec:
+      containers:
+      - name: {{ .Release.Name }}-migrate
+        image: "{{ default .Values.defaults.image.repository .Values.migrate.image.repository }}/{{ default .Values.migrate.image.name }}:{{ default .Values.defaults.image.tag .Values.migrate.image.tag }}"
+        imagePullPolicy: {{ default .Values.defaults.image.pullPolicy .Values.migrate.image.pullPolicy }}
+        args: [ "up" ]
+        env:
+          - name: ORB_MIGRATE_LOG_LEVEL
+            value: {{ default .Values.defaults.logLevel .Values.migrate.logLevel }}
+          - name: ORB_MIGRATE_KETO_DB_HOST
+          {{ if not .Values.migrate.dbs.keto.host }}
+            value: {{ .Release.Name }}-postgresql-keto
+          {{ else }}
+            value: {{ .Values.migrate.dbs.keto.host }}
+          {{ end }}
+          - name: ORB_MIGRATE_KETO_DB_USER
+            value: {{ .Values.migrate.dbs.keto.user }}
+          - name: ORB_MIGRATE_KETO_DB_PASS
+            value: {{ .Values.migrate.dbs.keto.pass }}
+          - name: ORB_MIGRATE_KETO_DB_PORT
+            value: "{{ default .Values.migrate.dbs.keto.port }}"
+          - name: ORB_MIGRATE_KETO_DB
+            value: {{ .Values.migrate.dbs.keto.db }}
+          - name: ORB_MIGRATE_KETO_DB_SSL_MODE
+            value: {{ .Values.migrate.dbs.keto.sslMode }}
+          - name: ORB_MIGRATE_THINGS_DB_HOST
+          {{ if not .Values.migrate.dbs.things.host }}
+            value: {{ .Release.Name }}-postgresql-things
+          {{ else }}
+            value: {{ .Values.migrate.dbs.things.host }}
+          {{ end }}
+          - name: ORB_MIGRATE_THINGS_DB_USER
+            value: {{ .Values.migrate.dbs.things.user }}
+          - name: ORB_MIGRATE_THINGS_DB_PASS
+            value: {{ .Values.migrate.dbs.things.pass }}
+          - name: ORB_MIGRATE_THINGS_DB_PORT
+            value: "{{ default .Values.migrate.dbs.things.port }}"
+          - name: ORB_MIGRATE_THINGS_DB
+            value: {{ .Values.migrate.dbs.things.db }}
+          - name: ORB_MIGRATE_THINGS_DB_SSL_MODE
+            value: {{ .Values.migrate.dbs.things.sslMode }}
+          - name: ORB_MIGRATE_USERS_DB_HOST
+          {{ if not .Values.migrate.dbs.users.host }}
+            value: {{ .Release.Name }}-postgresql-users
+          {{ else }}
+            value: {{ .Values.migrate.dbs.users.host }}
+          {{ end }}
+          - name: ORB_MIGRATE_USERS_DB_USER
+            value: {{ .Values.migrate.dbs.users.user }}
+          - name: ORB_MIGRATE_USERS_DB_PASS
+            value: {{ .Values.migrate.dbs.users.pass }}
+          - name: ORB_MIGRATE_USERS_DB_PORT
+            value: "{{ default .Values.migrate.dbs.users.port }}"
+          - name: ORB_MIGRATE_USERS_DB
+            value: {{ .Values.migrate.dbs.users.db }}
+          - name: ORB_MIGRATE_USERS_DB_SSL_MODE
+            value: {{ .Values.migrate.dbs.users.sslMode }}
+      restartPolicy: Never
+  backoffLimit: {{ .Values.migrate.backoffLimit }}

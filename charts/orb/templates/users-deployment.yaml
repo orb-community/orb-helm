@@ -56,6 +56,8 @@ spec:
             - name: MF_AUTH_GRPC_URL
               value:
                 {{ .Release.Name }}-envoy:{{ .Values.auth.grpcPort }}
+            - name: MF_USERS_ALLOW_SELF_REGISTER
+              value: "{{ index .Values.users.allowSelfRegister }}"
             - name: MF_TOKEN_RESET_ENDPOINT
               value: "#/auth/reset-password"
             - name: MF_USERS_ADMIN_EMAIL

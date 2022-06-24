@@ -20,7 +20,11 @@ brew install kind
 > [network]
 > generateResolvConf = false
 > ```
-> Then remove the symbolic link from `/etc/resolv.conf`:
+> Restart WSL by executing the following on CMD
+> ```shell
+> wsl --shutdown
+> ```
+> Open WSL terminal again and remove the symbolic link from `/etc/resolv.conf`:
 > ```shell
 > sudo unlink /etc/resolv.conf
 > ```
