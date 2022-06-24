@@ -1,0 +1,171 @@
+{{- $podAnnotations := ternary .Values.deployment.podAnnotations .Values.podAnnotations (not (empty .Values.deployment.podAnnotations )) -}}
+{{- $podSecurityContext := ternary .Values.deployment.podSecurityContext .Values.podSecurityContext (not (empty .Values.deployment.podSecurityContext )) -}}
+{{- $automountServiceAccountToken := ternary .Values.deployment.automountServiceAccountToken .Values.automountServiceAccountToken (not (empty .Values.deployment.automountServiceAccountToken )) -}}
+{{- $livenessProbe := ternary .Values.deployment.livenessProbe .Values.livenessProbe (not (empty .Values.deployment.livenessProbe )) -}}
+{{- $readinessProbe := ternary .Values.deployment.readinessProbe .Values.readinessProbe (not (empty .Values.deployment.readinessProbe )) -}}
+{{- $autoscaling := ternary .Values.deployment.autoscaling .Values.autoscaling (not (empty .Values.deployment.autoscaling )) -}}
+{{- $tracing := ternary .Values.deployment.tracing .Values.tracing (not (empty .Values.deployment.tracing )) -}}
+{{- $resources := ternary .Values.deployment.resources .Values.resources (not (empty .Values.deployment.resources )) -}}
+{{- $extraContainers := ternary .Values.deployment.extraContainers .Values.extraContainers (not (empty .Values.deployment.extraContainers )) -}}
+{{- $extraLabels := ternary .Values.deployment.extraLabels .Values.extraLabels (not (empty .Values.deployment.extraLabels )) -}}
+{{- $extraVolumeMounts := ternary .Values.deployment.extraVolumeMounts .Values.extraVolumeMounts (not (empty .Values.deployment.extraVolumeMounts )) -}}
+{{- $extraEnv := ternary .Values.deployment.extraEnv .Values.extraEnv (not (empty .Values.deployment.extraEnv )) -}}
+{{- $extraVolumes := ternary .Values.deployment.extraVolumes .Values.extraVolumes (not (empty .Values.deployment.extraVolumes )) -}}
+{{- $nodeSelector := ternary .Values.deployment.nodeSelector .Values.nodeSelector (not (empty .Values.deployment.nodeSelector )) -}}
+{{- $affinity := ternary .Values.deployment.affinity .Values.affinity (not (empty .Values.deployment.affinity )) -}}
+{{- $tolerations := ternary .Values.deployment.tolerations .Values.tolerations (not (empty .Values.deployment.tolerations )) -}}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "keto.fullname" . }}
+  labels:
+    {{- include "keto.labels" . | nindent 4 }}
+    {{- with $extraLabels }}
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
+  annotations:
+    {{- with .Values.deployment.annotations }}
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+{{- if not $autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+{{- end }}
+  selector:
+    matchLabels:
+      {{- include "keto.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        {{- include "keto.annotations.checksum" . | indent 8 -}}
+        {{- with $podAnnotations }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "keto.selectorLabels" . | nindent 8 }}
+        {{- with $extraLabels }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "keto.serviceAccountName" . }}
+      automountServiceAccountToken: {{ $automountServiceAccountToken }}
+      securityContext:
+        {{- toYaml $podSecurityContext | nindent 8 }}
+      containers:
+        {{- if .Values.watcher.enabled }}
+        - name: watcher
+          {{- if .Values.securityContext }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          {{- end }}
+          image: {{ .Values.watcher.image }}
+          command:
+            - /bin/bash
+            - -c
+            - |
+{{ .Files.Get "files/watch.sh" | printf "%s" | indent 14 }}
+          env:
+            - name: NAMESPACE
+              value: {{ .Release.Namespace | quote }}
+            - name: WATCH_FILE
+              value: {{ .Values.watcher.mountFile | quote }}
+            - name: DEPLOYMENT_SELECTOR
+              value: 'app.kubernetes.io/name={{ include "keto.name" . }}'
+          volumeMounts:
+          {{- with $extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+        {{- end }}
+        - name: {{ .Chart.Name }}
+          {{- if .Values.securityContext }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          {{- end }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: [ "keto" ]
+          args:
+            - serve
+            - --config
+            - /etc/config/keto.yaml
+          ports:
+            - name: http-read
+              containerPort: {{ .Values.keto.config.serve.read.port }}
+              protocol: TCP
+            - name: http-write
+              containerPort: {{ .Values.keto.config.serve.write.port }}
+              protocol: TCP
+            - name: http-metrics
+              containerPort: {{ .Values.keto.config.serve.metrics.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health/alive
+              port: http-write
+            {{- toYaml $livenessProbe | nindent 12 }}
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: http-write
+          {{- toYaml $readinessProbe | nindent 12 }}
+          resources:
+            {{- toYaml $resources | nindent 12 }}
+          env:
+            {{- if $tracing.datadog.enabled }}
+            - name: TRACING_PROVIDER
+              value: datadog
+            - name: DD_ENV
+              value: {{ $tracing.datadog.env | default "none" | quote }}
+            - name: DD_VERSION
+              value: {{ $tracing.datadog.version | default .Chart.AppVersion | quote }}
+            - name: DD_SERVICE
+              value: {{ $tracing.datadog.service | default "ory/keto" | quote }}
+            {{- if $tracing.datadog.useHostIP }}
+            - name: DD_AGENT_HOST
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+            {{- end }}
+            {{- end }}
+            - name: DSN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "keto.secretname" . }}
+                  key: dsn
+            {{- with $extraEnv }}
+              {{- toYaml . | nindent 12 }}
+            {{- end }}
+          volumeMounts:
+            - name: {{ include "keto.name" . }}-config-volume
+              mountPath: /etc/config
+              readOnly: true
+          {{- with $extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+        {{- if $extraContainers }}
+{{ tpl $extraContainers . | indent 8 }}
+        {{- end }}
+      volumes:
+        - name: {{ include "keto.name" . }}-config-volume
+          configMap:
+            name: {{ include "keto.fullname" . }}-config
+      {{- with $extraVolumes }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with $nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with $affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with $tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

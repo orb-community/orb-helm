@@ -37,6 +37,14 @@ spec:
             {{ else }}
               value: {{ .Values.auth.dbHost }}
             {{ end }}
+            - name: MF_KETO_READ_REMOTE_HOST
+              value: {{ .Release.Name }}-{{ index .Values.auth.keto.read.RemoteHost }}-read
+            - name: MF_KETO_READ_REMOTE_PORT
+              value: "{{ index .Values.auth.keto.read.RemotePort }}"
+            - name: MF_KETO_WRITE_REMOTE_HOST
+              value: {{ .Release.Name }}-{{ index .Values.auth.keto.write.RemoteHost }}-write
+            - name: MF_KETO_WRITE_REMOTE_PORT
+              value: "{{ index .Values.auth.keto.write.RemotePort }}"
             - name: MF_AUTH_DB_PASS
               value: {{ index .Values "postgresql-auth" "postgresqlPassword" }}
             - name: MF_AUTH_DB_PORT
