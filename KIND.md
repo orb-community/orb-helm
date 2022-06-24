@@ -20,7 +20,11 @@ brew install kind
 > [network]
 > generateResolvConf = false
 > ```
-> Then remove the symbolic link from `/etc/resolv.conf`:
+> Restart WSL by executing the following on CMD
+> ```shell
+> wsl --shutdown
+> ```
+> Open WSL terminal again and remove the symbolic link from `/etc/resolv.conf`:
 > ```shell
 > sudo unlink /etc/resolv.conf
 > ```
@@ -31,6 +35,16 @@ brew install kind
 > save the file and you are done.
 
 ## 🚀  Deploy Orb on Kind
+
+### Requirements
+
+- [kubectl](https://kubernetes.io/docs/tasks/tools/)
+- [helm 3](https://helm.sh/docs/intro/install/)
+
+Add **jaegertracing** helm repository. (You just need to do this once)
+```shell
+helm repo add jaegertracing https://jaegertracing.github.io/helm-charts
+```
 
 Use the following command to create the cluster and deploy **Orb**
 
