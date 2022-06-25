@@ -66,3 +66,4 @@ spec:
             value: {{ .Values.migrate.dbs.users.sslMode }}
       restartPolicy: Never
   backoffLimit: {{ .Values.migrate.backoffLimit }}
+{{- end }}
