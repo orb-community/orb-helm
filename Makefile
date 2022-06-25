@@ -20,6 +20,12 @@ index:
 	git push
 	git checkout main
 
+prepare-helm:
+	cd charts/orb
+	helm repo add jaegertracing https://jaegertracing.github.io/helm-charts
+	helm dependency build
+	cd ../..
+
 kind-create-all: kind-create-cluster kind-load-images kind-install-orb
 
 kind-upgrade-all: kind-load-images kind-upgrade-orb

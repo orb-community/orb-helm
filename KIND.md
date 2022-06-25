@@ -34,17 +34,19 @@ brew install kind
 > ```
 > save the file and you are done.
 
+## Install helm
+
+Follow the steps to install helm in this https://helm.sh/docs/intro/install/
+
+> **Install remaining repos**
+> ```shell
+> make prepare-helm
+> ```
+
 ## 🚀  Deploy Orb on Kind
 
-### Requirements
-
-- [kubectl](https://kubernetes.io/docs/tasks/tools/)
-- [helm 3](https://helm.sh/docs/intro/install/)
-
-Add **jaegertracing** helm repository. (You just need to do this once)
-```shell
-helm repo add jaegertracing https://jaegertracing.github.io/helm-charts
-```
+> 🚨 **First time users**:
+> You will probably need to install jaegertracing repo in helm
 
 Use the following command to create the cluster and deploy **Orb**
 
