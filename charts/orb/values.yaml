@@ -351,7 +351,9 @@ keto:
 migrate:
   image:
     name: "orb-migrate"
-  autoMigrate: true
+    repository: ns1labs
+    tag: "0.16.0-bf1286d0"
+  autoMigrate: false
   logLevel: "debug"
   backoffLimit: 10
   dbs:
