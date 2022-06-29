@@ -4,10 +4,16 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: {{ .Release.Name }}-migrate
+  {{- if .Release.Namespace }}
+  namespace: {{ .Release.Namespace }}
   {{- end }}
 spec:
   template:
     spec:
+      {{- if .Values.defaults.image.imagePullSecrets }}
+      imagePullSecrets:
+      {{ toYaml .Values.defaults.image.imagePullSecrets | indent 8 }}
+      {{- end }}
       containers:
       - name: {{ .Release.Name }}-migrate
         image: "{{ default .Values.defaults.image.repository .Values.migrate.image.repository }}/{{ default .Values.migrate.image.name }}:{{ default .Values.defaults.image.tag .Values.migrate.image.tag }}"
@@ -88,3 +94,4 @@ spec:
                   optional: false
       restartPolicy: Never
   backoffLimit: {{ .Values.migrate.backoffLimit }}
+{{- end }}
