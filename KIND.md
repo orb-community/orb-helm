@@ -2,14 +2,52 @@
 
 Kind is a tool for running local k8s clusters using docker container as nodes.
 
-## 🚧 Install Kind
+## 🧱 Requirements
 
-if you have `go 1.17` installed
+- [Docker Environment](#docker)
+- [Helm 3](#helm-3)
+- [Kubectl](#kubectl)
+
+> **💡 Note:** If you have those installed, please skip to [Install Kind](#install-kind).
+
+<a name="docker"></a>
+## 🐳 Docker Environment (Requirement)
+
+Check if you have a **Docker Environment** running by executing:
+```shell
+docker version
+```
+If you need help to setup a **Docker Environment**, follow the [steps from here](https://docs.docker.com/engine/install/debian/).
+
+<a name="helm-3"></a>
+## ⚓ Helm 3 (Requirement)
+
+Check if you have **Helm 3** installed by executing:
+```shell
+helm version
+```
+If you need help to install **Helm 3**, follow the [steps from here](https://helm.sh/docs/intro/install/).
+
+> 🚨 **Warning:** Make sure you have version 3 installed, orb helm charts doesn't officialy support helm 2.
+
+<a name="kubectl"></a>
+## 🐋 Kubectl (Requirement)
+
+Check if you have **Kubectl** cmd installed by executing:
+```shell
+kubectl version --client
+```
+If you need help to install **Kubectl**, follow the [steps from here](https://kubernetes.io/docs/tasks/tools/).
+
+<a name="install-kind"></a>
+## 🚢 Install Kind
+
+If you have `go 1.17 or later` installed:
 ```shell
 go install sigs.k8s.io/kind@v0.14.0
 ```
 
-macOS
+macOS users can also use `brew`:
 ```shell
 brew install kind
 ```
@@ -20,7 +58,7 @@ brew install kind
 > [network]
 > generateResolvConf = false
 > ```
-> Restart WSL by executing the following on CMD
+> Restart WSL by executing the following on CMD:
 > ```shell
 > wsl --shutdown
 > ```
@@ -34,30 +72,30 @@ brew install kind
 > ```
 > save the file and you are done.
 
-## Install helm
-
-Follow the steps to install helm in this https://helm.sh/docs/intro/install/
-
-> **Install remaining repos**
-> ```shell
-> make prepare-helm
-> ```
-
 ## 🚀  Deploy Orb on Kind
 
-> 🚨 **First time users**:
-> You will probably need to install jaegertracing repo in helm
+Add `kubernetes.docker.internal` host as `127.0.0.1` address in your hosts file:
+```shell
+echo "127.0.0.1 kubernetes.docker.internal" | sudo tee -a /etc/hosts
+```
+> 
+Setup **Orb Charts** dependencies repositories:
+```shell
+make prepare-helm
+```
+> **💡 Note:** You just need to run those steps until here once, even if you delete the cluster afterwards.
 
-Use the following command to create the cluster and deploy **Orb**
-
+Use the following command to create the cluster and deploy **Orb**:
 ```shell
 make kind-create-all
 ```
 
-Access the **Orb UI** by accessing: https://kubernetes.docker.internal/. The admin user is created with the following credentials: `admin@kind.com / pass123456`
+Access the **Orb UI** by accessing: https://kubernetes.docker.internal/. The following users are created during the mainflux bootstrap:
+E-mail | Password | Role
+:--- | :--- | :---
+admin@kind.com | pass123456 | Admin
 
-If you want to delete the cluster run:
-
+Have fun! 🎉 When you are done, you can delete the cluster by running:
 ```shell
 make kind-delete-cluster
 ```
