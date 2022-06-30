@@ -7,8 +7,9 @@ Kind is a tool for running local k8s clusters using docker container as nodes.
 - [Docker Environment](#docker)
 - [Helm 3](#helm-3)
 - [Kubectl](#kubectl)
+- [Kind](#install-kind)
 
-> **💡 Note:** If you have those installed, please skip to [Install Kind](#install-kind).
+> **💡 Note:** If you have those installed, please skip to [Deploy Orb on Kind](#deploy-orb-kind).
 
 <a name="docker"></a>
 ## 🐳 Docker Environment (Requirement)
@@ -72,6 +73,7 @@ brew install kind
 > ```
 > save the file and you are done.
 
+<a name="deploy-orb-kind"></a>
 ## 🚀  Deploy Orb on Kind
 
 Add `kubernetes.docker.internal` host as `127.0.0.1` address in your hosts file:
