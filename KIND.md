@@ -41,7 +41,7 @@ kubectl version --client
 If you need help to install **Kubectl**, follow the [steps from here](https://kubernetes.io/docs/tasks/tools/).
 
 <a name="install-kind"></a>
-## 🚢 Install Kind
+## 🚢 Install Kind (Requirement)
 
 If you have `go 1.17 or later` installed:
 ```shell
