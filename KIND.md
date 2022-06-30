@@ -1,6 +1,6 @@
-# Kind local cluster
+# Orb local k8s cluster
 
-Kind is a tool for running local k8s clusters using docker container as nodes.
+Follow those steps to setup a local k8s cluster and deploy Orb.
 
 ## 🧱 Requirements
 
@@ -42,6 +42,8 @@ If you need help to install **Kubectl**, follow the [steps from here](https://ku
 
 <a name="install-kind"></a>
 ## 🚢 Install Kind (Requirement)
+
+Kind is a tool for running local k8s clusters using docker container as nodes.
 
 If you have `go 1.17 or later` installed:
 ```shell
