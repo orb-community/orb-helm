@@ -46,6 +46,12 @@ spec:
               value: "{{ .Values.sinks.dbSSL }}"
             - name: ORB_SINKS_DB_USER
               value: {{ index .Values "postgresql-sinks" "postgresqlUsername" }}
+            - name: ORB_SINKS_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: orb-sinks-encryption-key
+                  key: key
+                  optional: false
             - name: ORB_SINKS_GRPC_PORT
               value: "{{ .Values.sinks.grpcPort }}"
             - name: ORB_SINKS_ES_URL

@@ -48,6 +48,7 @@ kind-install-orb:
 	kubectl create namespace orb
 	kubectl create secret generic orb-auth-service --from-literal=jwtSecret=MY_SECRET -n orb
 	kubectl create secret generic orb-user-service --from-literal=adminEmail=admin@kind.com --from-literal=adminPassword=pass123456 -n orb
+	kubectl create secret generic orb-sinks-encryption-key --from-literal=key=MY_SINKS_SECRET -n orb
 	helm install \
 		--set fleet.image.pullPolicy=Never \
 		--set policies.image.pullPolicy=Never \
