@@ -71,7 +71,7 @@ spec:
           - name: ORB_MIGRATE_USERS_DB_SSL_MODE
             value: {{ .Values.migrate.dbs.users.sslMode }}
           - name: ORB_MIGRATE_SINKS_DB
-              value: {{ index .Values "postgresql-sinks" "postgresqlDatabase" }}
+            value: {{ index .Values "postgresql-sinks" "postgresqlDatabase" }}
           - name: ORB_MIGRATE_SINKS_DB_HOST
           {{ if not .Values.sinks.dbHost }}
             value: {{ .Release.Name }}-postgresql-sinks
