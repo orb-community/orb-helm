@@ -360,21 +360,13 @@ migrate:
     keto:
       host: "" # Set this field with host if you want to point to external database such as RDS
       user: postgres
-      pass: orb
+      pass: ""
       db: keto
       port: 5432
       sslMode: "disable"
     things:
-      host: "" # Set this field with host if you want to point to external database such as RDS
-      user: postgres
-      pass: mainflux
-      db: things
       port: 5432
       sslMode: "disable"
     users:
-      host: "" # Set this field with host if you want to point to external database such as RDS
-      user: postgres
-      pass: mainflux
-      db: users
       port: 5432
       sslMode: "disable"

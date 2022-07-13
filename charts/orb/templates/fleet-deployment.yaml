@@ -39,7 +39,15 @@ spec:
               value: {{ .Values.fleet.dbHost }}
             {{ end }}
             - name: ORB_FLEET_DB_PASS
+            {{ if not .Values.fleet.secretPass }}
               value: {{ index .Values "postgresql-fleet" "postgresqlPassword" }}
+            {{ else }}
+              valueFrom :
+                secretKeyRef :
+                  name : orb-fleet-password
+                  key : key
+                  optional : false
+            {{ end }}
             - name: ORB_FLEET_DB_PORT
               value: "{{ .Values.fleet.dbPort }}"
             - name: ORB_FLEET_DB_SSL_MODE

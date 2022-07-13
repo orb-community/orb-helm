@@ -39,7 +39,15 @@ spec:
               value: {{ .Values.policies.dbHost }}
             {{ end }}
             - name: ORB_POLICIES_DB_PASS
+            {{ if not .Values.policies.secretPass }}
               value: {{ index .Values "postgresql-policies" "postgresqlPassword" }}
+            {{ else }}
+              valueFrom :
+                secretKeyRef :
+                  name : orb-policies-password
+                  key : key
+                  optional : false
+            {{ end }}
             - name: ORB_POLICIES_DB_PORT
               value: "{{ .Values.policies.dbPort }}"
             - name: ORB_POLICIES_DB_SSL_MODE

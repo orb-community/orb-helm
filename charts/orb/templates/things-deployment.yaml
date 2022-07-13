@@ -48,7 +48,15 @@ spec:
               value: {{ .Values.things.dbHost }}
             {{ end }}
             - name: MF_THINGS_DB_PASS
+            {{ if not .Values.things.secretPass }}
               value: {{ index .Values "postgresql-things" "postgresqlPassword" }}
+            {{ else }}
+              valueFrom :
+                secretKeyRef :
+                  name : orb-things-password
+                  key : key
+                  optional : false
+            {{ end }}
             - name: MF_THINGS_DB_PORT
               value: "{{ .Values.things.dbPort }}"
             - name: MF_THINGS_DB_USER
