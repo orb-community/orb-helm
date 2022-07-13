@@ -56,7 +56,15 @@ spec:
             - name: MF_USERS_DB_PORT
               value: "{{ .Values.users.dbPort }}"
             - name: MF_USERS_DB_USER
+            {{ if not .Values.users.secretPass }}
               value: {{ index .Values "postgresql-users" "postgresqlUsername" }}
+            {{ else }}
+              valueFrom :
+                secretKeyRef :
+                  name : orb-users-credentials
+                  key : username
+                  optional : false
+            {{ end }}
             - name: MF_USERS_HTTP_PORT
               value: "{{ .Values.users.httpPort }}"
             - name: MF_USERS_LOG_LEVEL
