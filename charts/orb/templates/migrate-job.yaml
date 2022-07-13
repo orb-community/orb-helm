@@ -36,8 +36,8 @@ spec:
           {{ else }}
             valueFrom :
               secretKeyRef :
-                name : orb-keto-password
-                key : key
+                name : orb-keto-credentials
+                key : password
                 optional : false
           {{ end }}
           - name: ORB_MIGRATE_KETO_DB_PORT
@@ -53,15 +53,23 @@ spec:
             value: {{ .Values.things.dbHost }}
           {{ end }}
           - name: ORB_MIGRATE_THINGS_DB_USER
+          {{ if not .Values.things.secretPass }}
             value: {{ index .Values "postgresql-things" "postgresqlUsername" }}
+          {{ else }}
+            valueFrom :
+              secretKeyRef :
+                name : orb-things-credentials
+                key : username
+                optional : false
+          {{ end }}
           - name: ORB_MIGRATE_THINGS_DB_PASS
           {{ if not .Values.things.secretPass }}
             value: {{ index .Values "postgresql-things" "postgresqlPassword" }}
           {{ else }}
             valueFrom :
               secretKeyRef :
-                name : orb-things-password
-                key : key
+                name : orb-things-credentials
+                key : password
                 optional : false
           {{ end }}
           - name: ORB_MIGRATE_THINGS_DB_PORT
@@ -77,15 +85,23 @@ spec:
             value: {{ .Values.users.dbHost }}
           {{ end }}
           - name: ORB_MIGRATE_USERS_DB_USER
+          {{ if not .Values.users.secretPass }}
             value: {{ index .Values "postgresql-users" "postgresqlUsername" }}
+          {{ else }}
+            valueFrom :
+              secretKeyRef :
+                name : orb-users-credentials
+                key : username
+                optional : false
+          {{ end }}
           - name: ORB_MIGRATE_USERS_DB_PASS
           {{ if not .Values.users.secretPass }}
             value: {{ index .Values "postgresql-users" "postgresqlPassword" }}
           {{ else }}
             valueFrom :
               secretKeyRef :
-                name : orb-users-password
-                key : key
+                name : orb-users-credentials
+                key : password
                 optional : false
           {{ end }}
           - name: ORB_MIGRATE_USERS_DB_PORT
@@ -108,8 +124,8 @@ spec:
           {{ else }}
             valueFrom :
               secretKeyRef :
-                name : orb-sinks-password
-                key : key
+                name : orb-sinks-credentials
+                key : password
                 optional : false
           {{ end }}
           - name: ORB_MIGRATE_SINKS_DB_PORT
@@ -117,7 +133,15 @@ spec:
           - name: ORB_MIGRATE_SINKS_DB_SSL_MODE
             value: "{{ .Values.sinks.dbSSL }}"
           - name: ORB_MIGRATE_SINKS_DB_USER
+          {{ if not .Values.sinks.secretPass }}
             value: {{ index .Values "postgresql-sinks" "postgresqlUsername" }}
+          {{ else }}
+            valueFrom :
+              secretKeyRef :
+                name : orb-sinks-credentials
+                key : username
+                optional : false
+          {{ end }}
           - name: ORB_MIGRATE_SINKS_SECRET_KEY
             valueFrom:
               secretKeyRef:

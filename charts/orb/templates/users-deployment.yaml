@@ -50,7 +50,7 @@ spec:
               valueFrom :
                 secretKeyRef :
                   name : orb-users-password
-                  key : key
+                  key : password
                   optional : false
             {{ end }}
             - name: MF_USERS_DB_PORT

@@ -51,14 +51,22 @@ spec:
             {{ else }}
               valueFrom :
                 secretKeyRef :
-                  name : orb-auth-password
-                  key : key
+                  name : orb-auth-credentials
+                  key : password
                   optional : false
             {{ end }}
             - name: MF_AUTH_DB_PORT
               value: "{{ .Values.auth.dbPort }}"
             - name: MF_AUTH_DB_USER
+            {{ if not .Values.auth.secretPass }}
               value: {{ index .Values "postgresql-auth" "postgresqlUsername" }}
+            {{ else }}
+              valueFrom :
+                secretKeyRef :
+                  name : orb-auth-credentials
+                  key : username
+                  optional : false
+            {{ end }}
             - name: MF_AUTH_GRPC_PORT
               value: "{{ .Values.auth.grpcPort }}"
             - name: MF_AUTH_HTTP_PORT
