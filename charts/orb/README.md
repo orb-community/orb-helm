@@ -37,6 +37,16 @@ kubectl create namespace orb
 kubectl create secret generic orb-auth-service --from-literal=jwtSecret=MY_SECRET -n orb
 ```
 
+* Create sinks encryption password
+```
+kubectl create secret generic orb-sinks-encryption-key --from-literal=key=mainflux-orb -n orb
+```
+
+* Create keto dsn secret
+```
+kubectl create secret generic orb-keto-dsn --from-literal=dsn='postgres://postgres:password@db.host.com:5432/keto' -n orb
+```
+
 * Create admin user secrets
 
 ```

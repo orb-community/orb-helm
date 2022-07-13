@@ -39,13 +39,29 @@ spec:
               value: {{ .Values.sinks.dbHost }}
             {{ end }}
             - name: ORB_SINKS_DB_PASS
+            {{ if not .Values.sinks.secretPass }}
               value: {{ index .Values "postgresql-sinks" "postgresqlPassword" }}
+            {{ else }}
+              valueFrom :
+                secretKeyRef :
+                  name : orb-sinks-credentials
+                  key : password
+                  optional : false
+            {{ end }}
             - name: ORB_SINKS_DB_PORT
               value: "{{ .Values.sinks.dbPort }}"
             - name: ORB_SINKS_DB_SSL_MODE
               value: "{{ .Values.sinks.dbSSL }}"
             - name: ORB_SINKS_DB_USER
+            {{ if not .Values.sinks.secretPass }}
               value: {{ index .Values "postgresql-sinks" "postgresqlUsername" }}
+            {{ else }}
+              valueFrom :
+                secretKeyRef :
+                  name : orb-sinks-credentials
+                  key : username
+                  optional : false
+            {{ end }}
             - name: ORB_SINKS_SECRET_KEY
               valueFrom:
                 secretKeyRef:

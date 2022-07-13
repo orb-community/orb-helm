@@ -44,11 +44,27 @@ spec:
               value: {{ .Values.users.dbHost }}
             {{ end }}
             - name: MF_USERS_DB_PASS
+            {{ if not .Values.users.secretPass }}
               value: {{ index .Values "postgresql-users" "postgresqlPassword" }}
+            {{ else }}
+              valueFrom :
+                secretKeyRef :
+                  name : orb-users-credentials
+                  key : password
+                  optional : false
+            {{ end }}
             - name: MF_USERS_DB_PORT
               value: "{{ .Values.users.dbPort }}"
             - name: MF_USERS_DB_USER
+            {{ if not .Values.users.secretPass }}
               value: {{ index .Values "postgresql-users" "postgresqlUsername" }}
+            {{ else }}
+              valueFrom :
+                secretKeyRef :
+                  name : orb-users-credentials
+                  key : username
+                  optional : false
+            {{ end }}
             - name: MF_USERS_HTTP_PORT
               value: "{{ .Values.users.httpPort }}"
             - name: MF_USERS_LOG_LEVEL
@@ -73,17 +89,41 @@ spec:
 
             {{- if .Values.smtp.host }}
             - name: MF_EMAIL_HOST
+            {{ if not .Values.smtp.secretPass }}
               value: {{ .Values.smtp.host | quote }}
+            {{ else }}
+              valueFrom :
+                secretKeyRef :
+                  name : orb-smtp-credentials
+                  key : host
+                  optional : false
+            {{ end }}
             - name: MF_EMAIL_PORT
               value: {{ .Values.smtp.port | quote }}
             - name: MF_EMAIL_USERNAME
+            {{ if not .Values.smtp.secretPass }}
               value: {{ required "A valid .Values.smtp.username is required!" .Values.smtp.username | quote }}
+            {{ else }}
+              valueFrom :
+                secretKeyRef :
+                  name : orb-smtp-credentials
+                  key : username
+                  optional : false
+            {{ end }}
             - name: MF_EMAIL_PASSWORD
+            {{ if not .Values.smtp.secretPass }}
               value: {{ required "A valid .Values.smtp.password is required!" .Values.smtp.password | quote }}
+            {{ else }}
+              valueFrom :
+                secretKeyRef :
+                  name : orb-smtp-credentials
+                  key : password
+                  optional : false
+            {{ end }}
             - name: MF_EMAIL_FROM_ADDRESS
               value: {{ required "A valid .Values.smtp.fromAddress is required!" .Values.smtp.fromAddress | quote }}
             - name: MF_EMAIL_FROM_NAME
-              value:                 {{ required "A valid .Values.smtp.fromAddress is required!" .Values.smtp.fromAddress | quote }}
+              value: {{ required "A valid .Values.smtp.fromAddress is required!" .Values.smtp.fromAddress | quote }}
             - name: MF_EMAIL_TEMPLATE
               value: "/email.tmpl"
             {{- end }}

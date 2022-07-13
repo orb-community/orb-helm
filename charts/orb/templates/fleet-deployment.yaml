@@ -39,13 +39,29 @@ spec:
               value: {{ .Values.fleet.dbHost }}
             {{ end }}
             - name: ORB_FLEET_DB_PASS
+            {{ if not .Values.fleet.secretPass }}
               value: {{ index .Values "postgresql-fleet" "postgresqlPassword" }}
+            {{ else }}
+              valueFrom :
+                secretKeyRef :
+                  name : orb-fleet-credentials
+                  key : password
+                  optional : false
+            {{ end }}
             - name: ORB_FLEET_DB_PORT
               value: "{{ .Values.fleet.dbPort }}"
             - name: ORB_FLEET_DB_SSL_MODE
               value: "{{ .Values.fleet.dbSSL }}"
             - name: ORB_FLEET_DB_USER
+            {{ if not .Values.fleet.secretPass }}
               value: {{ index .Values "postgresql-fleet" "postgresqlUsername" }}
+            {{ else }}
+              valueFrom :
+                secretKeyRef :
+                  name : orb-fleet-credentials
+                  key : username
+                  optional : false
+            {{ end }}
             - name: ORB_FLEET_ES_URL
             {{ if not .Values.fleet.redisESHost }}
               value: {{ .Release.Name }}-redis-streams-master:{{ .Values.fleet.redisESPort }}

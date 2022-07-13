@@ -31,7 +31,15 @@ spec:
           - name: ORB_MIGRATE_KETO_DB_USER
             value: {{ .Values.migrate.dbs.keto.user }}
           - name: ORB_MIGRATE_KETO_DB_PASS
+          {{ if not .Values.migrate.dbs.keto.secretPass }}
             value: {{ .Values.migrate.dbs.keto.pass }}
+          {{ else }}
+            valueFrom :
+              secretKeyRef :
+                name : orb-keto-credentials
+                key : password
+                optional : false
+          {{ end }}
           - name: ORB_MIGRATE_KETO_DB_PORT
             value: "{{ default .Values.migrate.dbs.keto.port }}"
           - name: ORB_MIGRATE_KETO_DB
@@ -39,37 +47,69 @@ spec:
           - name: ORB_MIGRATE_KETO_DB_SSL_MODE
             value: {{ .Values.migrate.dbs.keto.sslMode }}
           - name: ORB_MIGRATE_THINGS_DB_HOST
-          {{ if not .Values.migrate.dbs.things.host }}
+          {{ if not .Values.things.dbHost }}
             value: {{ .Release.Name }}-postgresql-things
           {{ else }}
-            value: {{ .Values.migrate.dbs.things.host }}
+            value: {{ .Values.things.dbHost }}
           {{ end }}
           - name: ORB_MIGRATE_THINGS_DB_USER
-            value: {{ .Values.migrate.dbs.things.user }}
+          {{ if not .Values.things.secretPass }}
+            value: {{ index .Values "postgresql-things" "postgresqlUsername" }}
+          {{ else }}
+            valueFrom :
+              secretKeyRef :
+                name : orb-things-credentials
+                key : username
+                optional : false
+          {{ end }}
           - name: ORB_MIGRATE_THINGS_DB_PASS
-            value: {{ .Values.migrate.dbs.things.pass }}
+          {{ if not .Values.things.secretPass }}
+            value: {{ index .Values "postgresql-things" "postgresqlPassword" }}
+          {{ else }}
+            valueFrom :
+              secretKeyRef :
+                name : orb-things-credentials
+                key : password
+                optional : false
+          {{ end }}
           - name: ORB_MIGRATE_THINGS_DB_PORT
-            value: "{{ default .Values.migrate.dbs.things.port }}"
+            value: "{{ default .Values.things.dbPort }}"
           - name: ORB_MIGRATE_THINGS_DB
-            value: {{ .Values.migrate.dbs.things.db }}
+            value: {{ index .Values "postgresql-things" "postgresqlDatabase" }}
           - name: ORB_MIGRATE_THINGS_DB_SSL_MODE
-            value: {{ .Values.migrate.dbs.things.sslMode }}
+            value: {{ .Values.things.dbSSL }}
           - name: ORB_MIGRATE_USERS_DB_HOST
-          {{ if not .Values.migrate.dbs.users.host }}
+          {{ if not .Values.users.dbHost }}
             value: {{ .Release.Name }}-postgresql-users
           {{ else }}
-            value: {{ .Values.migrate.dbs.users.host }}
+            value: {{ .Values.users.dbHost }}
           {{ end }}
           - name: ORB_MIGRATE_USERS_DB_USER
-            value: {{ .Values.migrate.dbs.users.user }}
+          {{ if not .Values.users.secretPass }}
+            value: {{ index .Values "postgresql-users" "postgresqlUsername" }}
+          {{ else }}
+            valueFrom :
+              secretKeyRef :
+                name : orb-users-credentials
+                key : username
+                optional : false
+          {{ end }}
           - name: ORB_MIGRATE_USERS_DB_PASS
-            value: {{ .Values.migrate.dbs.users.pass }}
+          {{ if not .Values.users.secretPass }}
+            value: {{ index .Values "postgresql-users" "postgresqlPassword" }}
+          {{ else }}
+            valueFrom :
+              secretKeyRef :
+                name : orb-users-credentials
+                key : password
+                optional : false
+          {{ end }}
           - name: ORB_MIGRATE_USERS_DB_PORT
-            value: "{{ default .Values.migrate.dbs.users.port }}"
+            value: "{{ default .Values.users.dbPort  }}"
           - name: ORB_MIGRATE_USERS_DB
-            value: {{ .Values.migrate.dbs.users.db }}
+            value: {{ index .Values "postgresql-users" "postgresqlDatabase" }}
           - name: ORB_MIGRATE_USERS_DB_SSL_MODE
-            value: {{ .Values.migrate.dbs.users.sslMode }}
+            value: {{ .Values.users.dbSSL }}
           - name: ORB_MIGRATE_SINKS_DB
             value: {{ index .Values "postgresql-sinks" "postgresqlDatabase" }}
           - name: ORB_MIGRATE_SINKS_DB_HOST
@@ -79,13 +119,29 @@ spec:
             value: {{ .Values.sinks.dbHost }}
           {{ end }}
           - name: ORB_MIGRATE_SINKS_DB_PASS
+          {{ if not .Values.sinks.secretPass }}
             value: {{ index .Values "postgresql-sinks" "postgresqlPassword" }}
+          {{ else }}
+            valueFrom :
+              secretKeyRef :
+                name : orb-sinks-credentials
+                key : password
+                optional : false
+          {{ end }}
           - name: ORB_MIGRATE_SINKS_DB_PORT
             value: "{{ .Values.sinks.dbPort }}"
           - name: ORB_MIGRATE_SINKS_DB_SSL_MODE
             value: "{{ .Values.sinks.dbSSL }}"
           - name: ORB_MIGRATE_SINKS_DB_USER
+          {{ if not .Values.sinks.secretPass }}
             value: {{ index .Values "postgresql-sinks" "postgresqlUsername" }}
+          {{ else }}
+            valueFrom :
+              secretKeyRef :
+                name : orb-sinks-credentials
+                key : username
+                optional : false
+          {{ end }}
           - name: ORB_MIGRATE_SINKS_SECRET_KEY
             valueFrom:
               secretKeyRef:
