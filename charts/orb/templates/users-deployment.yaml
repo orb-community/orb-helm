@@ -87,7 +87,7 @@ spec:
                   name: {{ .Values.users.admin.secretName }}
                   key: {{ .Values.users.admin.passwordSecretKey }}
 
-            {{- if .Values.smtp.host }}
+            {{- if .Values.smtp.secretPass }}
             - name: MF_EMAIL_HOST
             {{ if not .Values.smtp.secretPass }}
               value: {{ .Values.smtp.host | quote }}
