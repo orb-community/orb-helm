@@ -56,7 +56,7 @@ data:
     # Clustering definition
     cluster {
       listen: 0.0.0.0:{{ .Values.cluster.service.port }}
-
+      name: orb_nats
       # Authorization for cluster connections
       {{- if .Values.clusterAuth.enabled }}
       authorization {
