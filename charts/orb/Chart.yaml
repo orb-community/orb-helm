@@ -77,4 +77,8 @@ dependencies:
     repository: ""
     alias: redis-sinker
     condition: redis-sinker.enabled
-
+  - name: kafka
+    version: "18.4.4"
+    repository: ""
+    alias: kafka
+    condition: kafka.enabled
