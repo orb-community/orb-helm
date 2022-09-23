@@ -352,6 +352,19 @@ keto:
 
 kafka:
   enabled: false # dependency install, disable if you want to use external services
+  replicaCount: 1
+  zookeeper:
+    enabled: false
+  externalZookeeper:
+    servers:
+      - zookeeper.default.svc.cluster.local
+
+zookeeper:
+  enabled: false # dependency install, disable if you want to use external services
+  replicaCount: 1
+  auth:
+    enabled: false
+  allowAnonymousLogin: true
 
 migrate:
   image:
