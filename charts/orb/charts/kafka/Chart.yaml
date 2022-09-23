@@ -5,7 +5,7 @@ appVersion: 3.2.3
 dependencies:
   - condition: zookeeper.enabled
     name: zookeeper
-    repository: ""
+    repository: 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
     version: 10.x.x
   - name: common
     repository: https://charts.bitnami.com/bitnami
