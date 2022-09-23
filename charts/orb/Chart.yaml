@@ -10,8 +10,8 @@ name: orb
 description: Orb Observability Platform
 icon: https://avatars1.githubusercontent.com/u/13207490
 type: application
-version: 1.0.29
-appVersion: "0.19.0"
+version: 1.0.30
+appVersion: "0.20.0"
 home: https://getorb.io
 sources:
   - https://hub.docker.com/u/ns1labs/
@@ -77,4 +77,13 @@ dependencies:
     repository: ""
     alias: redis-sinker
     condition: redis-sinker.enabled
-
+  - name: kafka
+    version: "18.4.4"
+    repository: ""
+    alias: kafka
+    condition: kafka.enabled
+  - name: zookeeper
+    version: "10.2.2"
+    repository: ""
+    alias: zookeeper
+    condition: zookeeper.enabled
