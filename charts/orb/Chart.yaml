@@ -82,3 +82,8 @@ dependencies:
     repository: ""
     alias: kafka
     condition: kafka.enabled
+ - name: zookeeper
+    version: "10.2.1"
+    repository: ""
+    alias: zookeeper
+    condition: zookeeper.enabled
