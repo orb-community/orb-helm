@@ -132,7 +132,7 @@ sinker-otel:
   image:
     name: "orb-sinker"
   otel:
-    enable: false
+    enabled: false
   kafka:
     host: orb-live-stg-kafka
     port: 9092
