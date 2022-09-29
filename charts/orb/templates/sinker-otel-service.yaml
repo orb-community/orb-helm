@@ -9,5 +9,5 @@ spec:
     component: otel-sinker
   ports:
     - protocol: TCP
-      port: {{ .Values.sinker-otel.httpPort }}
+      port: {{ .Values.sinkerOtel.httpPort }}
       name: {{ .Release.Name }}-otel-sinker-http

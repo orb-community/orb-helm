@@ -41,9 +41,9 @@ spec:
               value: {{ .Values.sinker.redisCacheHost }}:{{ .Values.sinker.redisCachePort }}
             {{ end }}
             - name: ORB_SINKER_OTEL_ENABLE
-              value: {{ .Values.sinker-otel.otel.enabled }}
+              value: {{ .Values.sinkerOtel.otel.enabled }}
             - name: ORB_SINKER_OTEL_KAFKA_URL
-              value: {{ .Values.sinker-otel.kafka.host }}:{{ .Values.sinker-otel.kafka.port }}              
+              value: {{ .Values.sinkerOtel.kafka.host }}:{{ .Values.sinkerOtel.kafka.port }}              
             - name: ORB_FLEET_GRPC_URL
               value:
                 {{ .Release.Name }}-envoy:{{ .Values.fleet.grpcPort }}

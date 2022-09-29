@@ -128,7 +128,7 @@ sinker:
   metadata:
     annotations: { }
     
-sinker-otel:
+sinkerOtel:
   image:
     name: "orb-sinker"
   otel:
