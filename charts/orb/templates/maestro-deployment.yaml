@@ -1,0 +1,39 @@
+# Copyright (c) Mainflux
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-maestro
+spec:
+  replicas: {{ .Values.defaults.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+      component: maestro
+  template:
+    metadata:
+      annotations:
+      labels:
+        app: {{ .Release.Name }}
+        component: maestro
+    spec:
+      serviceAccountName: k8s-maestro-role
+      containers:
+        - env:
+            - name: ORB_MAESTRO_ES_URL
+            {{ if not .Values.maestro.redisESHost }}
+              value: {{ .Release.Name }}-redis-streams-master:{{ .Values.maestro.redisESPort }}
+            {{ else }}
+              value: {{ .Values.maestro.redisESHost }}:{{ .Values.maestro.redisESPort }}
+            {{ end }}
+            - name: ORB_MAESTRO_LOG_LEVEL
+              value: {{ default .Values.defaults.logLevel .Values.maestro.logLevel }}
+          image: "{{ default .Values.defaults.image.repository .Values.maestro.image.repository }}/{{ default .Values.maestro.image.name }}:{{ default .Values.defaults.image.tag .Values.maestro.image.tag }}"
+          imagePullPolicy: {{ default .Values.defaults.image.pullPolicy .Values.maestro.image.pullPolicy }}
+          name: {{ .Release.Name }}-maestro
+          ports:
+            - containerPort: 8500
+              protocol: TCP
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
