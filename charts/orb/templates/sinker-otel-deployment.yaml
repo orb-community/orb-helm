@@ -65,7 +65,7 @@ spec:
                 {{ .Release.Name }}-envoy:{{ .Values.auth.grpcPort }}
           image: "{{ default .Values.defaults.image.repository .Values.sinkerOtel.image.repository }}/{{ default .Values.sinkerOtel.image.name }}:{{ default .Values.defaults.image.tag .Values.sinkerOtel.image.tag }}"
           imagePullPolicy: {{ default .Values.defaults.image.pullPolicy .Values.sinkerOtel.image.pullPolicy }}
-          name: {{ .Release.Name }}-sinker
+          name: {{ .Release.Name }}-otel-sinker
           ports:
             - containerPort: {{ .Values.sinkerOtel.httpPort }}
               protocol: TCP
