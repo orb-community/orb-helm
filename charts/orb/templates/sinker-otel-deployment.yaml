@@ -13,7 +13,7 @@ spec:
     metadata:
       annotations:
         commit_sha: {{ .Values.defaults.image.commitHash }}
-      {{- with .Values.sinker.metadata.annotations }}
+      {{- with .Values.sinkerOtel.metadata.annotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
@@ -29,16 +29,16 @@ spec:
               value: {{ .Values.defaults.jaegerHost }}:{{ .Values.defaults.jaegerPort }}
             {{ end }}
             - name: ORB_SINKER_ES_URL
-            {{ if not .Values.sinker.redisESHost }}
-              value: {{ .Release.Name }}-redis-streams-master:{{ .Values.sinker.redisESPort }}
+            {{ if not .Values.sinkerOtel.redisESHost }}
+              value: {{ .Release.Name }}-redis-streams-master:{{ .Values.sinkerOtel.redisESPort }}
             {{ else }}
-              value: {{ .Values.sinker.redisESHost }}:{{ .Values.sinker.redisESPort }}
+              value: {{ .Values.sinkerOtel.redisESHost }}:{{ .Values.sinkerOtel.redisESPort }}
             {{ end }}
             - name: ORB_SINKER_CACHE_URL
-            {{ if not .Values.sinker.redisCacheHost }}
-              value: {{ .Release.Name }}-redis-sinker-master:{{ .Values.sinker.redisCachePort }}
+            {{ if not .Values.sinkerOtel.redisCacheHost }}
+              value: {{ .Release.Name }}-redis-sinker-master:{{ .Values.sinkerOtel.redisCachePort }}
             {{ else }}
-              value: {{ .Values.sinker.redisCacheHost }}:{{ .Values.sinker.redisCachePort }}
+              value: {{ .Values.sinkerOtel.redisCacheHost }}:{{ .Values.sinkerOtel.redisCachePort }}
             {{ end }}
             - name: ORB_SINKER_OTEL_ENABLE
               value: {{ .Values.sinkerOtel.otel.enabled | quote }}
@@ -56,18 +56,18 @@ spec:
             - name: ORB_SINKER_HTTP_PORT
               value: "{{ .Values.sinker.httpPort }}"
             - name: ORB_SINKER_LOG_LEVEL
-              value: {{ default .Values.defaults.logLevel .Values.sinker.logLevel }}
+              value: {{ default .Values.defaults.logLevel .Values.sinkerOtel.logLevel }}
             - name: ORB_SINKER_NATS_URL
               value:
                 nats://{{ .Release.Name }}-nats-client:{{ .Values.defaults.natsPort }}
             - name: MF_AUTH_GRPC_URL
               value:
                 {{ .Release.Name }}-envoy:{{ .Values.auth.grpcPort }}
-          image: "{{ default .Values.defaults.image.repository .Values.sinker.image.repository }}/{{ default .Values.sinker.image.name }}:{{ default .Values.defaults.image.tag .Values.sinker.image.tag }}"
-          imagePullPolicy: {{ default .Values.defaults.image.pullPolicy .Values.sinker.image.pullPolicy }}
-          name: {{ .Release.Name }}-sinker
+          image: "{{ default .Values.defaults.image.repository .Values.sinkerOtel.image.repository }}/{{ default .Values.sinkerOtel.image.name }}:{{ default .Values.defaults.image.tag .Values.sinkerOtel.image.tag }}"
+          imagePullPolicy: {{ default .Values.defaults.image.pullPolicy .Values.sinkerOtel.image.pullPolicy }}
+          name: {{ .Release.Name }}-otel-sinker
           ports:
-            - containerPort: {{ .Values.sinker.httpPort }}
+            - containerPort: {{ .Values.sinkerOtel.httpPort }}
               protocol: TCP
       dnsPolicy: ClusterFirst
       restartPolicy: Always
