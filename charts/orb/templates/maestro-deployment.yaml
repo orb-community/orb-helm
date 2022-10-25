@@ -6,7 +6,7 @@ kind: Deployment
 metadata:
   name: {{ .Release.Name }}-maestro
 spec:
-  replicas: {{ .Values.defaults.replicaCount }}
+  replicas: {{  default .Values.defaults.replicaCount .Values.maestro.replicaCount }}
   selector:
     matchLabels:
       app: {{ .Release.Name }}
