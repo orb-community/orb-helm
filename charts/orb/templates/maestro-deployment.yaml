@@ -21,6 +21,9 @@ spec:
       serviceAccountName: k8s-maestro-role
       containers:
         - env:
+            - name: ORB_SINKS_GRPC_URL
+              value:
+                {{ .Release.Name }}-envoy:{{ .Values.sinks.grpcPort }}
             - name: ORB_MAESTRO_ES_URL
             {{ if not .Values.maestro.redisESHost }}
               value: {{ .Release.Name }}-redis-streams-master:{{ .Values.maestro.redisESPort }}
