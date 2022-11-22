@@ -30,6 +30,8 @@ spec:
             {{ else }}
               value: {{ .Values.maestro.redisESHost }}:{{ .Values.maestro.redisESPort }}
             {{ end }}
+            - name: ORB_SINKER_OTEL_KAFKA_URL
+              value: {{ .Values.maestro.kafka.host }}:{{ .Values.maestro.kafka.port }}  
             - name: ORB_MAESTRO_LOG_LEVEL
               value: {{ default .Values.defaults.logLevel .Values.maestro.logLevel }}
           image: "{{ default .Values.defaults.image.repository .Values.maestro.image.repository }}/{{ default .Values.maestro.image.name }}:{{ default .Values.defaults.image.tag .Values.maestro.image.tag }}"
