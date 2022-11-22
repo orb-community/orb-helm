@@ -3,7 +3,7 @@ entries:
   orb:
   - apiVersion: v2
     appVersion: 0.21.0
-    created: "2022-11-22T11:57:40.983470794-03:00"
+    created: "2022-11-22T11:58:21.431168125-03:00"
     dependencies:
     - condition: jaeger-operator.enabled
       name: jaeger-operator
@@ -2606,4 +2606,4 @@ entries:
     urls:
     - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.0/orb-1.0.0.tgz
     version: 1.0.0
-generated: "2022-11-22T11:57:40.983780847-03:00"
+generated: "2022-11-22T11:58:21.431383191-03:00"
