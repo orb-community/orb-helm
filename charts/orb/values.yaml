@@ -393,7 +393,7 @@ maestro:
     serviceAccountName: "k8s-maestro-role"
     ClusterRole: "admin"
   image:
-    name: "orb-sinks"
+    name: "orb-maestro"
   metadata:
     annotations: { }
 
