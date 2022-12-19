@@ -391,6 +391,7 @@ maestro:
   rbac:
     create: false # set this true to create ClusterRoleBinding
     serviceAccountName: "k8s-maestro-role"
+    serviceAccountNamespace: "orb-live"
     ClusterRole: "admin"
   image:
     name: "orb-maestro"
