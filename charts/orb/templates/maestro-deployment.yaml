@@ -24,9 +24,15 @@ spec:
             - name: ORB_SINKS_GRPC_URL
               value:
                 {{ .Release.Name }}-envoy:{{ .Values.sinks.grpcPort }}
-            - name: ORB_MAESTRO_ES_URL
+            - name: ORB_MAESTRO_STREAM_ES_URL
             {{ if not .Values.maestro.redisESHost }}
               value: {{ .Release.Name }}-redis-streams-master:{{ .Values.maestro.redisESPort }}
+            {{ else }}
+              value: {{ .Values.maestro.redisESHost }}:{{ .Values.maestro.redisESPort }}
+            {{ end }}
+            - name: ORB_MAESTRO_SINKER_ES_URL
+            {{ if not .Values.maestro.redisESHost }}
+              value: {{ .Release.Name }}-redis-sinker-master:{{ .Values.maestro.redisESPort }}
             {{ else }}
               value: {{ .Values.maestro.redisESHost }}:{{ .Values.maestro.redisESPort }}
             {{ end }}

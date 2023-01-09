@@ -26,7 +26,7 @@ smtp:
 
 ingress:
   ingressClassName: "nginx"
-  annotationsNginx: { } # set this for certificate
+  annotationsNginx: {} # set this for certificate
   #  cert-manager.io/issuer: "letsencrypt-prod"
   annotationsNginxRewrite: # set this for certificate
     nginx.ingress.kubernetes.io/rewrite-target: /$1
@@ -41,12 +41,12 @@ mqtt:
     runAsGroup: 10000
     fsGroup: 10000
   adapter:
-    image: { }
+    image: {}
     mqttPort: 1884
     wsPort: 8081
     logLevel: "debug"
   broker:
-    image: { }
+    image: {}
     mqttPort: 1883
     wsPort: 8080
     logLevel: "info"
@@ -57,7 +57,7 @@ mqtt:
   redisCachePort: 6379
   redisCacheHost: "" # Set this field with host if you want to point to external database such as Elasticache
   metadata:
-    annotations: { }
+    annotations: {}
 
 users:
   image:
@@ -76,7 +76,7 @@ users:
   allowSelfRegister: true
   logLevel: "debug"
   metadata:
-    annotations: { }
+    annotations: {}
 
 fleet:
   image:
@@ -89,7 +89,7 @@ fleet:
   redisESHost: "" # Set this field with host if you want to point to external database such as Elasticache
   redisESPort: 6379
   metadata:
-    annotations: { }
+    annotations: {}
 
 policies:
   image:
@@ -102,7 +102,7 @@ policies:
   redisESPort: 6379
   redisESHost: "" # Set this field with host if you want to point to external database such as Elasticache
   metadata:
-    annotations: { }
+    annotations: {}
 
 sinks:
   image:
@@ -115,7 +115,7 @@ sinks:
   redisESPort: 6379
   redisESHost: "" # Set this field with host if you want to point to external database such as Elasticache
   metadata:
-    annotations: { }
+    annotations: {}
 
 sinker:
   image:
@@ -126,8 +126,8 @@ sinker:
   redisCachePort: 6379
   redisCacheHost: "" # Set this field with host if you want to point to external database such as Elasticache
   metadata:
-    annotations: { }
-    
+    annotations: {}
+
 sinkerOtel:
   image:
     name: "orb-sinker"
@@ -142,10 +142,10 @@ sinkerOtel:
   redisCachePort: 6379
   redisCacheHost: "" # Set this field with host if you want to point to external database such as Elasticache
   metadata:
-    annotations: { }
+    annotations: {}
 
 things:
-  image: { }
+  image: {}
   dbSSL: "disable"
   dbPort: 5432
   dbHost: "" # Set this field with host if you want to point to external database such as RDS
@@ -157,7 +157,7 @@ things:
   redisCachePort: 6379
   redisCacheHost: "" # Set this field with host if you want to point to external database such as Elasticache
   metadata:
-    annotations: { }
+    annotations: {}
 
 auth:
   image:
@@ -181,14 +181,14 @@ auth:
     secretKey: jwtSecret
   logLevel: "debug"
   metadata:
-    annotations: { }
+    annotations: {}
 
 ui:
   image:
     name: orb-ui
   port: 3000
   metadata:
-    annotations: { }
+    annotations: {}
 
 nats:
   auth:
@@ -333,7 +333,7 @@ envoy:
     repository: "envoyproxy/envoy"
     tag: "v1.19.1"
   metadata:
-    annotations: { }
+    annotations: {}
 
 nginx_internal:
   image:
@@ -381,10 +381,11 @@ zookeeper:
   auth:
     enabled: false
   allowAnonymousLogin: true
-  
+
 maestro:
   redisESHost: "" # Set this field with host if you want to point to external database such as Elasticache
-  redisESPort: 6379
+  redisStreamESPort: 6379
+  redisSinkerESPort: 6378
   kafka:
     host: orb-live-stg-kafka
     port: 9092
@@ -396,7 +397,7 @@ maestro:
   image:
     name: "orb-maestro"
   metadata:
-    annotations: { }
+    annotations: {}
 
 migrate:
   image:
