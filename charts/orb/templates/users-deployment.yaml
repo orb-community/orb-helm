@@ -75,7 +75,7 @@ spec:
             - name: MF_USERS_ALLOW_SELF_REGISTER
               value: "{{ index .Values.users.allowSelfRegister }}"
             - name: MF_TOKEN_RESET_ENDPOINT
-              value: "#/auth/reset-password"
+              value: "{{ index .Values.users.resetPasswordEndpoint }}"
             - name: MF_USERS_ADMIN_EMAIL
               valueFrom:
                 secretKeyRef:
