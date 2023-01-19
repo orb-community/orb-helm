@@ -75,7 +75,7 @@ users:
     passwordSecretKey: adminPassword
   allowSelfRegister: true
   logLevel: "debug"
-  resetPasswordEndpoint: "/auth/reset-password" # it is using referrer, ensure your UI is using 'origin' as referrer
+  resetPasswordEndpoint: "/auth/reset-password" # it is using 'referrer' + 'resetPasswordEndpoint' + 'token', ensure your UI is using 'origin' as referrer
   metadata:
     annotations: {}
 
