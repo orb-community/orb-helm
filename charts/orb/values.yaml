@@ -392,10 +392,10 @@ maestro:
     host: orb-live-stg-kafka
     port: 9092
   rbac:
-    create: false # set this true to create ClusterRoleBinding
-    serviceAccountName: "k8s-maestro-role"
-    serviceAccountNamespace: "orb-live"
+    ClusterRoleBindingCreate: false # set this true to create ClusterRoleBinding instead RoleBinding
     ClusterRole: "admin"
+    serviceAccountName: "k8s-maestro-role"
+    serviceAccountNamespace: "otelcollectors"
   image:
     name: "orb-maestro"
   metadata:
