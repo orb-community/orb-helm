@@ -84,7 +84,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.42/orb-1.0.42.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.42/orb-1.0.42.tgz
     version: 1.0.42
   - apiVersion: v2
     appVersion: 0.22.0
@@ -169,7 +169,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.41/orb-1.0.41.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.41/orb-1.0.41.tgz
     version: 1.0.41
   - apiVersion: v2
     appVersion: 0.22.0
@@ -254,7 +254,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.40/orb-1.0.40.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.40/orb-1.0.40.tgz
     version: 1.0.40
   - apiVersion: v2
     appVersion: 0.21.0
@@ -339,7 +339,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.39/orb-1.0.39.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.39/orb-1.0.39.tgz
     version: 1.0.39
   - apiVersion: v2
     appVersion: 0.21.0
@@ -424,7 +424,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.38/orb-1.0.38.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.38/orb-1.0.38.tgz
     version: 1.0.38
   - apiVersion: v2
     appVersion: 0.21.0
@@ -509,7 +509,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.37/orb-1.0.37.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.37/orb-1.0.37.tgz
     version: 1.0.37
   - apiVersion: v2
     appVersion: 0.21.0
@@ -594,7 +594,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.36/orb-1.0.36.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.36/orb-1.0.36.tgz
     version: 1.0.36
   - apiVersion: v2
     appVersion: 0.21.0
@@ -679,7 +679,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.35/orb-1.0.35.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.35/orb-1.0.35.tgz
     version: 1.0.35
   - apiVersion: v2
     appVersion: 0.20.0
@@ -764,7 +764,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.34/orb-1.0.34.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.34/orb-1.0.34.tgz
     version: 1.0.34
   - apiVersion: v2
     appVersion: 0.20.0
@@ -849,7 +849,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.33/orb-1.0.33.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.33/orb-1.0.33.tgz
     version: 1.0.33
   - apiVersion: v2
     appVersion: 0.20.0
@@ -934,7 +934,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.32/orb-1.0.32.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.32/orb-1.0.32.tgz
     version: 1.0.32
   - apiVersion: v2
     appVersion: 0.20.0
@@ -1019,7 +1019,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.31/orb-1.0.31.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.31/orb-1.0.31.tgz
     version: 1.0.31
   - apiVersion: v2
     appVersion: 0.20.0
@@ -1104,7 +1104,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.30/orb-1.0.30.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.30/orb-1.0.30.tgz
     version: 1.0.30
   - apiVersion: v2
     appVersion: 0.19.0
@@ -1179,7 +1179,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.29/orb-1.0.29.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.29/orb-1.0.29.tgz
     version: 1.0.29
   - apiVersion: v2
     appVersion: 0.17.0
@@ -1254,7 +1254,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.28/orb-1.0.28.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.28/orb-1.0.28.tgz
     version: 1.0.28
   - apiVersion: v2
     appVersion: 0.17.0
@@ -1329,7 +1329,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.27/orb-1.0.27.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.27/orb-1.0.27.tgz
     version: 1.0.27
   - apiVersion: v2
     appVersion: 0.17.0
@@ -1404,7 +1404,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.26/orb-1.0.26.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.26/orb-1.0.26.tgz
     version: 1.0.26
   - apiVersion: v2
     appVersion: 0.17.0
@@ -1479,7 +1479,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.25/orb-1.0.25.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.25/orb-1.0.25.tgz
     version: 1.0.25
   - apiVersion: v2
     appVersion: 0.16.0
@@ -1554,7 +1554,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.24/orb-1.0.24.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.24/orb-1.0.24.tgz
     version: 1.0.24
   - apiVersion: v2
     appVersion: 0.16.0
@@ -1629,7 +1629,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.23/orb-1.0.23.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.23/orb-1.0.23.tgz
     version: 1.0.23
   - apiVersion: v2
     appVersion: 0.16.0
@@ -1704,7 +1704,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.22/orb-1.0.22.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.22/orb-1.0.22.tgz
     version: 1.0.22
   - apiVersion: v2
     appVersion: 0.16.0
@@ -1774,7 +1774,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.21/orb-1.0.21.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.21/orb-1.0.21.tgz
     version: 1.0.21
   - apiVersion: v2
     appVersion: 0.16.0
@@ -1844,7 +1844,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.20/orb-1.0.20.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.20/orb-1.0.20.tgz
     version: 1.0.20
   - apiVersion: v2
     appVersion: 0.16.0
@@ -1914,7 +1914,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.19/orb-1.0.19.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.19/orb-1.0.19.tgz
     version: 1.0.19
   - apiVersion: v2
     appVersion: 0.16.0
@@ -1984,7 +1984,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.18/orb-1.0.18.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.18/orb-1.0.18.tgz
     version: 1.0.18
   - apiVersion: v2
     appVersion: 0.14.0
@@ -2054,7 +2054,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.17/orb-1.0.17.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.17/orb-1.0.17.tgz
     version: 1.0.17
   - apiVersion: v2
     appVersion: 0.14.0
@@ -2124,7 +2124,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.16/orb-1.0.16.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.16/orb-1.0.16.tgz
     version: 1.0.16
   - apiVersion: v2
     appVersion: 0.14.0
@@ -2194,7 +2194,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.15/orb-1.0.15.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.15/orb-1.0.15.tgz
     version: 1.0.15
   - apiVersion: v2
     appVersion: 0.14.0
@@ -2264,7 +2264,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.14/orb-1.0.14.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.14/orb-1.0.14.tgz
     version: 1.0.14
   - apiVersion: v2
     appVersion: 0.9.0
@@ -2334,7 +2334,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.13/orb-1.0.13.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.13/orb-1.0.13.tgz
     version: 1.0.13
   - apiVersion: v2
     appVersion: 0.9.0
@@ -2394,7 +2394,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.12/orb-1.0.12.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.12/orb-1.0.12.tgz
     version: 1.0.12
   - apiVersion: v2
     appVersion: 0.9.0
@@ -2454,7 +2454,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.11/orb-1.0.11.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.11/orb-1.0.11.tgz
     version: 1.0.11
   - apiVersion: v2
     appVersion: 0.9.0
@@ -2514,7 +2514,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.10/orb-1.0.10.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.10/orb-1.0.10.tgz
     version: 1.0.10
   - apiVersion: v2
     appVersion: 0.9.0
@@ -2574,7 +2574,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.9/orb-1.0.9.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.9/orb-1.0.9.tgz
     version: 1.0.9
   - apiVersion: v2
     appVersion: 0.9.0
@@ -2634,7 +2634,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.8/orb-1.0.8.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.8/orb-1.0.8.tgz
     version: 1.0.8
   - apiVersion: v2
     appVersion: 0.9.0
@@ -2694,7 +2694,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.7/orb-1.0.7.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.7/orb-1.0.7.tgz
     version: 1.0.7
   - apiVersion: v2
     appVersion: 0.9.0
@@ -2754,7 +2754,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.6/orb-1.0.6.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.6/orb-1.0.6.tgz
     version: 1.0.6
   - apiVersion: v2
     appVersion: 0.9.0
@@ -2814,7 +2814,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.5/orb-1.0.5.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.5/orb-1.0.5.tgz
     version: 1.0.5
   - apiVersion: v2
     appVersion: 0.9.0
@@ -2874,7 +2874,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.4/orb-1.0.4.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.4/orb-1.0.4.tgz
     version: 1.0.4
   - apiVersion: v2
     appVersion: 1.0.0
@@ -2934,7 +2934,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.3/orb-1.0.3.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.3/orb-1.0.3.tgz
     version: 1.0.3
   - apiVersion: v2
     appVersion: 1.0.0
@@ -2994,7 +2994,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.2/orb-1.0.2.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.2/orb-1.0.2.tgz
     version: 1.0.2
   - apiVersion: v2
     appVersion: 1.0.0
@@ -3054,7 +3054,7 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.1/orb-1.0.1.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.1/orb-1.0.1.tgz
     version: 1.0.1
   - apiVersion: v2
     appVersion: 1.0.0
@@ -3114,6 +3114,6 @@ entries:
     - https://hub.docker.com/u/ns1labs/
     type: application
     urls:
-    - https://github.com/ns1labs/orb-helm/releases/download/orb-1.0.0/orb-1.0.0.tgz
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.0/orb-1.0.0.tgz
     version: 1.0.0
 generated: "2023-01-20T14:32:00.289294803-03:00"
