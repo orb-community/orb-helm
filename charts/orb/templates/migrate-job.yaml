@@ -18,7 +18,7 @@ spec:
       - name: {{ .Release.Name }}-migrate
         image: "{{ default .Values.defaults.image.repository .Values.migrate.image.repository }}/{{ default .Values.migrate.image.name }}:{{ default .Values.defaults.image.tag .Values.migrate.image.tag }}"
         imagePullPolicy: {{ default .Values.defaults.image.pullPolicy .Values.migrate.image.pullPolicy }}
-        args: [ "up" ]
+        args: [ "{{ .Values.migrate.action }}" ]
         env:
           - name: ORB_MIGRATE_LOG_LEVEL
             value: {{ default .Values.defaults.logLevel .Values.migrate.logLevel }}
