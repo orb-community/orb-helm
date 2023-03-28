@@ -10,13 +10,13 @@ name: orb
 description: Orb Observability Platform
 icon: https://avatars1.githubusercontent.com/u/13207490
 type: application
-version: 1.0.44
-appVersion: "0.22.0"
+version: 1.0.45
+appVersion: "0.24.0"
 home: https://getorb.io
 sources:
-  - https://hub.docker.com/u/ns1labs/
+  - https://hub.docker.com/u/orbcommunity/
 maintainers:
-  - name: ns1labs
+  - name: orbcommunity
     email: labs@ns1.com
 
 dependencies:

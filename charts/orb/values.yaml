@@ -9,7 +9,7 @@ defaults:
   logLevel: "info"
   image:
     pullPolicy: "IfNotPresent"
-    repository: "ns1labs"
+    repository: "orbcommunity"
     tag: "develop"
     mfRepository: "mainflux"
     mfTag: "0.13.0"
@@ -404,7 +404,7 @@ maestro:
 migrate:
   image:
     name: "orb-migrate"
-    repository: ns1labs
+    repository: orbcommunity
     tag: "0.16.0-bf1286d0"
   autoMigrate: false
   logLevel: "debug"
