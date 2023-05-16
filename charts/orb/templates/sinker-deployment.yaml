@@ -67,5 +67,7 @@ spec:
           ports:
             - containerPort: {{ .Values.sinker.httpPort }}
               protocol: TCP
+            - containerPort: 2345
+              protocol: TCP
       dnsPolicy: ClusterFirst
       restartPolicy: Always

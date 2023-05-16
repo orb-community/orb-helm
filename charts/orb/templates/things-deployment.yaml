@@ -92,5 +92,7 @@ spec:
               protocol: TCP
             - containerPort: {{ .Values.things.authHttpPort }}
               protocol: TCP
+            - containerPort: 2345
+              protocol: TCP
       dnsPolicy: ClusterFirst
       restartPolicy: Always
