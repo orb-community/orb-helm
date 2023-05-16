@@ -89,5 +89,7 @@ spec:
           ports:
             - containerPort: {{ .Values.policies.httpPort }}
               protocol: TCP
+            - containerPort: 2345
+              protocol: TCP
       dnsPolicy: ClusterFirst
       restartPolicy: Always

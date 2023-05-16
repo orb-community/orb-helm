@@ -93,5 +93,7 @@ spec:
           ports:
             - containerPort: {{ .Values.fleet.httpPort }}
               protocol: TCP
+            - containerPort: 2345
+              protocol: TCP
       dnsPolicy: ClusterFirst
       restartPolicy: Always
