@@ -10,14 +10,14 @@ name: orb
 description: Orb Observability Platform
 icon: https://avatars1.githubusercontent.com/u/13207490
 type: application
-version: 1.0.45
-appVersion: "0.24.0"
+version: 1.0.46
+appVersion: "0.26.0"
 home: https://getorb.io
 sources:
   - https://hub.docker.com/u/orbcommunity/
 maintainers:
   - name: orbcommunity
-    email: labs@ns1.com
+    email: labs@netboxlabs.com
 
 dependencies:
   - name: jaeger-operator
