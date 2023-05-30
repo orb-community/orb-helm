@@ -97,7 +97,14 @@ spec:
                 name: {{ .Release.Name}}-sinks
                 port:
                   number: {{ default .Values.sinks.httpPort }}
-          - path: /api/v1/(features/sinks/?.*)
+          - path: /api/v1/(/features/sinks/?.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Release.Name}}-sinks
+                port:
+                  number: {{ default .Values.sinks.httpPort }}
+          - path: /api/v1/(/features/authenticationtypes/?.*)
             pathType: Prefix
             backend:
               service:
