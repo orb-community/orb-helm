@@ -2,6 +2,91 @@ apiVersion: v1
 entries:
   orb:
   - apiVersion: v2
+    appVersion: 0.26.0
+    created: "2023-05-31T11:10:50.481171694-03:00"
+    dependencies:
+    - condition: jaeger-operator.enabled
+      name: jaeger-operator
+      repository: '@jaegertracing'
+      version: 2.23.0
+    - name: nats
+      repository: ""
+      version: 6.4.2
+    - alias: postgresql-fleet
+      condition: postgresql-fleet.enabled
+      name: postgresql
+      repository: ""
+      version: 10.9.1
+    - alias: postgresql-policies
+      condition: postgresql-policies.enabled
+      name: postgresql
+      repository: ""
+      version: 10.9.1
+    - alias: postgresql-sinks
+      condition: postgresql-sinks.enabled
+      name: postgresql
+      repository: ""
+      version: 10.9.1
+    - alias: postgresql-things
+      condition: postgresql-things.enabled
+      name: postgresql
+      repository: ""
+      version: 10.9.1
+    - alias: postgresql-users
+      condition: postgresql-users.enabled
+      name: postgresql
+      repository: ""
+      version: 10.9.1
+    - alias: postgresql-auth
+      condition: postgresql-auth.enabled
+      name: postgresql
+      repository: ""
+      version: 10.9.1
+    - alias: postgresql-keto
+      condition: postgresql-keto.enabled
+      name: postgresql
+      repository: ""
+      version: 10.9.1
+    - alias: redis-streams
+      condition: redis-streams.enabled
+      name: redis
+      repository: ""
+      version: 14.8.8
+    - alias: redis-auth
+      condition: redis-auth.enabled
+      name: redis
+      repository: ""
+      version: 14.8.8
+    - alias: redis-sinker
+      condition: redis-sinker.enabled
+      name: redis
+      repository: ""
+      version: 14.8.8
+    - alias: kafka
+      condition: kafka.enabled
+      name: kafka
+      repository: ""
+      version: 18.4.4
+    - alias: zookeeper
+      condition: zookeeper.enabled
+      name: zookeeper
+      repository: ""
+      version: 10.2.2
+    description: Orb Observability Platform
+    digest: 56627eb49bf4113e0f7fe377559afc9b1ee3a00286f946442322f218b70ffab2
+    home: https://getorb.io
+    icon: https://avatars1.githubusercontent.com/u/13207490
+    maintainers:
+    - email: labs@netboxlabs.com
+      name: orbcommunity
+    name: orb
+    sources:
+    - https://hub.docker.com/u/orbcommunity/
+    type: application
+    urls:
+    - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.46/orb-1.0.46.tgz
+    version: 1.0.46
+  - apiVersion: v2
     appVersion: 0.24.0
     created: "2023-03-28T16:16:25.140792514-03:00"
     dependencies:
@@ -3371,4 +3456,4 @@ entries:
     urls:
     - https://github.com/orb-community/orb-helm/releases/download/orb-1.0.0/orb-1.0.0.tgz
     version: 1.0.0
-generated: "2023-03-28T16:16:25.14343967-03:00"
+generated: "2023-05-31T11:10:50.484518218-03:00"
