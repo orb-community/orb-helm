@@ -21,6 +21,44 @@ spec:
       serviceAccountName: k8s-maestro-role
       containers:
         - env:
+            - name: ORB_SINKS_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: orb-sinks-encryption-key
+                  key: key
+                  optional: false
+            - name: ORB_MAESTRO_DB
+              value: {{ index .Values "postgresql-maestro" "postgresqlDatabase" }}
+            - name: ORB_MAESTRO_DB_HOST
+            {{ if not .Values.maestro.dbHost }}
+              value: {{ .Release.Name }}-postgresql-maestro
+            {{ else }}
+              value: {{ .Values.maestro.dbHost }}
+            {{ end }}
+            - name: ORB_MAESTRO_DB_PASS
+            {{ if not .Values.maestro.secretPass }}
+              value: {{ index .Values "postgresql-maestro" "postgresqlPassword" }}
+            {{ else }}
+              valueFrom :
+                secretKeyRef :
+                  name : orb-maestro-credentials
+                  key : password
+                  optional : false
+            {{ end }}
+            - name: ORB_MAESTRO_DB_PORT
+              value: "{{ .Values.maestro.dbPort }}"
+            - name: ORB_MAESTRO_DB_SSL_MODE
+              value: "{{ .Values.maestro.dbSSL }}"
+            - name: ORB_MAESTRO_DB_USER
+            {{ if not .Values.maestro.secretPass }}
+              value: {{ index .Values "postgresql-maestro" "postgresqlUsername" }}
+            {{ else }}
+              valueFrom :
+                secretKeyRef :
+                  name : orb-maestro-credentials
+                  key : username
+                  optional : false
+            {{ end }}
             - name: ORB_SINKS_GRPC_URL
               value:
                 {{ .Release.Name }}-envoy:{{ .Values.sinks.grpcPort }}
