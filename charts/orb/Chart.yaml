@@ -10,7 +10,7 @@ name: orb
 description: Orb Observability Platform
 icon: https://avatars1.githubusercontent.com/u/13207490
 type: application
-version: 1.0.47
+version: 1.0.48
 appVersion: "0.26.0"
 home: https://getorb.io
 sources:
@@ -62,6 +62,11 @@ dependencies:
     repository: ""
     alias: postgresql-keto
     condition: postgresql-keto.enabled
+  - name: postgresql
+    version: "10.9.1"
+    repository: ""
+    alias: postgresql-maestro
+    condition: postgresql-maestro.enabled
   - name: redis
     version: "14.8.8"
     repository: ""
