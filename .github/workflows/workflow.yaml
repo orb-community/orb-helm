@@ -46,4 +46,4 @@ jobs:
 
       - name: indexing chart package
         run: |
-          make index
+          make ghtoken=${ secrets.GITHUB_TOKEN } index
