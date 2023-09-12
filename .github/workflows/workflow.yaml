@@ -1,0 +1,26 @@
+name: Docker build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  chart-release:
+    name: Chart Release
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v3
+      - name: create deploy folder
+        run: |
+          mkdir .deploy
+      - name: create chart package
+        run: |
+          make package
+      - name: upload chart package
+        run: |
+          make upload
+      - name: indexing chart package
+        run: |
+          make index
