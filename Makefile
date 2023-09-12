@@ -6,16 +6,16 @@ deploy: package upload index
 
 package:
 	git checkout main
-	rm .deploy/*
+	rm -rf .deploy/*
 	helm package charts/orb -u --destination .deploy
 
 upload:
 	git checkout main
-	cr upload --config cr-config.yaml
+	cr upload --config cr-config.yaml --token $(ghtoken)
 
 index:
 	git checkout gh-pages
-	cr index -i ./index.yaml --config cr-config.yaml -c https://orb-community.github.io/orb-helm/
+	cr index -i ./index.yaml --config cr-config.yaml --token $(ghtoken) -c https://orb-community.github.io/orb-helm/
 	git commit -a -m "release"
 	git push
 	git checkout main
