@@ -6,7 +6,7 @@ deploy: package upload index
 
 package:
 	git checkout main
-	rm .deploy/*
+	rm -rf .deploy/*
 	helm package charts/orb -u --destination .deploy
 
 upload:
