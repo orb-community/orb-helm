@@ -42,7 +42,7 @@ jobs:
 
       - name: upload chart package
         run: |
-          make upload
+          make ghtoken=${ secrets.GITHUB_TOKEN } upload
 
       - name: indexing chart package
         run: |
