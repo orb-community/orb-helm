@@ -24,6 +24,7 @@ jobs:
           sudo mv cr /sbin/
           ls -lha /sbin/
           sudo chmod a+rwx /sbin/cr
+          sudo chown root.root /sbin/cr
           cd ..
           rm -rf chart-releaser
           cr version
