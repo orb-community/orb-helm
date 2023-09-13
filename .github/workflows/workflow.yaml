@@ -21,7 +21,7 @@ jobs:
           cd chart-releaser/
           go build -o cr ./cr/main.go
           mv cr /usr/local/bin/
-          chmod a+rx /usr/local/bin/cr
+          chmod a+rwx /usr/local/bin/cr
           cd ..
           rm -rf chart-releaser
 
