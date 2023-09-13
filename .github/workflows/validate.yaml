@@ -2,8 +2,6 @@ name: Chart Version Check
 
 on:
   pull_request:
-    branches:
-      - main
 
 jobs:
   chart-release:
