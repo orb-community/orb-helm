@@ -1,3 +1,4 @@
+branch = main # defaults
 all:
 	echo "package, upload, index. deploy will do all."
 
@@ -5,12 +6,12 @@ deploy: package upload index
 	echo "done"
 
 package:
-	git checkout main
+	git checkout $(branch)
 	rm -rf .deploy/*
 	helm package charts/orb -u --destination .deploy
 
 upload:
-	git checkout main
+	git checkout $(branch)
 	cr upload --config cr-config.yaml --token $(ghtoken)
 
 index:
