@@ -15,7 +15,7 @@ jobs:
         with:
           go-version: '1.20.0'
 
-      - name: install CR and helm
+      - name: install chart release
         run: |
           git clone https://github.com/helm/chart-releaser.git
           cd chart-releaser/
