@@ -28,8 +28,8 @@ jobs:
       - name: install helm
         run: |
           cd /tmp
-	        curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-
+	  curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+   
       - name: checkout code
         uses: actions/checkout@v3
 
