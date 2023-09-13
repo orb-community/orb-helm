@@ -21,13 +21,12 @@ jobs:
           cd chart-releaser/
           go build -o cr ./cr/main.go
           ls -lha
-          sudo mv cr /sbin/
-          ls -lha /sbin/
-          sudo chmod a+rwx /sbin/cr
-          sudo chown root.root /sbin/cr
+          sudo mv cr /usr/local/bin/
+          sudo chmod a+rwx /usr/local/bin/cr
+          sudo chown root.root /usr/local/bin/cr
           cd ..
           rm -rf chart-releaser
-          cr version
+          /usr/local/bin/cr version
 
       - name: install helm
         run: cd /tmp && curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
