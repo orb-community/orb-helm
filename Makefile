@@ -24,6 +24,7 @@ index:
 prepare-helm:
 	cd charts/orb
 	helm repo add jaegertracing https://jaegertracing.github.io/helm-charts
+	rm -rf Chart.lock
 	helm dependency build
 	cd ../..
 
