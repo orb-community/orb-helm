@@ -38,12 +38,12 @@ jobs:
 
       - name: create chart package
         run: |
-          make package
+          make branch=${{ github.ref_name }} package
 
       - name: upload chart package
         run: |
-          make ghtoken=${ secrets.GITHUB_TOKEN } upload
+          make branch=${{ github.ref_name }} ghtoken=${ secrets.GITHUB_TOKEN } upload
 
       - name: indexing chart package
         run: |
-          make ghtoken=${ secrets.GITHUB_TOKEN } index
+          make branch=${{ github.ref_name }} ghtoken=${ secrets.GITHUB_TOKEN } index
