@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - etaques-patch-1
+
 
 jobs:
   chart-release:
@@ -33,13 +33,13 @@ jobs:
       - name: checkout code
         uses: actions/checkout@v3        
 
-      - name: create deploy folder
-        run: |
-          mkdir .deploy
-
       - name: install helm dependencies
         run: |
           make prepare-helm
+
+      - name: create deploy folder
+        run: |
+          mkdir .deploy
 
       - name: create chart package
         run: |
