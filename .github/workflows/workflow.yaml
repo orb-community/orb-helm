@@ -20,7 +20,6 @@ jobs:
           git clone https://github.com/helm/chart-releaser.git
           cd chart-releaser/
           go build -o cr ./cr/main.go
-          ls -lha
           sudo mv cr /usr/local/bin/
           sudo chmod a+rwx /usr/local/bin/cr
           sudo chown root.root /usr/local/bin/cr
