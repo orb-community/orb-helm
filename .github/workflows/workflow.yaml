@@ -24,6 +24,7 @@ jobs:
           chmod a+rwx /usr/local/bin/cr
           cd ..
           rm -rf chart-releaser
+          cr version
 
       - name: install helm
         run: cd /tmp && curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
