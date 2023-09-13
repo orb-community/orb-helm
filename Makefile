@@ -23,7 +23,7 @@ index:
 
 prepare-helm:
 	cd charts/orb && helm repo add jaegertracing https://jaegertracing.github.io/helm-charts
-	cd charts/orb && ls -lha && rm -rf Chart.lock && helm dependency build
+	cd charts/orb && rm -rf Chart.lock && helm dependency build
 	cd ../..
 
 kind-create-all: kind-create-cluster kind-load-images kind-install-orb
