@@ -15,7 +15,7 @@ jobs:
         run: |
           cd charts/orb/
           str=$(<Chart.yaml)
-          if [[ $str =~ (^version: ([A-Za-z0-9]+(\.[A-Za-z0-9]+)+)$) ]]; then
+          if [[ $str =~ (^\s+version: ([A-Za-z0-9]+(\.[A-Za-z0-9]+)+)$) ]]; then
             echo "match: '${BASH_REMATCH[2]}'"
           else
             echo "no match found"
