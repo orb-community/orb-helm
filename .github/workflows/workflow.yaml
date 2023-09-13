@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-
+      - etaques-patch-1
 
 jobs:
   chart-release:
@@ -47,8 +47,8 @@ jobs:
 
       - name: upload chart package
         run: |
-          sudo make branch=${{ github.ref_name }} ghtoken=${{ secrets.GITHUB_TOKEN }} upload
+          make branch=${{ github.ref_name }} ghtoken=${{ secrets.GITHUB_TOKEN }} upload
 
       - name: indexing chart package
         run: |
-          sudo make branch=${{ github.ref_name }} ghtoken=${{ secrets.GITHUB_TOKEN }} index
+          make branch=${{ github.ref_name }} ghtoken=${{ secrets.GITHUB_TOKEN }} index
