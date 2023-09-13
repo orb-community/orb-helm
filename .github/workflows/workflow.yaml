@@ -20,8 +20,10 @@ jobs:
           git clone https://github.com/helm/chart-releaser.git
           cd chart-releaser/
           go build -o cr ./cr/main.go
-          mv cr /usr/local/bin/
-          chmod a+rwx /usr/local/bin/cr
+          ls -lha
+          sudo mv cr /sbin/
+          ls -lha /sbin/
+          sudo chmod a+rwx /sbin/cr
           cd ..
           rm -rf chart-releaser
           cr version
@@ -30,11 +32,7 @@ jobs:
         run: cd /tmp && curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
       - name: checkout code
-        uses: actions/checkout@v3
-
-      - name: debug files
-        run: |
-          ls -lha        
+        uses: actions/checkout@v3        
 
       - name: create deploy folder
         run: |
