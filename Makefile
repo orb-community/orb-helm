@@ -19,7 +19,7 @@ index:
 	cr index -i ./index.yaml --config cr-config.yaml --token $(ghtoken) -c https://orb-community.github.io/orb-helm/
 	git commit -a -m "release"
 	git push
-	git checkout main
+	git checkout $(branch)
 
 prepare-helm:
 	cd charts/orb
