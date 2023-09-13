@@ -15,7 +15,7 @@ jobs:
         with:
           go-version: '1.20.0'
 
-      - name: install CR
+      - name: install CR and helm
         run: |
           git clone https://github.com/helm/chart-releaser.git
           cd chart-releaser/
@@ -24,6 +24,11 @@ jobs:
           chmod a+x /usr/local/bin/cr
           cd ..
           rm -rf chart-releaser
+
+      - name: install helm
+        run: |
+          cd /tmp
+	        curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
       - name: checkout code
         uses: actions/checkout@v3
@@ -35,6 +40,10 @@ jobs:
       - name: create deploy folder
         run: |
           mkdir .deploy
+
+      - name: install helm dependencies
+        run: |
+          make prepare-helm
 
       - name: create chart package
         run: |
