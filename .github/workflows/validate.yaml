@@ -30,7 +30,6 @@ jobs:
       - name: "check failed"
         if: ${{ steps.checkTag.outputs.exists == 'true' }}
         run: |
-              # check if any release tag is same version
               echo "ERROR - version already released: '${{ env.VERSION }}'"
               echo "Please choose a version number that never was launched"
               exit 1          
