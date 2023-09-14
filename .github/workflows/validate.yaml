@@ -18,10 +18,19 @@ jobs:
           while IFS= read -r line
           do
             if [[ $line =~ (^version: ([A-Za-z0-9]+(\.[A-Za-z0-9]+)+)$) ]]; then              
-              # check if any release tag is same version
-
-              echo "ERROR - version already released: '${BASH_REMATCH[2]}'"
-              echo "Please choose a version number that never was launched"
-              exit 1
+                echo "VERSION=${BASH_REMATCH[2]}" >> $GITHUB_ENV
             fi
           done <"$file"
+
+      - uses: mukunku/tag-exists-action@v1.3.0
+        id: checkTag
+        with: 
+          tag: 'orb-${{ env.VERSION }}'
+      
+      - name: "check failed"
+        if: ${{ steps.checkTag.outputs.exists == 'true' }}
+        run: |
+              # check if any release tag is same version
+              echo "ERROR - version already released: '${BASH_REMATCH[2]}'"
+              echo "Please choose a version number that never was launched"
+              exit 1          
