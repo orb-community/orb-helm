@@ -19,5 +19,8 @@ jobs:
           do
             if [[ $line =~ (^version: ([A-Za-z0-9]+(\.[A-Za-z0-9]+)+)$) ]]; then
               echo "match: '${BASH_REMATCH[2]}'"
+              # check if latest release tag is same version
+              
+              exit 1
             fi
           done <"$file"
