@@ -31,5 +31,5 @@ jobs:
         if: ${{ steps.checkTag.outputs.exists == 'true' }}
         run: |
               echo "ERROR - version already released: '${{ env.VERSION }}'"
-              echo "Please choose a version number that never was launched"
+              echo "Please choose a helm chart version number that never was launched on Chart.yaml"
               exit 1          
