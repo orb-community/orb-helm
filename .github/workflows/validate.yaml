@@ -17,8 +17,7 @@ jobs:
           file="charts/orb/Chart.yaml"
           while IFS= read -r line
           do
-            if [[ $line =~ (^\s+version: ([A-Za-z0-9]+(\.[A-Za-z0-9]+)+)$) ]]; then
+            if [[ $line =~ (^version: ([A-Za-z0-9]+(\.[A-Za-z0-9]+)+)$) ]]; then
               echo "match: '${BASH_REMATCH[2]}'"
             fi
-            echo "$line"
           done <"$file"
