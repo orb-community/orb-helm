@@ -21,6 +21,7 @@ jobs:
               # check if latest release tag is same version
 
               echo "ERROR - version already released: '${BASH_REMATCH[2]}'"
+              echo "Please choose a version number that never was launched"
               exit 1
             fi
           done <"$file"
