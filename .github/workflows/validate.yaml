@@ -18,7 +18,7 @@ jobs:
           while IFS= read -r line
           do
             if [[ $line =~ (^version: ([A-Za-z0-9]+(\.[A-Za-z0-9]+)+)$) ]]; then              
-              # check if latest release tag is same version
+              # check if any release tag is same version
 
               echo "ERROR - version already released: '${BASH_REMATCH[2]}'"
               echo "Please choose a version number that never was launched"
