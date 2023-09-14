@@ -13,9 +13,12 @@ jobs:
 
       - name: check chart release
         run: |
-          str=$(cat charts/orb/Chart.yaml)
-          if [[ $str =~ (^\s+version: ([A-Za-z0-9]+(\.[A-Za-z0-9]+)+)$) ]]; then
-            echo "match: '${BASH_REMATCH[2]}'"
-          else
-            echo "no match found"
-          fi
+          input="charts/orb/Chart.yaml"
+          while IFS= read -r -uN line
+          do
+            if [[ $line =~ (^\s+version: ([A-Za-z0-9]+(\.[A-Za-z0-9]+)+)$) ]]; then
+              echo "match: '${BASH_REMATCH[2]}'"
+            fi
+            echo "$line"
+          done N< $input
+
