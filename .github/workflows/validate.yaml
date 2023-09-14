@@ -17,10 +17,10 @@ jobs:
           file="charts/orb/Chart.yaml"
           while IFS= read -r line
           do
-            if [[ $line =~ (^version: ([A-Za-z0-9]+(\.[A-Za-z0-9]+)+)$) ]]; then
-              echo "match: '${BASH_REMATCH[2]}'"
+            if [[ $line =~ (^version: ([A-Za-z0-9]+(\.[A-Za-z0-9]+)+)$) ]]; then              
               # check if latest release tag is same version
-              
+
+              echo "ERROR - version already released: '${BASH_REMATCH[2]}'"
               exit 1
             fi
           done <"$file"
