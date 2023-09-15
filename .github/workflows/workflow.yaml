@@ -52,4 +52,6 @@ jobs:
 
       - name: indexing chart package
         run: |
+          git config user.name "orb-ci"
+          git config user.email "orb@mozek.us"
           make branch=${{ github.ref_name }} ghtoken=${{ secrets.GITHUB_TOKEN }} index
