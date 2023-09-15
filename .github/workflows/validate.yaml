@@ -1,0 +1,35 @@
+name: Chart Version Check
+
+on:
+  pull_request:
+
+jobs:
+  check-release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v3
+
+      - name: check chart release
+        shell: bash
+        run: |
+          file="charts/orb/Chart.yaml"
+          while IFS= read -r line
+          do
+            if [[ $line =~ (^version: ([A-Za-z0-9]+(\.[A-Za-z0-9]+)+)$) ]]; then              
+                echo "VERSION=${BASH_REMATCH[2]}" >> $GITHUB_ENV
+            fi
+          done <"$file"
+
+      - uses: mukunku/tag-exists-action@v1.3.0
+        id: checkTag
+        with: 
+          tag: 'orb-${{ env.VERSION }}'
+      
+      - name: "check failed"
+        if: ${{ steps.checkTag.outputs.exists == 'true' }}
+        run: |
+              echo "ERROR - version already released: '${{ env.VERSION }}'"
+              echo "Please choose a helm chart version number that never was launched on Chart.yaml"
+              exit 1          

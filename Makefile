@@ -1,3 +1,4 @@
+branch = main # defaults
 all:
 	echo "package, upload, index. deploy will do all."
 
@@ -5,12 +6,12 @@ deploy: package upload index
 	echo "done"
 
 package:
-	git checkout main
+	git checkout $(branch)
 	rm -rf .deploy/*
 	helm package charts/orb -u --destination .deploy
 
 upload:
-	git checkout main
+	git checkout $(branch)
 	cr upload --config cr-config.yaml --token $(ghtoken)
 
 index:
@@ -18,12 +19,11 @@ index:
 	cr index -i ./index.yaml --config cr-config.yaml --token $(ghtoken) -c https://orb-community.github.io/orb-helm/
 	git commit -a -m "release"
 	git push
-	git checkout main
+	git checkout $(branch)
 
 prepare-helm:
-	cd charts/orb
-	helm repo add jaegertracing https://jaegertracing.github.io/helm-charts
-	helm dependency build
+	cd charts/orb && helm repo add jaegertracing https://jaegertracing.github.io/helm-charts
+	cd charts/orb && rm -rf Chart.lock && helm dependency build
 	cd ../..
 
 kind-create-all: kind-create-cluster kind-load-images kind-install-orb
