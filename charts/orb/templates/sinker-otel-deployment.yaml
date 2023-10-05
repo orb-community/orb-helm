@@ -54,7 +54,7 @@ spec:
               value:
                 {{ .Release.Name }}-envoy:{{ .Values.policies.grpcPort }}
             - name: ORB_SINKER_HTTP_PORT
-              value: "{{ .Values.sinker.httpPort }}"
+              value: "{{ .Values.sinkerOtel.httpPort }}"
             - name: ORB_SINKER_LOG_LEVEL
               value: {{ default .Values.defaults.logLevel .Values.sinkerOtel.logLevel }}
             - name: ORB_SINKER_NATS_URL
