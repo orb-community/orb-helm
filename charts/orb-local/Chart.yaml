@@ -1,0 +1,40 @@
+# Copyright (c) Mainflux
+# SPDX-License-Identifier: Apache-2.0
+# Adapted for Orb project, modifications licensed under MPL v. 2.0:
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+apiVersion: v2
+name: orb
+description: Orb Observability Platform
+icon: https://avatars1.githubusercontent.com/u/13207490
+type: application
+version: 1.0.53
+appVersion: "0.27.0"
+home: https://getorb.io
+sources:
+  - https://hub.docker.com/u/orbcommunity/
+maintainers:
+  - name: orbcommunity
+    email: labs@netboxlabs.com
+
+dependencies:
+  - name: jaeger-operator
+    version: "2.23.0"
+    repository: "@jaegertracing"
+    condition: jaeger-operator.enabled
+  - name: nats
+    version: "6.4.2"
+    repository: ""
+  - name: postgresql
+    version: "10.9.1"
+    repository: ""
+    alias: postgresql
+    condition: postgresql.enabled
+  - name: redis
+    version: "14.8.8"
+    repository: ""
+    alias: redis
+    condition: redis.enabled
+

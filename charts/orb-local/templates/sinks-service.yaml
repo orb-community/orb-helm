@@ -1,0 +1,32 @@
+# Copyright (c) Mainflux
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-sinks
+spec:
+  selector:
+    app: {{ .Release.Name }}
+    component: sinks
+  ports:
+    - protocol: TCP
+      port: {{ .Values.sinks.httpPort }}
+      name: {{ .Release.Name }}-sinks-http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-sinks-headless
+spec:
+  selector:
+    app: {{ .Release.Name }}
+    component: sinks
+  ports:
+    - port: {{ .Values.sinks.httpPort }}
+      protocol: TCP
+      name: {{ .Release.Name }}-sinks-{{ .Values.sinks.httpPort }}
+    - port: {{ .Values.sinks.grpcPort }}
+      protocol: TCP
+      name: {{ .Release.Name }}-sinks-{{ .Values.sinks.grpcPort }}
+  clusterIP: None

@@ -1,0 +1,153 @@
+{{- if .Values.migrate.autoMigrate }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-migrate
+  {{- if .Release.Namespace }}
+  namespace: {{ .Release.Namespace }}
+  {{- end }}
+spec:
+  template:
+    spec:
+      {{- if .Values.defaults.image.imagePullSecrets }}
+      imagePullSecrets:
+      {{ toYaml .Values.defaults.image.imagePullSecrets | indent 8 }}
+      {{- end }}
+      containers:
+      - name: {{ .Release.Name }}-migrate
+        image: "{{ default .Values.defaults.image.repository .Values.migrate.image.repository }}/{{ default .Values.migrate.image.name }}:{{ default .Values.defaults.image.tag .Values.migrate.image.tag }}"
+        imagePullPolicy: {{ default .Values.defaults.image.pullPolicy .Values.migrate.image.pullPolicy }}
+        args: [ "{{ .Values.migrate.action }}" ]
+        env:
+          - name: ORB_MIGRATE_LOG_LEVEL
+            value: {{ default .Values.defaults.logLevel .Values.migrate.logLevel }}
+          - name: ORB_MIGRATE_KETO_DB_HOST
+          {{ if not .Values.migrate.dbs.keto.host }}
+            value: {{ .Release.Name }}-postgresql
+          {{ else }}
+            value: {{ .Values.migrate.dbs.keto.host }}
+          {{ end }}
+          - name: ORB_MIGRATE_KETO_DB_USER
+            value: {{ .Values.migrate.dbs.keto.user }}
+          - name: ORB_MIGRATE_KETO_DB_PASS
+          {{ if not .Values.migrate.dbs.keto.secretPass }}
+            value: {{ .Values.migrate.dbs.keto.pass }}
+          {{ else }}
+            valueFrom :
+              secretKeyRef :
+                name : orb-keto-credentials
+                key : password
+                optional : false
+          {{ end }}
+          - name: ORB_MIGRATE_KETO_DB_PORT
+            value: "{{ default .Values.migrate.dbs.keto.port }}"
+          - name: ORB_MIGRATE_KETO_DB
+            value: {{ .Values.migrate.dbs.keto.db }}
+          - name: ORB_MIGRATE_KETO_DB_SSL_MODE
+            value: {{ .Values.migrate.dbs.keto.sslMode }}
+          - name: ORB_MIGRATE_THINGS_DB_HOST
+          {{ if not .Values.things.dbHost }}
+            value: {{ .Release.Name }}-postgresql
+          {{ else }}
+            value: {{ .Values.things.dbHost }}
+          {{ end }}
+          - name: ORB_MIGRATE_THINGS_DB_USER
+          {{ if not .Values.things.secretPass }}
+            value: {{ index .Values "postgresql" "postgresqlUsername" }}
+          {{ else }}
+            valueFrom :
+              secretKeyRef :
+                name : orb-things-credentials
+                key : username
+                optional : false
+          {{ end }}
+          - name: ORB_MIGRATE_THINGS_DB_PASS
+          {{ if not .Values.things.secretPass }}
+            value: {{ index .Values "postgresql" "postgresqlPassword" }}
+          {{ else }}
+            valueFrom :
+              secretKeyRef :
+                name : orb-things-credentials
+                key : password
+                optional : false
+          {{ end }}
+          - name: ORB_MIGRATE_THINGS_DB_PORT
+            value: "{{ default .Values.things.dbPort }}"
+          - name: ORB_MIGRATE_THINGS_DB
+            value: {{ index .Values "postgresql" "postgresqlDatabase" }}
+          - name: ORB_MIGRATE_THINGS_DB_SSL_MODE
+            value: {{ .Values.things.dbSSL }}
+          - name: ORB_MIGRATE_USERS_DB_HOST
+          {{ if not .Values.users.dbHost }}
+            value: {{ .Release.Name }}-postgresql
+          {{ else }}
+            value: {{ .Values.users.dbHost }}
+          {{ end }}
+          - name: ORB_MIGRATE_USERS_DB_USER
+          {{ if not .Values.users.secretPass }}
+            value: {{ index .Values "postgresql" "postgresqlUsername" }}
+          {{ else }}
+            valueFrom :
+              secretKeyRef :
+                name : orb-users-credentials
+                key : username
+                optional : false
+          {{ end }}
+          - name: ORB_MIGRATE_USERS_DB_PASS
+          {{ if not .Values.users.secretPass }}
+            value: {{ index .Values "postgresql" "postgresqlPassword" }}
+          {{ else }}
+            valueFrom :
+              secretKeyRef :
+                name : orb-users-credentials
+                key : password
+                optional : false
+          {{ end }}
+          - name: ORB_MIGRATE_USERS_DB_PORT
+            value: "{{ default .Values.users.dbPort  }}"
+          - name: ORB_MIGRATE_USERS_DB
+            value: {{ index .Values "postgresql" "postgresqlDatabase" }}
+          - name: ORB_MIGRATE_USERS_DB_SSL_MODE
+            value: {{ .Values.users.dbSSL }}
+          - name: ORB_MIGRATE_SINKS_DB
+            value: {{ index .Values "postgresql" "postgresqlDatabase" }}
+          - name: ORB_MIGRATE_SINKS_DB_HOST
+          {{ if not .Values.sinks.dbHost }}
+            value: {{ .Release.Name }}-postgresql
+          {{ else }}
+            value: {{ .Values.sinks.dbHost }}
+          {{ end }}
+          - name: ORB_MIGRATE_SINKS_DB_PASS
+          {{ if not .Values.sinks.secretPass }}
+            value: {{ index .Values "postgresql" "postgresqlPassword" }}
+          {{ else }}
+            valueFrom :
+              secretKeyRef :
+                name : orb-sinks-credentials
+                key : password
+                optional : false
+          {{ end }}
+          - name: ORB_MIGRATE_SINKS_DB_PORT
+            value: "{{ .Values.sinks.dbPort }}"
+          - name: ORB_MIGRATE_SINKS_DB_SSL_MODE
+            value: "{{ .Values.sinks.dbSSL }}"
+          - name: ORB_MIGRATE_SINKS_DB_USER
+          {{ if not .Values.sinks.secretPass }}
+            value: {{ index .Values "postgresql" "postgresqlUsername" }}
+          {{ else }}
+            valueFrom :
+              secretKeyRef :
+                name : orb-sinks-credentials
+                key : username
+                optional : false
+          {{ end }}
+          - name: ORB_MIGRATE_SINKS_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: orb-sinks-encryption-key
+                key: key
+                optional: false
+      restartPolicy: Never
+  backoffLimit: {{ .Values.migrate.backoffLimit }}
+{{- end }}

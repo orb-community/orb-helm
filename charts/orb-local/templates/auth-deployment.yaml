@@ -1,0 +1,90 @@
+# Copyright (c) Mainflux
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-auth
+spec:
+  replicas: {{ .Values.defaults.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+      component: auth
+  template:
+    metadata:
+      {{- with .Values.auth.metadata.annotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app: {{ .Release.Name }}
+        component: auth
+    spec:
+      containers:
+        - env:
+            - name: MF_JAEGER_URL
+            {{ if not .Values.defaults.jaegerHost }}
+              value: {{ .Release.Name }}-jaeger-operator-jaeger-agent:{{ .Values.defaults.jaegerPort }}
+            {{ else }}
+              value: {{ .Values.defaults.jaegerHost }}:{{ .Values.defaults.jaegerPort }}
+            {{ end }}
+            - name: MF_AUTH_DB
+              value: {{ index .Values "postgresql" "postgresqlDatabase" }}
+            - name: MF_AUTH_DB_HOST
+            {{ if not .Values.auth.dbHost }}
+              value: {{ .Release.Name }}-postgresql
+            {{ else }}
+              value: {{ .Values.auth.dbHost }}
+            {{ end }}
+            - name: MF_KETO_READ_REMOTE_HOST
+              value: {{ .Release.Name }}-{{ index .Values.auth.keto.read.RemoteHost }}-read
+            - name: MF_KETO_READ_REMOTE_PORT
+              value: "{{ index .Values.auth.keto.read.RemotePort }}"
+            - name: MF_KETO_WRITE_REMOTE_HOST
+              value: {{ .Release.Name }}-{{ index .Values.auth.keto.write.RemoteHost }}-write
+            - name: MF_KETO_WRITE_REMOTE_PORT
+              value: "{{ index .Values.auth.keto.write.RemotePort }}"
+            - name: MF_AUTH_DB_PASS
+            {{ if not .Values.auth.secretPass }}
+              value: {{ index .Values "postgresql" "postgresqlPassword" }}
+            {{ else }}
+              valueFrom :
+                secretKeyRef :
+                  name : orb-auth-credentials
+                  key : password
+                  optional : false
+            {{ end }}
+            - name: MF_AUTH_DB_PORT
+              value: "{{ .Values.auth.dbPort }}"
+            - name: MF_AUTH_DB_USER
+            {{ if not .Values.auth.secretPass }}
+              value: {{ index .Values "postgresql" "postgresqlUsername" }}
+            {{ else }}
+              valueFrom :
+                secretKeyRef :
+                  name : orb-auth-credentials
+                  key : username
+                  optional : false
+            {{ end }}
+            - name: MF_AUTH_GRPC_PORT
+              value: "{{ .Values.auth.grpcPort }}"
+            - name: MF_AUTH_HTTP_PORT
+              value: "{{ .Values.auth.httpPort }}"
+            - name: MF_AUTH_LOG_LEVEL
+              value: {{ default .Values.defaults.logLevel .Values.users.logLevel }}
+            - name: MF_AUTH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.auth.jwt.secretName }}
+                  key: {{ .Values.auth.jwt.secretKey }}
+          image: "{{ default .Values.defaults.image.mfRepository .Values.auth.image.repository }}/{{ default .Values.auth.image.name }}:{{ default .Values.defaults.image.mfTag .Values.auth.image.tag }}"
+          imagePullPolicy: {{ default .Values.defaults.image.pullPolicy .Values.users.image.pullPolicy }}
+          name: {{ .Release.Name }}-auth
+          ports:
+            - containerPort: {{ .Values.auth.httpPort }}
+              protocol: TCP
+            - containerPort: {{ .Values.auth.grpcPort }}
+              protocol: TCP
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always

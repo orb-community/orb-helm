@@ -1,0 +1,311 @@
+# Copyright (c) Mainflux
+# SPDX-License-Identifier: Apache-2.0
+# Adapted for Orb project, modifications licensed under MPL v. 2.0:
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+defaults:
+  logLevel: "info"
+  image:
+    pullPolicy: "IfNotPresent"
+    repository: "orbcommunity"
+    tag: "develop"
+    mfRepository: "mainflux"
+    mfTag: "0.13.0"
+    commitHash: "fba2689"
+  # Replicas of MQTT adapter, NATS, Things, Envoy and Auth
+  replicaCount: 3
+  natsPort: 4222
+  jaegerPort: 6831
+  jaegerHost: ""
+
+smtp:
+  port: 25
+  fromName: Orb
+
+ingress:
+  ingressClassName: "nginx"
+  annotationsNginx: {} # set this for certificate
+  #  cert-manager.io/issuer: "letsencrypt-prod"
+  annotationsNginxRewrite: # set this for certificate
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+  #  cert-manager.io/issuer: "letsencrypt-prod"
+  hostname: ""
+  secret: "orb-tls"
+
+mqtt:
+  enabled: true
+  securityContext:
+    runAsUser: 10000
+    runAsGroup: 10000
+    fsGroup: 10000
+  adapter:
+    image: {}
+    mqttPort: 1884
+    wsPort: 8081
+    logLevel: "debug"
+  broker:
+    image: {}
+    mqttPort: 1883
+    wsPort: 8080
+    logLevel: "info"
+    persistentVolume:
+      size: 5Gi
+  redisPort: 6379
+  redisHost: "" # Set this field with host if you want to point to external database such as Elasticache
+  redisPort: 6379
+  redisHost: "" # Set this field with host if you want to point to external database such as Elasticache
+  metadata:
+    annotations: {}
+
+users:
+  image:
+    name: "users"
+    pullPolicy: "IfNotPresent"
+    repository: "mainflux"
+    tag: "0.13.0"
+  dbPort: 5432
+  dbHost: "" # Set this field with host if you want to point to external database such as RDS
+  dbSSL: "disable"
+  httpPort: 8180
+  admin:
+    secretName: orb-user-service
+    emailSecretKey: adminEmail
+    passwordSecretKey: adminPassword
+  allowSelfRegister: true
+  logLevel: "debug"
+  resetPasswordEndpoint: "/auth/reset-password" # it is using 'referrer' + 'resetPasswordEndpoint' + 'token', ensure your UI is using 'origin' as referrer
+  metadata:
+    annotations: {}
+
+fleet:
+  image:
+    name: "orb-fleet"
+  dbPort: 5432
+  dbHost: "" # Set this field with host if you want to point to external database such as RDS
+  dbSSL: "disable"
+  grpcPort: 8283
+  httpPort: 8203
+  redisHost: "" # Set this field with host if you want to point to external database such as Elasticache
+  redisPort: 6379
+  metadata:
+    annotations: {}
+
+policies:
+  image:
+    name: "orb-policies"
+  dbPort: 5432
+  dbHost: "" # Set this field with host if you want to point to external database such as RDS
+  dbSSL: "disable"
+  grpcPort: 8282
+  httpPort: 8202
+  redisPort: 6379
+  redisHost: "" # Set this field with host if you want to point to external database such as Elasticache
+  metadata:
+    annotations: {}
+
+sinks:
+  image:
+    name: "orb-sinks"
+  dbPort: 5432
+  dbHost: "" # Set this field with host if you want to point to external database such as RDS
+  dbSSL: "disable"
+  grpcPort: 8280
+  httpPort: 8200
+  redisPort: 6379
+  redisHost: "" # Set this field with host if you want to point to external database such as Elasticache
+  metadata:
+    annotations: {}
+
+sinkerOtel:
+  image:
+    name: "orb-sinker"
+  otel:
+    enabled: false
+  kafka:
+    host: orb-live-stg-kafka
+    port: 9092
+  httpPort: 8201
+  redisPort: 6379
+  redisHost: "" # Set this field with host if you want to point to external database such as Elasticache
+  redisPort: 6379
+  redisHost: "" # Set this field with host if you want to point to external database such as Elasticache
+  metadata:
+    annotations: {}
+
+things:
+  image: {}
+  dbSSL: "disable"
+  dbPort: 5432
+  dbHost: "" # Set this field with host if you want to point to external database such as RDS
+  httpPort: 8182
+  authGrpcPort: 8183
+  authHttpPort: 8989
+  redisPort: 6379
+  redisHost: "" # Set this field with host if you want to point to external database such as Elasticache
+  redisPort: 6379
+  redisHost: "" # Set this field with host if you want to point to external database such as Elasticache
+  metadata:
+    annotations: {}
+
+auth:
+  image:
+    name: "auth"
+    pullPolicy: "IfNotPresent"
+    repository: "mainflux"
+    tag: "0.13.0"
+  dbPort: 5432
+  dbHost: "" # Set this field with host if you want to point to external database such as RDS
+  grpcPort: 8181
+  httpPort: 8189
+  keto:
+    read:
+      RemoteHost: keto
+      RemotePort: 80
+    write:
+      RemoteHost: keto
+      RemotePort: 80
+  jwt:
+    secretName: orb-auth-service
+    secretKey: jwtSecret
+  logLevel: "debug"
+  metadata:
+    annotations: {}
+
+ui:
+  image:
+    name: orb-ui
+  port: 3000
+  metadata:
+    annotations: {}
+
+nats:
+  auth:
+    enabled: false
+  clusterAuth:
+    enabled: false
+  maxPayload: 67108864
+  replicaCount: 3
+
+postgresql:
+  enabled: true # dependency install, disable if you want to use external services
+  name: postgresql
+  postgresqlUsername: postgres
+  postgresqlPassword: mainflux
+  resources:
+    requests:
+      cpu: 25m
+  persistence:
+    size: 1Gi
+
+redis:
+  enabled: true # dependency install, disable if you want to use external services
+  volumePermissions:
+    enabled: true
+  cluster:
+    enabled: false
+  auth:
+    enabled: false
+
+jaeger-operator:
+  enabled: true # dependency install, disable if you want to use external services
+  jaeger:
+    create: true
+  rbac:
+    pspEnabled: true
+    clusterRole: true
+
+envoy:
+  image:
+    pullPolicy: "IfNotPresent"
+    repository: "envoyproxy/envoy"
+    tag: "v1.19.1"
+  metadata:
+    annotations: {}
+
+nginx_internal:
+  image:
+    pullPolicy: "IfNotPresent"
+    repository: "nginx"
+    tag: "1.21.1"
+
+keto:
+  keto:
+    autoMigrate: true
+    config:
+      serve:
+        read:
+          port: 4466
+        write:
+          port: 4467
+        metrics:
+          port: 4468
+      namespaces:
+        - id: 0
+          name: members
+      # Sets the data source name. This configures the backend where ORY Keto persists data. If dsn is "memory", data will be written to memory and is lost when you restart this instance.
+      # Examples:
+      # - postgres://user:password@host:123/database
+      # - mysql://user:password@tcp(host:123)/database
+      # - memory
+      dsn: "" # Set this field with host if you want to point to external database such as RDS
+  image:
+    pullPolicy: "IfNotPresent"
+    repository: "oryd/keto"
+    tag: "v0.8.0-alpha.2"
+
+kafka:
+  enabled: false # dependency install, disable if you want to use external services
+  replicaCount: 1
+  zookeeper:
+    enabled: false
+  externalZookeeper:
+    servers:
+      - zookeeper.default.svc.cluster.local
+
+zookeeper:
+  enabled: false # dependency install, disable if you want to use external services
+  replicaCount: 1
+  auth:
+    enabled: false
+  allowAnonymousLogin: true
+
+maestro:
+  dbPort: 5432
+  dbHost: "" # Set this field with host if you want to point to external database such as RDS
+  dbSSL: "disable"
+  redisPort: 6379
+  redisHost: "" # Set this field with host if you want to point to external database such as Elasticache
+  redisPort: 6379
+  redisHost: "" # Set this field with host if you want to point to external database such as Elasticache
+  kafka:
+    host: orb-live-stg-kafka
+    port: 9092
+  rbac:
+    ClusterRoleBindingCreate: false # set this true to create ClusterRoleBinding instead RoleBinding
+    ClusterRole: "admin"
+    serviceAccountName: "k8s-maestro-role"
+    serviceAccountNamespace: "otelcollectors"
+  image:
+    name: "orb-maestro"
+  metadata:
+    annotations: {}
+
+migrate:
+  image:
+    name: "orb-migrate"
+    repository: orbcommunity
+    tag: "0.16.0-bf1286d0"
+  autoMigrate: false
+  logLevel: "debug"
+  backoffLimit: 10
+  action: "up"
+  dbs:
+    keto:
+      host: "" # Set this field with host if you want to point to external database such as RDS
+      user: postgres
+      pass: ""
+      db: keto
+      port: 5432
+      sslMode: "disable"

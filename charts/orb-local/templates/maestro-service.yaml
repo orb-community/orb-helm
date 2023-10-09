@@ -1,0 +1,28 @@
+# Copyright (c) Mainflux
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-maestro
+spec:
+  selector:
+    app: {{ .Release.Name }}
+    component: maestro
+  ports:
+    - protocol: TCP
+      port: 8500
+      name: {{ .Release.Name }}-maestro-http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-maestro-headless
+spec:
+  selector:
+    app: {{ .Release.Name }}
+    component: maestro
+  ports:
+    - port: 8500
+      protocol: TCP
+  clusterIP: None

@@ -1,0 +1,98 @@
+# Copyright (c) Mainflux
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-things
+spec:
+  replicas: {{ .Values.defaults.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+      component: things
+  template:
+    metadata:
+      {{- with .Values.things.metadata.annotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app: {{ .Release.Name }}
+        component: things
+    spec:
+      containers:
+        - env:
+            - name: MF_JAEGER_URL
+            {{ if not .Values.defaults.jaegerHost }}
+              value: {{ .Release.Name }}-jaeger-operator-jaeger-agent:{{ .Values.defaults.jaegerPort }}
+            {{ else }}
+              value: {{ .Values.defaults.jaegerHost }}:{{ .Values.defaults.jaegerPort }}
+            {{ end }}
+            - name: MF_THINGS_AUTH_GRPC_PORT
+              value: "{{ .Values.things.authGrpcPort }}"
+            - name: MF_THINGS_AUTH_HTTP_PORT
+              value: "{{ .Values.things.authHttpPort }}"
+            - name: MF_THINGS_CACHE_URL
+            {{ if not .Values.things.redisHost }}
+              value: {{ .Release.Name }}-redis-master:{{ .Values.things.redisPort }}
+            {{ else }}
+              value: {{ .Values.things.redisHost }}:{{ .Values.things.redisPort }}
+            {{ end }}
+            - name: MF_THINGS_DB
+              value: {{ index .Values "postgresql" "postgresqlDatabase" }}
+            - name: MF_THINGS_DB_HOST
+            {{ if not .Values.things.dbHost }}
+              value: {{ .Release.Name }}-postgresql
+            {{ else }}
+              value: {{ .Values.things.dbHost }}
+            {{ end }}
+            - name: MF_THINGS_DB_PASS
+            {{ if not .Values.things.secretPass }}
+              value: {{ index .Values "postgresql" "postgresqlPassword" }}
+            {{ else }}
+              valueFrom :
+                secretKeyRef :
+                  name : orb-things-credentials
+                  key : password
+                  optional : false
+            {{ end }}
+            - name: MF_THINGS_DB_PORT
+              value: "{{ .Values.things.dbPort }}"
+            - name: MF_THINGS_DB_USER
+            {{ if not .Values.things.secretPass }}
+              value: {{ index .Values "postgresql" "postgresqlUsername" }}
+            {{ else }}
+              valueFrom :
+                secretKeyRef :
+                  name : orb-things-credentials
+                  key : username
+                  optional : false
+            {{ end }}
+            - name: MF_THINGS_ES_URL
+            {{ if not .Values.things.redisHost }}
+              value: {{ .Release.Name }}-redis-master:{{ .Values.things.redisPort }}
+            {{ else }}
+              value: {{ .Values.things.redisHost }}:{{ .Values.things.redisPort }}
+            {{ end }}
+            - name: MF_THINGS_HTTP_PORT
+              value: "{{ .Values.things.httpPort }}"
+            - name: MF_THINGS_LOG_LEVEL
+              value: {{ default .Values.defaults.logLevel .Values.things.logLevel }}
+            - name: MF_AUTH_GRPC_URL
+              value:
+                {{ .Release.Name }}-envoy:{{ .Values.auth.grpcPort }}
+          image: "{{ default .Values.defaults.image.mfRepository .Values.things.image.repository }}/things:{{ default .Values.defaults.image.mfTag .Values.things.image.tag }}"
+          imagePullPolicy: {{ default .Values.defaults.image.pullPolicy .Values.things.image.pullPolicy }}
+          name: {{ .Release.Name }}-things
+          ports:
+            - containerPort: {{ .Values.things.httpPort }}
+              protocol: TCP
+            - containerPort: {{ .Values.things.authGrpcPort }}
+              protocol: TCP
+            - containerPort: {{ .Values.things.authHttpPort }}
+              protocol: TCP
+            - containerPort: 2345
+              protocol: TCP
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always

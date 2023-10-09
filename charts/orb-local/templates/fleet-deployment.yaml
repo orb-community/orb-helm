@@ -1,0 +1,99 @@
+# Copyright (c) Mainflux
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-fleet
+spec:
+  replicas: {{ .Values.defaults.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+      component: fleet
+  template:
+    metadata:
+      annotations:
+        commit_sha: {{ .Values.defaults.image.commitHash }}
+      {{- with .Values.fleet.metadata.annotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app: {{ .Release.Name }}
+        component: fleet
+    spec:
+      containers:
+        - env:
+            - name: MF_JAEGER_URL
+            {{ if not .Values.defaults.jaegerHost }}
+              value: {{ .Release.Name }}-jaeger-operator-jaeger-agent:{{ .Values.defaults.jaegerPort }}
+            {{ else }}
+              value: {{ .Values.defaults.jaegerHost }}:{{ .Values.defaults.jaegerPort }}
+            {{ end }}
+            - name: ORB_FLEET_DB
+              value: {{ index .Values "postgresql" "postgresqlDatabase" }}
+            - name: ORB_FLEET_DB_HOST
+            {{ if not .Values.fleet.dbHost }}
+              value: {{ .Release.Name }}-postgresql
+            {{ else }}
+              value: {{ .Values.fleet.dbHost }}
+            {{ end }}
+            - name: ORB_FLEET_DB_PASS
+            {{ if not .Values.fleet.secretPass }}
+              value: {{ index .Values "postgresql" "postgresqlPassword" }}
+            {{ else }}
+              valueFrom :
+                secretKeyRef :
+                  name : orb-fleet-credentials
+                  key : password
+                  optional : false
+            {{ end }}
+            - name: ORB_FLEET_DB_PORT
+              value: "{{ .Values.fleet.dbPort }}"
+            - name: ORB_FLEET_DB_SSL_MODE
+              value: "{{ .Values.fleet.dbSSL }}"
+            - name: ORB_FLEET_DB_USER
+            {{ if not .Values.fleet.secretPass }}
+              value: {{ index .Values "postgresql" "postgresqlUsername" }}
+            {{ else }}
+              valueFrom :
+                secretKeyRef :
+                  name : orb-fleet-credentials
+                  key : username
+                  optional : false
+            {{ end }}
+            - name: ORB_FLEET_ES_URL
+            {{ if not .Values.fleet.redisHost }}
+              value: {{ .Release.Name }}-redis-master:{{ .Values.fleet.redisPort }}
+            {{ else }}
+              value: {{ .Values.fleet.redisHost }}:{{ .Values.fleet.redisPort }}
+            {{ end }}
+            - name: ORB_FLEET_GRPC_PORT
+              value: "{{ .Values.fleet.grpcPort }}"
+            - name: ORB_FLEET_HTTP_PORT
+              value: "{{ .Values.fleet.httpPort }}"
+            - name: ORB_FLEET_LOG_LEVEL
+              value: {{ default .Values.defaults.logLevel .Values.fleet.logLevel }}
+            - name: MF_AUTH_GRPC_URL
+              value:
+                {{ .Release.Name }}-envoy:{{ .Values.auth.grpcPort }}
+            - name: ORB_POLICIES_GRPC_URL
+              value:
+                {{ .Release.Name }}-envoy:{{ .Values.policies.grpcPort }}
+            - name: ORB_FLEET_NATS_URL
+              value:
+                nats://{{ .Release.Name }}-nats-client:{{ .Values.defaults.natsPort }}
+            - name: MF_SDK_THINGS_URL
+              value:
+                http://{{ .Release.Name }}-things:{{ .Values.things.httpPort }}
+
+          image: "{{ default .Values.defaults.image.repository .Values.fleet.image.repository }}/{{ default .Values.fleet.image.name }}:{{ default .Values.defaults.image.tag .Values.fleet.image.tag }}"
+          imagePullPolicy: {{ default .Values.defaults.image.pullPolicy .Values.fleet.image.pullPolicy }}
+          name: {{ .Release.Name }}-fleet
+          ports:
+            - containerPort: {{ .Values.fleet.httpPort }}
+              protocol: TCP
+            - containerPort: 2345
+              protocol: TCP
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always

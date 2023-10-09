@@ -1,0 +1,147 @@
+# Copyright (c) Mainflux
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-users-config
+data:
+  email.tmpl: {{ .Files.Get "files/email.tmpl" | quote}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-users
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+      component: users
+  template:
+    metadata:
+      {{- with .Values.users.metadata.annotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app: {{ .Release.Name }}
+        component: users
+    spec:
+      containers:
+        - env:
+            - name: MF_JAEGER_URL
+            {{ if not .Values.defaults.jaegerHost }}
+              value: {{ .Release.Name }}-jaeger-operator-jaeger-agent:{{ .Values.defaults.jaegerPort }}
+            {{ else }}
+              value: {{ .Values.defaults.jaegerHost }}:{{ .Values.defaults.jaegerPort }}
+            {{ end }}
+            - name: MF_USERS_DB
+              value: {{ index .Values "postgresql"  "postgresqlDatabase" }}
+            - name: MF_USERS_DB_HOST
+            {{ if not .Values.users.dbHost }}
+              value: {{ .Release.Name }}-postgresql
+            {{ else }}
+              value: {{ .Values.users.dbHost }}
+            {{ end }}
+            - name: MF_USERS_DB_PASS
+            {{ if not .Values.users.secretPass }}
+              value: {{ index .Values "postgresql" "postgresqlPassword" }}
+            {{ else }}
+              valueFrom :
+                secretKeyRef :
+                  name : orb-users-credentials
+                  key : password
+                  optional : false
+            {{ end }}
+            - name: MF_USERS_DB_PORT
+              value: "{{ .Values.users.dbPort }}"
+            - name: MF_USERS_DB_USER
+            {{ if not .Values.users.secretPass }}
+              value: {{ index .Values "postgresql" "postgresqlUsername" }}
+            {{ else }}
+              valueFrom :
+                secretKeyRef :
+                  name : orb-users-credentials
+                  key : username
+                  optional : false
+            {{ end }}
+            - name: MF_USERS_HTTP_PORT
+              value: "{{ .Values.users.httpPort }}"
+            - name: MF_USERS_LOG_LEVEL
+              value: {{ default .Values.defaults.logLevel .Values.users.logLevel }}
+            - name: MF_AUTH_GRPC_URL
+              value:
+                {{ .Release.Name }}-envoy:{{ .Values.auth.grpcPort }}
+            - name: MF_USERS_ALLOW_SELF_REGISTER
+              value: "{{ index .Values.users.allowSelfRegister }}"
+            - name: MF_TOKEN_RESET_ENDPOINT
+              value: "{{ index .Values.users.resetPasswordEndpoint }}"
+            - name: MF_USERS_ADMIN_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.users.admin.secretName }}
+                  key: {{ .Values.users.admin.emailSecretKey }}
+            - name: MF_USERS_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.users.admin.secretName }}
+                  key: {{ .Values.users.admin.passwordSecretKey }}
+
+            {{- if .Values.smtp.secretPass }}
+            - name: MF_EMAIL_HOST
+            {{ if not .Values.smtp.secretPass }}
+              value: {{ .Values.smtp.host | quote }}
+            {{ else }}
+              valueFrom :
+                secretKeyRef :
+                  name : orb-smtp-credentials
+                  key : host
+                  optional : false
+            {{ end }}
+            - name: MF_EMAIL_PORT
+              value: {{ .Values.smtp.port | quote }}
+            - name: MF_EMAIL_USERNAME
+            {{ if not .Values.smtp.secretPass }}
+              value: {{ required "A valid .Values.smtp.username is required!" .Values.smtp.username | quote }}
+            {{ else }}
+              valueFrom :
+                secretKeyRef :
+                  name : orb-smtp-credentials
+                  key : username
+                  optional : false
+            {{ end }}
+            - name: MF_EMAIL_PASSWORD
+            {{ if not .Values.smtp.secretPass }}
+              value: {{ required "A valid .Values.smtp.password is required!" .Values.smtp.password | quote }}
+            {{ else }}
+              valueFrom :
+                secretKeyRef :
+                  name : orb-smtp-credentials
+                  key : password
+                  optional : false
+            {{ end }}
+            - name: MF_EMAIL_FROM_ADDRESS
+              value: {{ required "A valid .Values.smtp.fromAddress is required!" .Values.smtp.fromAddress | quote }}
+            - name: MF_EMAIL_FROM_NAME
+              value: {{ required "A valid .Values.smtp.fromAddress is required!" .Values.smtp.fromAddress | quote }}
+            - name: MF_EMAIL_TEMPLATE
+              value: "/email.tmpl"
+            {{- end }}
+          image: "{{ default .Values.defaults.image.mfRepository .Values.users.image.repository }}/{{ default .Values.users.image.name }}:{{ default .Values.defaults.image.mfTag .Values.users.image.tag }}"
+          imagePullPolicy: {{ default .Values.defaults.image.pullPolicy .Values.users.image.pullPolicy }}
+          name: {{ .Release.Name }}-users
+          ports:
+            - containerPort: {{ .Values.users.httpPort }}
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /email.tmpl
+              name: users-config
+              subPath: email.tmpl
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+        - configMap:
+            defaultMode: 256
+            name: {{ .Release.Name }}-users-config
+            optional: false
+          name: users-config

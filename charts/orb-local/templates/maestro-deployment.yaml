@@ -1,0 +1,88 @@
+# Copyright (c) Mainflux
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-maestro
+spec:
+  replicas: {{  default .Values.defaults.replicaCount .Values.maestro.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+      component: maestro
+  template:
+    metadata:
+      annotations:
+      labels:
+        app: {{ .Release.Name }}
+        component: maestro
+    spec:
+      serviceAccountName: k8s-maestro-role
+      containers:
+        - env:
+            - name: ORB_SINKS_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: orb-sinks-encryption-key
+                  key: key
+                  optional: false
+            - name: ORB_MAESTRO_DB
+              value: {{ index .Values "postgresql" "postgresqlDatabase" }}
+            - name: ORB_MAESTRO_DB_HOST
+            {{ if not .Values.maestro.dbHost }}
+              value: {{ .Release.Name }}-postgresql
+            {{ else }}
+              value: {{ .Values.maestro.dbHost }}
+            {{ end }}
+            - name: ORB_MAESTRO_DB_PASS
+            {{ if not .Values.maestro.secretPass }}
+              value: {{ index .Values "postgresql" "postgresqlPassword" }}
+            {{ else }}
+              valueFrom :
+                secretKeyRef :
+                  name : orb-maestro-credentials
+                  key : password
+                  optional : false
+            {{ end }}
+            - name: ORB_MAESTRO_DB_PORT
+              value: "{{ .Values.maestro.dbPort }}"
+            - name: ORB_MAESTRO_DB_SSL_MODE
+              value: "{{ .Values.maestro.dbSSL }}"
+            - name: ORB_MAESTRO_DB_USER
+            {{ if not .Values.maestro.secretPass }}
+              value: {{ index .Values "postgresql" "postgresqlUsername" }}
+            {{ else }}
+              valueFrom :
+                secretKeyRef :
+                  name : orb-maestro-credentials
+                  key : username
+                  optional : false
+            {{ end }}
+            - name: ORB_SINKS_GRPC_URL
+              value:
+                {{ .Release.Name }}-envoy:{{ .Values.sinks.grpcPort }}
+            - name: ORB_MAESTRO_STREAM_ES_URL
+            {{ if not .Values.maestro.redisHost }}
+              value: {{ .Release.Name }}-redis-master:{{ .Values.maestro.redisPort }}
+            {{ else }}
+              value: {{ .Values.maestro.redisHost }}:{{ .Values.maestro.redisPort }}
+            {{ end }}
+            - name: ORB_MAESTRO_SINKER_ES_URL
+            {{ if not .Values.maestro.redisHost }}
+              value: {{ .Release.Name }}-redis-master:{{ .Values.maestro.redisPort }}
+            {{ else }}
+              value: {{ .Values.maestro.redisHost }}:{{ .Values.maestro.redisPort }}
+            {{ end }}
+            - name: ORB_MAESTRO_OTEL_KAFKA_URL
+              value: {{ .Values.maestro.kafka.host }}:{{ .Values.maestro.kafka.port }}  
+            - name: ORB_MAESTRO_LOG_LEVEL
+              value: {{ default .Values.defaults.logLevel .Values.maestro.logLevel }}
+          image: "{{ default .Values.defaults.image.repository .Values.maestro.image.repository }}/{{ default .Values.maestro.image.name }}:{{ default .Values.defaults.image.tag .Values.maestro.image.tag }}"
+          imagePullPolicy: {{ default .Values.defaults.image.pullPolicy .Values.maestro.image.pullPolicy }}
+          name: {{ .Release.Name }}-maestro
+          ports:
+            - containerPort: 8500
+              protocol: TCP
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always

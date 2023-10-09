@@ -1,0 +1,95 @@
+# Copyright (c) Mainflux
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-policies
+spec:
+  replicas: {{ .Values.defaults.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+      component: policies
+  template:
+    metadata:
+      annotations:
+        commit_sha: {{ .Values.defaults.image.commitHash }}
+      {{- with .Values.policies.metadata.annotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app: {{ .Release.Name }}
+        component: policies
+    spec:
+      containers:
+        - env:
+            - name: MF_JAEGER_URL
+            {{ if not .Values.defaults.jaegerHost }}
+              value: {{ .Release.Name }}-jaeger-operator-jaeger-agent:{{ .Values.defaults.jaegerPort }}
+            {{ else }}
+              value: {{ .Values.defaults.jaegerHost }}:{{ .Values.defaults.jaegerPort }}
+            {{ end }}
+            - name: ORB_POLICIES_DB
+              value: {{ index .Values "postgresql" "postgresqlDatabase" }}
+            - name: ORB_POLICIES_DB_HOST
+            {{ if not .Values.policies.dbHost }}
+              value: {{ .Release.Name }}-postgresql
+            {{ else }}
+              value: {{ .Values.policies.dbHost }}
+            {{ end }}
+            - name: ORB_POLICIES_DB_PASS
+            {{ if not .Values.policies.secretPass }}
+              value: {{ index .Values "postgresql" "postgresqlPassword" }}
+            {{ else }}
+              valueFrom :
+                secretKeyRef :
+                  name : orb-policies-credentials
+                  key : password
+                  optional : false
+            {{ end }}
+            - name: ORB_POLICIES_DB_PORT
+              value: "{{ .Values.policies.dbPort }}"
+            - name: ORB_POLICIES_DB_SSL_MODE
+              value: "{{ .Values.policies.dbSSL }}"
+            - name: ORB_POLICIES_DB_USER
+            {{ if not .Values.policies.secretPass }}
+              value: {{ index .Values "postgresql" "postgresqlUsername" }}
+            {{ else }}
+              valueFrom :
+                secretKeyRef :
+                  name : orb-policies-credentials
+                  key : username
+                  optional : false
+            {{ end }}
+            - name: ORB_POLICIES_ES_URL
+            {{ if not .Values.policies.redisHost }}
+              value: {{ .Release.Name }}-redis-master:{{ .Values.policies.redisPort }}
+            {{ else }}
+              value: {{ .Values.policies.redisHost }}:{{ .Values.policies.redisPort }}
+            {{ end }}
+            - name: ORB_FLEET_GRPC_URL
+              value:
+                {{ .Release.Name }}-envoy:{{ .Values.fleet.grpcPort }}
+            - name: ORB_SINKS_GRPC_URL
+              value:
+                {{ .Release.Name }}-envoy:{{ .Values.sinks.grpcPort }}
+            - name: ORB_POLICIES_HTTP_PORT
+              value: "{{ .Values.policies.httpPort }}"
+            - name: ORB_POLICIES_GRPC_PORT
+              value: "{{ .Values.policies.grpcPort }}"
+            - name: ORB_POLICIES_LOG_LEVEL
+              value: {{ default .Values.defaults.logLevel .Values.policies.logLevel }}
+            - name: MF_AUTH_GRPC_URL
+              value:
+                {{ .Release.Name }}-envoy:{{ .Values.auth.grpcPort }}
+          image: "{{ default .Values.defaults.image.repository .Values.policies.image.repository }}/{{ default .Values.policies.image.name }}:{{ default .Values.defaults.image.tag .Values.policies.image.tag }}"
+          imagePullPolicy: {{ default .Values.defaults.image.pullPolicy .Values.policies.image.pullPolicy }}
+          name: {{ .Release.Name }}-policies
+          ports:
+            - containerPort: {{ .Values.policies.httpPort }}
+              protocol: TCP
+            - containerPort: 2345
+              protocol: TCP
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always

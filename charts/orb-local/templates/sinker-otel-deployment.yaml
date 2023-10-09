@@ -1,0 +1,73 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-otel-sinker
+spec:
+  replicas: {{ .Values.defaults.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+      component: otel-sinker
+  template:
+    metadata:
+      annotations:
+        commit_sha: {{ .Values.defaults.image.commitHash }}
+      {{- with .Values.sinkerOtel.metadata.annotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app: {{ .Release.Name }}
+        component: otel-sinker
+    spec:
+      containers:
+        - env:
+            - name: MF_JAEGER_URL
+            {{ if not .Values.defaults.jaegerHost }}
+              value: {{ .Release.Name }}-jaeger-operator-jaeger-agent:{{ .Values.defaults.jaegerPort }}
+            {{ else }}
+              value: {{ .Values.defaults.jaegerHost }}:{{ .Values.defaults.jaegerPort }}
+            {{ end }}
+            - name: ORB_SINKER_ES_URL
+            {{ if not .Values.sinkerOtel.redisHost }}
+              value: {{ .Release.Name }}-redis-master:{{ .Values.sinkerOtel.redisPort }}
+            {{ else }}
+              value: {{ .Values.sinkerOtel.redisHost }}:{{ .Values.sinkerOtel.redisPort }}
+            {{ end }}
+            - name: ORB_SINKER_CACHE_URL
+            {{ if not .Values.sinkerOtel.redisHost }}
+              value: {{ .Release.Name }}-redis-master:{{ .Values.sinkerOtel.redisPort }}
+            {{ else }}
+              value: {{ .Values.sinkerOtel.redisHost }}:{{ .Values.sinkerOtel.redisPort }}
+            {{ end }}
+            - name: ORB_SINKER_OTEL_ENABLE
+              value: {{ .Values.sinkerOtel.otel.enabled | quote }}
+            - name: ORB_SINKER_OTEL_KAFKA_URL
+              value: {{ .Values.sinkerOtel.kafka.host }}:{{ .Values.sinkerOtel.kafka.port }}              
+            - name: ORB_FLEET_GRPC_URL
+              value:
+                {{ .Release.Name }}-envoy:{{ .Values.fleet.grpcPort }}
+            - name: ORB_SINKS_GRPC_URL
+              value:
+                {{ .Release.Name }}-envoy:{{ .Values.sinks.grpcPort }}
+            - name: ORB_POLICIES_GRPC_URL
+              value:
+                {{ .Release.Name }}-envoy:{{ .Values.policies.grpcPort }}
+            - name: ORB_SINKER_HTTP_PORT
+              value: "{{ .Values.sinkerOtel.httpPort }}"
+            - name: ORB_SINKER_LOG_LEVEL
+              value: {{ default .Values.defaults.logLevel .Values.sinkerOtel.logLevel }}
+            - name: ORB_SINKER_NATS_URL
+              value:
+                nats://{{ .Release.Name }}-nats-client:{{ .Values.defaults.natsPort }}
+            - name: MF_AUTH_GRPC_URL
+              value:
+                {{ .Release.Name }}-envoy:{{ .Values.auth.grpcPort }}
+          image: "{{ default .Values.defaults.image.repository .Values.sinkerOtel.image.repository }}/{{ default .Values.sinkerOtel.image.name }}:{{ default .Values.defaults.image.tag .Values.sinkerOtel.image.tag }}"
+          imagePullPolicy: {{ default .Values.defaults.image.pullPolicy .Values.sinkerOtel.image.pullPolicy }}
+          name: {{ .Release.Name }}-otel-sinker
+          ports:
+            - containerPort: {{ .Values.sinkerOtel.httpPort }}
+              protocol: TCP
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
