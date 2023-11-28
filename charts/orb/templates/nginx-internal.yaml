@@ -337,6 +337,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Release.Name }}-nginx-internal
+  annotations:
+    {{- with .Values.nginx_internal.metadata.annotations }}
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   selector:
     matchLabels:
@@ -347,6 +351,10 @@ spec:
       labels:
         app: {{ .Release.Name }}
         component: nginx-internal
+      annotations:
+        {{- with .Values.nginx_internal.metadata.annotations }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       containers:
         - image: "{{ .Values.nginx_internal.image.repository }}:{{ .Values.nginx_internal.image.tag }}"

@@ -345,6 +345,8 @@ nginx_internal:
     pullPolicy: "IfNotPresent"
     repository: "nginx"
     tag: "1.21.1"
+  metadata:
+    annotations: {}
 
 keto:
   keto:
