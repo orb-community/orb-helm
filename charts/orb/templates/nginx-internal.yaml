@@ -444,7 +444,7 @@ spec:
     - port: 8883
       protocol: TCP
       name: mqtt
-  type: {{ .Values.ingress.serviceType }}
+  type: {{ .Values.nginx_internal.serviceType }}
 
 ---
 apiVersion: v1
