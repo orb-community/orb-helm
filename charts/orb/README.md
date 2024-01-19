@@ -53,12 +53,21 @@ kubectl create secret generic orb-keto-dsn --from-literal=dsn='postgres://postgr
 kubectl create secret generic orb-user-service --from-literal=adminEmail=user@example.com --from-literal=adminPassword=12345678 -n orb
 ```
 
+On <b>AWS EKS</b>: 
+Once that you can update your ingress controller (AWS LoadBalancer) using helm, a good solution could be you open the MQTT port on the cluster loadbalancer and redirect it to <b>orb-nginx-internal</b> pod as below:
 * Deploy [ingres-nginx helm](https://kubernetes.github.io/ingress-nginx/deploy/#using-helm) (to default namespace) with
   tcp config map configured from helm for 8883 (MQTTS). Note you need to reference both namespace and helm release name
   here!
 
 ```
-helm install --set tcp.8883=orb/my-orb-nginx-internal:8883 ingress-nginx ingress-nginx/ingress-nginx
+helm install --set tcp.8883=orb/orb-nginx-internal:8883 ingress-nginx ingress-nginx/ingress-nginx
+```
+
+On <b>On-Premise kubernetes cluster</b>: 
+The best approach is use nginx-internal as service type LoadBalancer on your values.yaml to expose your MQTT port externally
+
+```
+helm install --set tcp.8883=orb/orb-nginx-internal:8883 ingress-nginx ingress-nginx/ingress-nginx
 ```
 
 * Wait for an external IP to be available
