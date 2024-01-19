@@ -350,7 +350,6 @@ nginx_internal:
 
 keto:
   secret:
-    # Set this field with false if you want to use credentials as k8s secret manually created
     enabled: false
     nameOverride: "orb-keto-dsn"
   keto:
