@@ -44,7 +44,7 @@ kubectl create secret generic orb-sinks-encryption-key --from-literal=key=mainfl
 
 * Create keto dsn secret
 ```
-kubectl create secret generic orb-keto-dsn --from-literal=dsn='postgres://postgres:password@db.host.com:5432/keto' -n orb
+kubectl create secret generic orb-keto-dsn --from-literal=dsn='postgres://postgres:orb@orb-postgresql-keto:5432/keto' -n orb
 ```
 
 * Create admin user secrets
