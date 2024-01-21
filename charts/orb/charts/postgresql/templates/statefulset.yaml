@@ -228,7 +228,7 @@ spec:
                   key: postgresql-postgres-password
             {{- end }}
             {{- end }}
-            - name: POSTGRES_USER
+            - name: POSTGRESQL_USERNAME
               value: {{ include "postgresql.username" . | quote }}
             {{- if .Values.usePasswordFile }}
             - name: POSTGRES_PASSWORD_FILE
