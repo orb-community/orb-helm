@@ -199,12 +199,13 @@ postgresql-users:
       cpu: 25m
   persistence:
     size: 1Gi
+  commonAnnotations:
+    helm.sh/hook: "pre-install, pre-upgrade"
+    helm.sh/hook-weight: "-1"
 
 postgresql-fleet:
   enabled: true # dependency install, disable if you want to use external services
   name: postgresql-fleet
-  image:
-    tag: 13
   postgresqlUsername: postgres
   postgresqlPassword: orb
   postgresqlDatabase: fleet
@@ -213,12 +214,13 @@ postgresql-fleet:
       cpu: 25m
   persistence:
     size: 1Gi
+  commonAnnotations:
+    helm.sh/hook: "pre-install, pre-upgrade"
+    helm.sh/hook-weight: "-1"
 
 postgresql-policies:
   enabled: true # dependency install, disable if you want to use external services
   name: postgresql-policies
-  image:
-    tag: 13
   postgresqlUsername: postgres
   postgresqlPassword: orb
   postgresqlDatabase: policies
@@ -227,12 +229,13 @@ postgresql-policies:
       cpu: 25m
   persistence:
     size: 1Gi
+  commonAnnotations:
+    helm.sh/hook: "pre-install, pre-upgrade"
+    helm.sh/hook-weight: "-1"
 
 postgresql-sinks:
   enabled: true # dependency install, disable if you want to use external services
   name: postgresql-sinks
-  image:
-    tag: 13
   postgresqlUsername: postgres
   postgresqlPassword: orb
   postgresqlDatabase: sinks
@@ -241,6 +244,9 @@ postgresql-sinks:
       cpu: 25m
   persistence:
     size: 1Gi
+  commonAnnotations:
+    helm.sh/hook: "pre-install, pre-upgrade"
+    helm.sh/hook-weight: "-1"
 
 postgresql-things:
   enabled: true # dependency install, disable if you want to use external services
@@ -253,6 +259,9 @@ postgresql-things:
       cpu: 25m
   persistence:
     size: 1Gi
+  commonAnnotations:
+    helm.sh/hook: "pre-install, pre-upgrade"
+    helm.sh/hook-weight: "-1"
 
 postgresql-auth:
   enabled: true # dependency install, disable if you want to use external services
@@ -265,6 +274,9 @@ postgresql-auth:
       cpu: 25m
   persistence:
     size: 1Gi
+  commonAnnotations:
+    helm.sh/hook: "pre-install, pre-upgrade"
+    helm.sh/hook-weight: "-1"
 
 postgresql-keto:
   enabled: true # dependency install, disable if you want to use external services
@@ -329,7 +341,7 @@ jaeger-operator:
   jaeger:
     create: true
   rbac:
-    pspEnabled: true
+    pspEnabled: false
     clusterRole: true
 
 envoy:
