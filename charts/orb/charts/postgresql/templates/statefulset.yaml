@@ -234,14 +234,14 @@ spec:
             - name: POSTGRES_PASSWORD_FILE
               value: "/opt/bitnami/postgresql/secrets/postgresql-password"
             {{- else }}
-            - name: POSTGRESQL_PASSWORD
+            - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ template "postgresql.secretName" . }}
                   key: postgresql-password
             {{- end }}
             {{- if (include "postgresql.database" .) }}
-            - name: POSTGRESQL_DATABASE
+            - name: POSTGRES_DB
               value: {{ (include "postgresql.database" .) | quote }}
             {{- end }}
             {{- if .Values.extraEnv }}
