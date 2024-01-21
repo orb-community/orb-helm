@@ -25,10 +25,11 @@ helm repo update
 helm dependency update
 ```
 
-* Create `orb` namespace
+* Create `orb` and `otelcollectors` namespace
 
 ```
 kubectl create namespace orb
+kubectl create namespace otelcollectors
 ```
 
 * Create JWT signing key secret
@@ -51,6 +52,13 @@ kubectl create secret generic orb-keto-dsn --from-literal=dsn='postgres://postgr
 
 ```
 kubectl create secret generic orb-user-service --from-literal=adminEmail=user@example.com --from-literal=adminPassword=12345678 -n orb
+```
+
+* Install orb. Replace `orb` with your helm release name, also set your HOSTNAME as a valid domain to expose service properly, remember that should generate a certificate for that.
+Check the [optional variables](#optional-variables-to-set) for more options. 
+
+```
+helm install --set ingress.hostname=HOSTNAME -n orb orb .
 ```
 
 On <b>AWS EKS</b>: 
@@ -89,12 +97,6 @@ helm install cert-manager jetstack/cert-manager --namespace cert-manager --creat
   * edit `issuers/production-issuer.yaml` and change `spec.acme.email` to a real email address
   * `kubectl create -f issuers/production-issuer.yaml -n orb`
 
-* Install orb. Replace `my-orb` with your helm release name.
-Check the [optional variables](#optional-variables-to-set) for more options. 
-
-```
-helm install --set ingress.hostname=HOSTNAME -n orb my-orb .
-```
 
 ### Optional variables to set
 - **SMTP**
