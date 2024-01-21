@@ -329,7 +329,9 @@ envoy:
     annotations: {}
 
 nginx_internal:
-  serviceType: "ClusterIP" # use LoadBalancer for on-premise solution
+  service:
+    serviceType: "ClusterIP" # use LoadBalancer for on-premise solution
+    annotations: {} # use for external dns integration
   image:
     pullPolicy: "IfNotPresent"
     repository: "nginx"
