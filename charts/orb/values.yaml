@@ -27,10 +27,10 @@ smtp:
 ingress:
   ingressClassName: "nginx"
   annotationsNginx: {} # set this for certificate
-  #  cert-manager.io/issuer: "letsencrypt-prod"
+  #  cert-manager.io/clusterissuer: "letsencrypt-prod"
   annotationsNginxRewrite: # set this for certificate
     nginx.ingress.kubernetes.io/rewrite-target: /$1
-  #  cert-manager.io/issuer: "letsencrypt-prod"
+  #  cert-manager.io/clusterissuer: "letsencrypt-prod"
   hostname: ""
   secret: "orb-tls"
 
