@@ -97,6 +97,12 @@ helm install cert-manager jetstack/cert-manager --namespace cert-manager --creat
   * edit `issuers/production-issuer.yaml` and change `spec.acme.email` to a real email address
   * `kubectl create -f issuers/production-issuer.yaml -n orb`
 
+To restart entire deployment:
+
+```
+kubectl rollout restart deployment -n orb
+```
+
 ## Known-bug:
 Sometimes on the first run, postgres can have a problem to seed your password. To fix this, you have to manually remove the persistent volume claim (PVC) which will free up the database storage.
 
