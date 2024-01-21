@@ -5,7 +5,8 @@ metadata:
   namespace: orb
 spec:
   dnsNames:
-    - orb.example.com
+    - orb.dextro.io
   secretName: orb-tls
   issuerRef:
     name: letsencrypt-prod
+    kind: ClusterIssuer
