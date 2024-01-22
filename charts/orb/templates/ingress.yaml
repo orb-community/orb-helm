@@ -151,19 +151,7 @@ spec:
         - name: {{ .Release.Name }}-fleet
           port: {{ .Values.fleet.httpPort }}
   tls:
-    - options:
-        name: default
-      namespaces:
-        - default
-      certResolver: default
-    domains:
-      - main: "{{ .Values.ingress.hostname }}"
-        sans: [{{ .Values.ingress.hostname }}]
-      options:
-        name: default
-      namespaces:
-        - default
-      certResolver: default
+    secretName: {{ .Values.ingress.secret }}
 {{- end }}
 {{- if eq .Values.ingress.ingressClassName "traefik" }}
 ---
@@ -231,17 +219,5 @@ spec:
         - name: {{ .Release.Name }}-policies
           port: {{ default .Values.policies.httpPort }}   
   tls:
-    - options:
-        name: default
-      namespaces:
-        - default
-      certResolver: default
-    domains:
-      - main: "{{ .Values.ingress.hostname }}"
-        sans: [{{ .Values.ingress.hostname }}]
-      options:
-        name: default
-      namespaces:
-        - default
-      certResolver: default
+    secretName: {{ .Values.ingress.secret }}
 {{- end }}
