@@ -124,16 +124,16 @@ spec:
     - hosts:
         - {{ .Values.ingress.hostname }}
       secretName: {{ .Values.ingress.secret }}
----
 {{- end }}
 {{- if eq .Values.ingress.ingressClassName "traefik" }}
+---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-{{- if .Values.ingress.annotationsTraefik }}
+  {{- if .Values.ingress.annotationsTraefik }}
   annotations:
-{{ toYaml .Values.ingress.annotationsTraefik | indent 4 }}
-{{- end }}
+    {{ toYaml .Values.ingress.annotationsTraefik | indent 4 }}
+  {{- end }}
   name: {{ .Release.Name }}-traefik-ingress
 spec:
   entryPoints:
@@ -151,29 +151,29 @@ spec:
         - name: {{ .Release.Name }}-fleet
           port: {{ .Values.fleet.httpPort }}
   tls:
-    - options: 
+    - options:
         name: default
-        namespaces:
-          - default
+      namespaces:
+        - default
       certResolver: default
     domains:
       - main: "{{ .Values.ingress.hostname }}"
         sans: [{{ .Values.ingress.hostname }}]
-      options: 
+      options:
         name: default
-        namespaces:
-          - default
+      namespaces:
+        - default
       certResolver: default
----
 {{- end }}
 {{- if eq .Values.ingress.ingressClassName "traefik" }}
+---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-{{- if .Values.ingress.annotationsTraefikRewrite }}
+  {{- if .Values.ingress.annotationsTraefikRewrite }}
   annotations:
-{{ toYaml .Values.ingress.annotationsTraefikRewrite | indent 4 }}
-{{- end }}
+    {{ toYaml .Values.ingress.annotationsTraefikRewrite | indent 4 }}
+  {{- end }}
   name: {{ .Release.Name }}-traefik-rewrite-ingress
 spec:
   entryPoints:
@@ -229,20 +229,19 @@ spec:
       kind: Rule
       services:
         - name: {{ .Release.Name }}-policies
-          port: {{ default .Values.policies.httpPort }}    
+          port: {{ default .Values.policies.httpPort }}   
   tls:
-    - options: 
+    - options:
         name: default
-        namespaces:
-          - default
+      namespaces:
+        - default
       certResolver: default
     domains:
       - main: "{{ .Values.ingress.hostname }}"
         sans: [{{ .Values.ingress.hostname }}]
-      options: 
+      options:
         name: default
-        namespaces:
-          - default
+      namespaces:
+        - default
       certResolver: default
----
 {{- end }}
