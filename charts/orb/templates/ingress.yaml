@@ -135,6 +135,7 @@ metadata:
     {{ toYaml .Values.ingress.annotationsTraefik | indent 4 }}
   {{- end }}
   name: {{ .Release.Name }}-traefik-ingress
+  namespace: {{ .Release.Namespace }}
 spec:
   entryPoints:
     - web
@@ -163,6 +164,7 @@ metadata:
     {{ toYaml .Values.ingress.annotationsTraefikRewrite | indent 4 }}
   {{- end }}
   name: {{ .Release.Name }}-traefik-rewrite-ingress
+  namespace: {{ .Release.Namespace }}
 spec:
   entryPoints:
     - web
