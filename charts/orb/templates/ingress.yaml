@@ -1,6 +1,6 @@
 # Copyright (c) Mainflux
 # SPDX-License-Identifier: Apache-2.0
-
+{{- if eq .Values.ingress.ingressClassName "nginx" }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -33,7 +33,9 @@ spec:
     - hosts:
         - {{ .Values.ingress.hostname }}
       secretName: {{ .Values.ingress.secret }}
+{{- end }}
 ---
+{{- if eq .Values.ingress.ingressClassName "nginx" }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -122,3 +124,95 @@ spec:
     - hosts:
         - {{ .Values.ingress.hostname }}
       secretName: {{ .Values.ingress.secret }}
+{{- end }}
+---
+{{- if eq .Values.ingress.ingressClassName "traefik" }}
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+{{- if .Values.ingress.annotationsTraefik }}
+  annotations:
+{{ toYaml .Values.ingress.annotationsTraefik | indent 4 }}
+{{- end }}
+  name: {{ .Release.Name }}-traefik-ingress
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`{{ required "an ingress.hostname is required!" .Values.ingress.hostname }}`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: {{ .Release.Name }}-ui
+          port: {{ .Values.ui.port }}
+    - match: Host(`{{ required "an ingress.hostname is required!" .Values.ingress.hostname }}`) && PathPrefix(`/version`)
+      kind: Rule
+      services:
+        - name: {{ .Release.Name }}-fleet
+          port: {{ .Values.fleet.httpPort }}
+  tls:
+    - options: 
+        name: default
+        namespaces:
+          - default
+      certResolver: default
+    domains:
+      - main: "{{ .Values.ingress.hostname }}"
+        sans: [{{ .Values.ingress.hostname }}]
+      options: 
+        name: default
+        namespaces:
+          - default
+      certResolver: default
+{{- end }}
+---
+{{- if eq .Values.ingress.ingressClassName "traefik" }}
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+{{- if .Values.ingress.annotationsTraefikRewrite }}
+  annotations:
+{{ toYaml .Values.ingress.annotationsTraefikRewrite | indent 4 }}
+{{- end }}
+  name: {{ .Release.Name }}-traefik-rewrite-ingress
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/api/v1/users`)
+      kind: Rule
+      services:
+        - name: {{ .Release.Name }}-users
+          port: {{ .Values.users.httpPort }}
+    - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/api/v1/password`)
+      kind: Rule
+      services:
+        - name: {{ .Release.Name }}-users
+          port: {{ .Values.users.httpPort }}
+    - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/api/v1/tokens`)
+      kind: Rule
+      services:
+        - name: {{ .Release.Name }}-users
+          port: {{ .Values.users.httpPort }}
+    - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/api/v1/keys`)
+      kind: Rule
+      services:
+        - name: {{ .Release.Name }}-auth
+          port: {{ default .Values.auth.httpPort }}
+    # Add the remaining path-based routing rules similarly
+  tls:
+    - options: 
+        name: default
+        namespaces:
+          - default
+      certResolver: default
+    domains:
+      - main: "{{ .Values.ingress.hostname }}"
+        sans: [{{ .Values.ingress.hostname }}]
+      options: 
+        name: default
+        namespaces:
+          - default
+      certResolver: default
+{{- end }}
