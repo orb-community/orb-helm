@@ -144,7 +144,7 @@ metadata:
   {{- if .Values.ingress.annotationsTraefik }}
     {{ toYaml .Values.ingress.annotationsTraefik | indent 4 }}
   {{- end }}
-  name: {{ .Release.Name }}-traefik-api-ingress
+  name: {{ .Release.Name }}-traefik-ingress
   namespace: {{ .Release.Namespace }}
 spec:
   entryPoints:
@@ -207,50 +207,6 @@ spec:
           port: {{ default .Values.policies.httpPort }}
       middlewares:
         - name: orb-stripprefix
-  tls:
-    secretName: {{ .Values.ingress.secret }}
----
-apiVersion: traefik.io/v1alpha1
-kind: IngressRoute
-metadata:
-  {{- if .Values.ingress.annotationsTraefik }}
-  annotations:
-    {{ toYaml .Values.ingress.annotationsTraefik | indent 4 }}
-  {{- end }}
-  name: {{ .Release.Name }}-traefik-ingress
-  namespace: {{ .Release.Namespace }}
-spec:
-  entryPoints:
-    - web
-    - websecure
-  routes:
-    - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/version`)
-      kind: Rule
-      services:
-        - name: {{ .Release.Name }}-fleet
-          port: {{ .Values.fleet.httpPort }}
-    - match: Host(`{{ required "an ingress.hostname is required!" .Values.ingress.hostname }}`) && PathPrefix(`/`)
-      kind: Rule
-      services:
-        - name: {{ .Release.Name }}-ui
-          port: {{ .Values.ui.port }}
-  tls:
-    secretName: {{ .Values.ingress.secret }}
----
-apiVersion: traefik.io/v1alpha1
-kind: IngressRoute
-metadata:
-  annotations:
-  {{- if .Values.ingress.annotationsTraefik }}
-    {{ toYaml .Values.ingress.annotationsTraefik | indent 4 }}
-  {{- end }}
-  name: {{ .Release.Name }}-traefik-feature-ingress
-  namespace: {{ .Release.Namespace }}
-spec:
-  entryPoints:
-    - web
-    - websecure
-  routes:
     - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/api/v1/features/sinks`)
       kind: Rule
       services:
@@ -265,6 +221,16 @@ spec:
           port: {{ default .Values.sinks.httpPort }}
       middlewares:
         - name: orb-stripprefix
+    - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/version`)
+      kind: Rule
+      services:
+        - name: {{ .Release.Name }}-fleet
+          port: {{ .Values.fleet.httpPort }}
+    - match: Host(`{{ required "an ingress.hostname is required!" .Values.ingress.hostname }}`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: {{ .Release.Name }}-ui
+          port: {{ .Values.ui.port }}
   tls:
     secretName: {{ .Values.ingress.secret }}
 {{- end }}
