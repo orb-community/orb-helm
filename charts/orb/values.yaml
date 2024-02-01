@@ -437,7 +437,7 @@ maestro:
     ClusterRole: "admin"
     serviceAccountName: "k8s-maestro-role"
     serviceAccountNamespace: "otelcollectors"
-    automountServiceAccountToken: false # requires true for kubernetes > 1.27
+    automountServiceAccountToken: false # required true for kubernetes > 1.27
   image:
     name: "orb-maestro"
   metadata:
