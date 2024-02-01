@@ -141,9 +141,9 @@ spec:
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  {{- if .Values.ingress.annotationsTraefik }}
   annotations:
     traefik.ingress.kubernetes.io/router.middlewares: orb-stripprefix@kubernetescrd
+  {{- if .Values.ingress.annotationsTraefik }}
     {{ toYaml .Values.ingress.annotationsTraefik | indent 4 }}
   {{- end }}
   name: {{ .Release.Name }}-traefik-api-ingress
@@ -226,9 +226,9 @@ spec:
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  {{- if .Values.ingress.annotationsTraefik }}
   annotations:
     traefik.ingress.kubernetes.io/router.middlewares: orb-stripprefix@kubernetescrd
+  {{- if .Values.ingress.annotationsTraefik }}
     {{ toYaml .Values.ingress.annotationsTraefik | indent 4 }}
   {{- end }}
   name: {{ .Release.Name }}-traefik-feature-ingress
