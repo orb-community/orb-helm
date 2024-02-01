@@ -128,6 +128,16 @@ spec:
 {{- if eq .Values.ingress.ingressClassName "traefik" }}
 ---
 apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: orb-stripprefix
+  namespace: {{ .Release.Namespace }}
+spec:
+  stripPrefix:
+    prefixes:
+      - /api/v1
+---
+apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   {{- if .Values.ingress.annotationsTraefik }}
@@ -141,52 +151,52 @@ spec:
     - web
     - websecure
   routes:
-    - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/api/v1/users`)
+    - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/users`)
       kind: Rule
       services:
         - name: {{ .Release.Name }}-users
           port: {{ .Values.users.httpPort }}
-    - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/api/v1/password`)
+    - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/password`)
       kind: Rule
       services:
         - name: {{ .Release.Name }}-users
           port: {{ .Values.users.httpPort }}
-    - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/api/v1/tokens`)
+    - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/tokens`)
       kind: Rule
       services:
         - name: {{ .Release.Name }}-users
           port: {{ .Values.users.httpPort }}
-    - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/api/v1/keys`)
+    - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/keys`)
       kind: Rule
       services:
         - name: {{ .Release.Name }}-auth
           port: {{ default .Values.auth.httpPort }}
-    - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/api/v1/agents`)
+    - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/agents`)
       kind: Rule
       services:
         - name: {{ .Release.Name }}-fleet
           port: {{ default .Values.fleet.httpPort }}
-    - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/api/v1/agent_groups`)
+    - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/agent_groups`)
       kind: Rule
       services:
         - name: {{ .Release.Name }}-fleet
           port: {{ default .Values.fleet.httpPort }}
-    - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/api/v1/sinks`)
+    - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/sinks`)
       kind: Rule
       services:
         - name: {{ .Release.Name }}-sinks
           port: {{ default .Values.sinks.httpPort }}
-    - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/api/v1/features/sinks`)
+    - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/features/sinks`)
       kind: Rule
       services:
         - name: {{ .Release.Name }}-sinks
           port: {{ default .Values.sinks.httpPort }}
-    - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/api/v1/features/authenticationtypes`)
+    - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/features/authenticationtypes`)
       kind: Rule
       services:
         - name: {{ .Release.Name }}-sinks
           port: {{ default .Values.sinks.httpPort }}
-    - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/api/v1/policies`)
+    - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/policies`)
       kind: Rule
       services:
         - name: {{ .Release.Name }}-policies
