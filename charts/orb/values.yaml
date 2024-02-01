@@ -186,7 +186,7 @@ nats:
   clusterAuth:
     enabled: false
   maxPayload: 67108864
-  replicaCount: 3
+  replicaCount: 1
 
 postgresql-users:
   enabled: true # dependency install, disable if you want to use external services
