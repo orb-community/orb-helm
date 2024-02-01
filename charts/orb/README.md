@@ -93,9 +93,23 @@ helm install cert-manager jetstack/cert-manager --namespace cert-manager --creat
 ```
 
 * Create Issuer CRDs (in the `orb` namespace!)
-  * `cp issuers/production-issuer-tpt.yaml issuers/production-issuer.yaml`
-  * edit `issuers/production-issuer.yaml` and change `spec.acme.email` to a real email address
-  * `kubectl create -f issuers/production-issuer.yaml -n orb`
+
+If you are using nginx as ingress controller:
+```
+cp issuers/production-issuer-nginx.yaml issuers/production-issuer.yaml
+```
+If you are using traefik as ingress controller:
+```
+cp issuers/production-issuer-traefik.yaml issuers/production-issuer.yaml
+```
+* edit `issuers/production-issuer.yaml` and change `spec.acme.email` to a real email address
+```
+kubectl apply -f issuers/production-issuer.yaml -n orb
+```
+* Create Certificate (in the `orb` namespace!)
+```
+kubectl apply -f issuers/production-issuer.yaml -n orb
+```
 
 To restart entire deployment:
 
