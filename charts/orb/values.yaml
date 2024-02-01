@@ -194,6 +194,10 @@ postgresql-users:
   postgresqlUsername: postgres
   postgresqlPassword: mainflux
   postgresqlDatabase: users
+  livenessProbe:
+    initialDelaySeconds: 200
+  readinessProbe:
+    initialDelaySeconds: 200
   resources:
     requests:
       cpu: 25m
@@ -206,6 +210,10 @@ postgresql-fleet:
   postgresqlUsername: postgres
   postgresqlPassword: orb
   postgresqlDatabase: fleet
+  livenessProbe:
+    initialDelaySeconds: 200
+  readinessProbe:
+    initialDelaySeconds: 200
   resources:
     requests:
       cpu: 25m
@@ -218,6 +226,10 @@ postgresql-policies:
   postgresqlUsername: postgres
   postgresqlPassword: orb
   postgresqlDatabase: policies
+  livenessProbe:
+    initialDelaySeconds: 200
+  readinessProbe:
+    initialDelaySeconds: 200
   resources:
     requests:
       cpu: 25m
@@ -230,6 +242,10 @@ postgresql-sinks:
   postgresqlUsername: postgres
   postgresqlPassword: orb
   postgresqlDatabase: sinks
+  livenessProbe:
+    initialDelaySeconds: 200
+  readinessProbe:
+    initialDelaySeconds: 200
   resources:
     requests:
       cpu: 25m
@@ -242,6 +258,10 @@ postgresql-things:
   postgresqlUsername: postgres
   postgresqlPassword: mainflux
   postgresqlDatabase: things
+  livenessProbe:
+    initialDelaySeconds: 200
+  readinessProbe:
+    initialDelaySeconds: 200
   resources:
     requests:
       cpu: 25m
@@ -254,6 +274,10 @@ postgresql-auth:
   postgresqlUsername: postgres
   postgresqlPassword: mainflux
   postgresqlDatabase: auth
+  livenessProbe:
+    initialDelaySeconds: 200
+  readinessProbe:
+    initialDelaySeconds: 200
   resources:
     requests:
       cpu: 25m
@@ -266,6 +290,10 @@ postgresql-keto:
   postgresqlUsername: postgres
   postgresqlPassword: orb
   postgresqlDatabase: keto
+  livenessProbe:
+    initialDelaySeconds: 200
+  readinessProbe:
+    initialDelaySeconds: 200
   resources:
     requests:
       cpu: 25m
@@ -281,6 +309,10 @@ postgresql-maestro:
   postgresqlUsername: postgres
   postgresqlPassword: orb
   postgresqlDatabase: maestro
+  livenessProbe:
+    initialDelaySeconds: 200
+  readinessProbe:
+    initialDelaySeconds: 200
   resources:
     requests:
       cpu: 25m
