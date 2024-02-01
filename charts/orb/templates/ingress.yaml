@@ -267,14 +267,14 @@ spec:
         - name: {{ .Release.Name }}-sinks
           port: {{ default .Values.sinks.httpPort }}
       middlewares:
-        - name: orb-sinks-stripprefix
+        - name: orb-stripprefix
     - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/api/v1/features/authenticationtypes`)
       kind: Rule
       services:
         - name: {{ .Release.Name }}-sinks
           port: {{ default .Values.sinks.httpPort }}
       middlewares:
-        - name: orb-sinks-stripprefix
+        - name: orb-stripprefix
   tls:
     secretName: {{ .Values.ingress.secret }}
 {{- end }}
