@@ -745,7 +745,7 @@ networkPolicy:
 ##
 startupProbe:
   enabled: false
-  initialDelaySeconds: 30
+  initialDelaySeconds: 200
   periodSeconds: 15
   timeoutSeconds: 5
   failureThreshold: 10
@@ -761,7 +761,7 @@ startupProbe:
 ##
 livenessProbe:
   enabled: true
-  initialDelaySeconds: 30
+  initialDelaySeconds: 200
   periodSeconds: 10
   timeoutSeconds: 5
   failureThreshold: 6
@@ -777,7 +777,7 @@ livenessProbe:
 ##
 readinessProbe:
   enabled: true
-  initialDelaySeconds: 5
+  initialDelaySeconds: 200
   periodSeconds: 10
   timeoutSeconds: 5
   failureThreshold: 6
