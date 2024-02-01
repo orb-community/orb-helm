@@ -136,15 +136,17 @@ spec:
   stripPrefix:
     prefixes:
       - /api/v1
+      - /api/v1/features
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   {{- if .Values.ingress.annotationsTraefik }}
   annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: orb-stripprefix@kubernetescrd
     {{ toYaml .Values.ingress.annotationsTraefik | indent 4 }}
   {{- end }}
-  name: {{ .Release.Name }}-traefik-ingress
+  name: {{ .Release.Name }}-traefik-api-ingress
   namespace: {{ .Release.Namespace }}
 spec:
   entryPoints:
@@ -186,21 +188,28 @@ spec:
       services:
         - name: {{ .Release.Name }}-sinks
           port: {{ default .Values.sinks.httpPort }}
-    - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/features/sinks`)
-      kind: Rule
-      services:
-        - name: {{ .Release.Name }}-sinks
-          port: {{ default .Values.sinks.httpPort }}
-    - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/features/authenticationtypes`)
-      kind: Rule
-      services:
-        - name: {{ .Release.Name }}-sinks
-          port: {{ default .Values.sinks.httpPort }}
     - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/policies`)
       kind: Rule
       services:
         - name: {{ .Release.Name }}-policies
           port: {{ default .Values.policies.httpPort }}
+  tls:
+    secretName: {{ .Values.ingress.secret }}
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  {{- if .Values.ingress.annotationsTraefik }}
+  annotations:
+    {{ toYaml .Values.ingress.annotationsTraefik | indent 4 }}
+  {{- end }}
+  name: {{ .Release.Name }}-traefik-ingress
+  namespace: {{ .Release.Namespace }}
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
     - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/version`)
       kind: Rule
       services:
@@ -211,6 +220,34 @@ spec:
       services:
         - name: {{ .Release.Name }}-ui
           port: {{ .Values.ui.port }}
+  tls:
+    secretName: {{ .Values.ingress.secret }}
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  {{- if .Values.ingress.annotationsTraefik }}
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: orb-stripprefix@kubernetescrd
+    {{ toYaml .Values.ingress.annotationsTraefik | indent 4 }}
+  {{- end }}
+  name: {{ .Release.Name }}-traefik-feature-ingress
+  namespace: {{ .Release.Namespace }}
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/sinks`)
+      kind: Rule
+      services:
+        - name: {{ .Release.Name }}-sinks
+          port: {{ default .Values.sinks.httpPort }}
+    - match: Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/authenticationtypes`)
+      kind: Rule
+      services:
+        - name: {{ .Release.Name }}-sinks
+          port: {{ default .Values.sinks.httpPort }}
   tls:
     secretName: {{ .Values.ingress.secret }}
 {{- end }}
