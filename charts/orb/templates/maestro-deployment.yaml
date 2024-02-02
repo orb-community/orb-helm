@@ -19,6 +19,9 @@ spec:
         component: maestro
     spec:
       serviceAccountName: k8s-maestro-role
+      {{- if .Values.maestro.rbac.disableAutomountServiceAccountToken }}
+      automountServiceAccountToken: false
+      {{ end }}
       containers:
         - env:
             - name: ORB_SINKS_SECRET_KEY
