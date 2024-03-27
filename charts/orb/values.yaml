@@ -27,10 +27,10 @@ smtp:
 ingress:
   ingressClassName: "nginx"
   annotationsNginx: {} # set this for certificate
-  #  cert-manager.io/issuer: "letsencrypt-prod"
+  #  cert-manager.io/clusterissuer: "letsencrypt-prod"
   annotationsNginxRewrite: # set this for certificate
     nginx.ingress.kubernetes.io/rewrite-target: /$1
-  #  cert-manager.io/issuer: "letsencrypt-prod"
+  #  cert-manager.io/clusterissuer: "letsencrypt-prod"
   hostname: ""
   secret: "orb-tls"
 
@@ -186,7 +186,7 @@ nats:
   clusterAuth:
     enabled: false
   maxPayload: 67108864
-  replicaCount: 3
+  replicaCount: 1
 
 postgresql-users:
   enabled: true # dependency install, disable if you want to use external services
@@ -194,6 +194,10 @@ postgresql-users:
   postgresqlUsername: postgres
   postgresqlPassword: mainflux
   postgresqlDatabase: users
+  livenessProbe:
+    initialDelaySeconds: 200
+  readinessProbe:
+    initialDelaySeconds: 200
   resources:
     requests:
       cpu: 25m
@@ -203,11 +207,13 @@ postgresql-users:
 postgresql-fleet:
   enabled: true # dependency install, disable if you want to use external services
   name: postgresql-fleet
-  image:
-    tag: 13
   postgresqlUsername: postgres
   postgresqlPassword: orb
   postgresqlDatabase: fleet
+  livenessProbe:
+    initialDelaySeconds: 200
+  readinessProbe:
+    initialDelaySeconds: 200
   resources:
     requests:
       cpu: 25m
@@ -217,11 +223,13 @@ postgresql-fleet:
 postgresql-policies:
   enabled: true # dependency install, disable if you want to use external services
   name: postgresql-policies
-  image:
-    tag: 13
   postgresqlUsername: postgres
   postgresqlPassword: orb
   postgresqlDatabase: policies
+  livenessProbe:
+    initialDelaySeconds: 200
+  readinessProbe:
+    initialDelaySeconds: 200
   resources:
     requests:
       cpu: 25m
@@ -231,11 +239,13 @@ postgresql-policies:
 postgresql-sinks:
   enabled: true # dependency install, disable if you want to use external services
   name: postgresql-sinks
-  image:
-    tag: 13
   postgresqlUsername: postgres
   postgresqlPassword: orb
   postgresqlDatabase: sinks
+  livenessProbe:
+    initialDelaySeconds: 200
+  readinessProbe:
+    initialDelaySeconds: 200
   resources:
     requests:
       cpu: 25m
@@ -248,6 +258,10 @@ postgresql-things:
   postgresqlUsername: postgres
   postgresqlPassword: mainflux
   postgresqlDatabase: things
+  livenessProbe:
+    initialDelaySeconds: 200
+  readinessProbe:
+    initialDelaySeconds: 200
   resources:
     requests:
       cpu: 25m
@@ -260,6 +274,10 @@ postgresql-auth:
   postgresqlUsername: postgres
   postgresqlPassword: mainflux
   postgresqlDatabase: auth
+  livenessProbe:
+    initialDelaySeconds: 200
+  readinessProbe:
+    initialDelaySeconds: 200
   resources:
     requests:
       cpu: 25m
@@ -272,6 +290,10 @@ postgresql-keto:
   postgresqlUsername: postgres
   postgresqlPassword: orb
   postgresqlDatabase: keto
+  livenessProbe:
+    initialDelaySeconds: 200
+  readinessProbe:
+    initialDelaySeconds: 200
   resources:
     requests:
       cpu: 25m
@@ -287,6 +309,10 @@ postgresql-maestro:
   postgresqlUsername: postgres
   postgresqlPassword: orb
   postgresqlDatabase: maestro
+  livenessProbe:
+    initialDelaySeconds: 200
+  readinessProbe:
+    initialDelaySeconds: 200
   resources:
     requests:
       cpu: 25m
@@ -294,7 +320,7 @@ postgresql-maestro:
     size: 1Gi
   commonAnnotations:
     helm.sh/hook: "pre-install, pre-upgrade"
-    helm.sh/hook-weight: "-1"
+    helm.sh/hook-weight: "-1"    
 
 redis-streams:
   enabled: true # dependency install, disable if you want to use external services
@@ -329,7 +355,7 @@ jaeger-operator:
   jaeger:
     create: true
   rbac:
-    pspEnabled: true
+    pspEnabled: false
     clusterRole: true
 
 envoy:
@@ -341,6 +367,9 @@ envoy:
     annotations: {}
 
 nginx_internal:
+  service:
+    serviceType: "ClusterIP" # use LoadBalancer for on-premise solution
+    annotations: {} # use for external dns integration
   image:
     pullPolicy: "IfNotPresent"
     repository: "nginx"
@@ -349,6 +378,9 @@ nginx_internal:
     annotations: {}
 
 keto:
+  secret:
+    enabled: false
+    nameOverride: "orb-keto-dsn"
   keto:
     autoMigrate: true
     config:
@@ -402,9 +434,8 @@ maestro:
     port: 9092
   rbac:
     ClusterRoleBindingCreate: false # set this true to create ClusterRoleBinding instead RoleBinding
-    ClusterRole: "admin"
-    serviceAccountName: "k8s-maestro-role"
     serviceAccountNamespace: "otelcollectors"
+    createServiceAccountTokenSecret: false # required true for kubernetes > 1.27
   image:
     name: "orb-maestro"
   metadata:

@@ -18,7 +18,7 @@ spec:
         app: {{ .Release.Name }}
         component: maestro
     spec:
-      serviceAccountName: k8s-maestro-role
+      serviceAccountName: {{ .Values.maestro.rbac.serviceAccountName }}
       containers:
         - env:
             - name: ORB_SINKS_SECRET_KEY

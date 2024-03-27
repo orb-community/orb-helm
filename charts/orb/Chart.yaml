@@ -10,7 +10,7 @@ name: orb
 description: Orb Observability Platform
 icon: https://avatars1.githubusercontent.com/u/13207490
 type: application
-version: 1.0.54
+version: 1.0.55
 appVersion: "0.27.0"
 home: https://getorb.io
 sources:

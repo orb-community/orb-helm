@@ -430,12 +430,16 @@ spec:
           secret:
             secretName: {{ .Values.ingress.secret }}
         {{- end }}
----
 
+---
 apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Release.Name }}-nginx-internal
+  annotations:
+  {{- with .Values.nginx_internal.service.annotations }}
+    {{- toYaml . | nindent 8 }}
+  {{- end }}
 spec:
   selector:
     app: {{ .Release.Name }}
@@ -444,6 +448,18 @@ spec:
     - port: 8883
       protocol: TCP
       name: mqtt
+  type: {{ .Values.nginx_internal.service.serviceType }}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-nginx-internal-metrics
+spec:
+  selector:
+    app: {{ .Release.Name }}
+    component: nginx-internal
+  ports:
     - port: 8080
       protocol: TCP
       name: metrics
