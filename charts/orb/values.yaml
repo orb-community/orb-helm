@@ -434,8 +434,6 @@ maestro:
     port: 9092
   rbac:
     ClusterRoleBindingCreate: false # set this true to create ClusterRoleBinding instead RoleBinding
-    ClusterRole: "admin" # set it to maestro-cluster-role (ClusterRole) or maestro-role (Role)
-    serviceAccountName: "k8s-maestro-role"
     serviceAccountNamespace: "otelcollectors"
     createServiceAccountTokenSecret: false # required true for kubernetes > 1.27
   image:
